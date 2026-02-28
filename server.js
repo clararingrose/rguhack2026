@@ -24,6 +24,8 @@ app.get('/', (req, res) => {
 app.get('/wrapped', (req, res) => {
     const totalCO2kg = 0;
     res.render('pages/wrapped', { totalCO2kg });
+});
+
 app.get('/blog', (req, res) => {
     res.render('blog', {
         title: 'Blog - Carbon Emissions Calculator'
@@ -33,4 +35,4 @@ app.get('/blog', (req, res) => {
 // Start server
 app.listen(PORT, () => {
     console.log(`🌍 Carbon Calculator running at http://localhost:${PORT}`);
-})});
+});
