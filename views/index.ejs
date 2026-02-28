@@ -401,9 +401,7 @@
 <nav class="malicious-nav" id="maliciousNav">
     <div class="malicious-nav-items">
         <a href="/" class="malicious-nav-item" style="transform: rotate(0deg) translateY(-100px) rotate(0deg);">Home</a>
-        <a href="/leaderboard" class="malicious-nav-item" style="transform: rotate(45deg) translateY(-100px) rotate(-45deg);">Leaderboard</a>
-        <a href="/achievements" class="malicious-nav-item" style="transform: rotate(90deg) translateY(-100px) rotate(-90deg);">Achievements</a>
-        <a href="#about" class="malicious-nav-item" style="transform: rotate(135deg) translateY(-100px) rotate(-135deg);">About</a>
+        <a href="#about" class="malicious-nav-item" style="transform: rotate(60deg) translateY(-100px) rotate(-60deg);">About</a>
         <a href="#help" class="malicious-nav-item" style="transform: rotate(180deg) translateY(-100px) rotate(-180deg);">Help</a>
         <a href="#contact" class="malicious-nav-item" style="transform: rotate(225deg) translateY(-100px) rotate(-225deg);">Contact</a>
         <a href="#settings" class="malicious-nav-item" style="transform: rotate(270deg) translateY(-100px) rotate(-270deg);">Settings</a>
@@ -445,8 +443,8 @@
                             <svg viewBox="0 0 350 166">
                                 <ellipse id="ellipse" cx="175" cy="83" rx="150" ry="73"
                                 style="fill-opacity: 0;stroke:yellow;stroke-width:0.5" />
-                                <image id="earth" height="15" width="15" href="https://raw.githubusercontent.com/i01000101/RedditBadUIBattles/main/ScientificDatePicker/earth.png"></image>
-                                <image id="sun" x="105" y="68" height="30" width="30" href="https://raw.githubusercontent.com/i01000101/RedditBadUIBattles/main/ScientificDatePicker/sun.png"></image>
+                                <image id="earth" height="15" width="15" href="/assets/earth.png"></image>
+                                <image id="sun" x="105" y="68" height="30" width="30" href="/assets/sun.png"></image>
                             </svg>
                         </div>
                     </button>
@@ -466,25 +464,6 @@
 
             <div class="transport-list" id="transportList"></div>
         </div>
-    </div>
-
-    <!-- Leaderboard Section -->
-    <div class="leaderboard-section" id="leaderboard">
-        <h2 class="leaderboard-title">🏆 Global Carbon Offenders Leaderboard 🏆</h2>
-        <table class="leaderboard-table">
-            <thead>
-                <tr>
-                    <th>Rank</th>
-                    <th>Player</th>
-                    <th>Score</th>
-                    <th>Stats</th>
-                </tr>
-            </thead>
-            <tbody id="leaderboardBody">
-                <!-- Populated by JavaScript -->
-            </tbody>
-        </table>
-        <p class="leaderboard-disclaimer">* Leaderboard updates in real-time. Good luck catching up! *</p>
     </div>
 
     <!-- Achievement Spam Container -->
@@ -1529,8 +1508,15 @@
         let x = horizontalRadius*Math.cos(angle);
         let y = verticalRadius*Math.sin(angle);
 
-        earth.setAttribute("x", horizontalRadius + x - earthSize/2 + horizontalMargin);
-        earth.setAttribute("y", verticalRadius - y - earthSize/2 + verticalMargin);
+        // The ellipse is centered at cx=175, cy=83 in the SVG
+        // Earth should be positioned relative to the ellipse center
+        const earthX = 175 + x - earthSize/2;
+        const earthY = 83 - y - earthSize/2;
+
+        earth.setAttribute("x", earthX);
+        earth.setAttribute("y", earthY);
+
+        console.log('Initial position - angle:', angle, 'x:', x, 'y:', y, 'earthX:', earthX, 'earthY:', earthY);
 
         earth.addEventListener("mousedown", mousedown);
         earth.addEventListener("touchstart", mousedown);
@@ -1548,6 +1534,7 @@
 
         function mousedown(e) {
             isPressing = true;
+            e.preventDefault();
         }
 
         function mousemove(e) {
@@ -1556,15 +1543,22 @@
             const { clientX, clientY } = e.touches != null ? e.touches[0] : e;
 
             const rect = ellipse.getBoundingClientRect();
-            const ellipseCenterX = rect.x + rect.width/2 + horizontalMargin;
-            const ellipseCenterY = rect.y + rect.height/2 + verticalMargin;
+            // Get the center of the ellipse in screen coordinates
+            const ellipseCenterX = rect.left + rect.width/2;
+            const ellipseCenterY = rect.top + rect.height/2;
+
+            // Calculate angle from user's mouse to the ellipse center
             angle = Math.atan2(ellipseCenterY - clientY, clientX - ellipseCenterX);
 
             let x = horizontalRadius*Math.cos(angle);
             let y = verticalRadius*Math.sin(angle);
 
-            earth.setAttribute("x", horizontalRadius + x - earthSize/2 + horizontalMargin);
-            earth.setAttribute("y", verticalRadius - y - earthSize/2 + verticalMargin);
+            // Position earth relative to ellipse center (175, 83 in SVG coordinates)
+            const earthX = 175 + x - earthSize/2;
+            const earthY = 83 - y - earthSize/2;
+
+            earth.setAttribute("x", earthX);
+            earth.setAttribute("y", earthY);
 
             let oldDate = date;
 
@@ -1581,7 +1575,7 @@
             dayNumber = ((182.5 + (isLeapyear()?0.5:0))*(Math.sin((angle)/2)+1)+1);
             date = dateFromDay(dayNumber);
 
-            dateDisplay.classList.remove("future");
+            // Always show the date normally, including future dates
             dateDisplay.textContent = addZero(date.getDate()) + "/" + addZero(date.getMonth() + 1) + "/" + date.getFullYear();
         }
 
@@ -1734,7 +1728,7 @@
         }, Math.random() * 5000 + 5000);
 
         // Hover evasion - nav moves away when cursor approaches
-        let mouseX = 0, mouseY = 0;
+        // Note: mouseX and mouseY are already declared for Ouija board above
         document.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
