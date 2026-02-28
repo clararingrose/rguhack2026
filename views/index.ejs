@@ -5,6 +5,903 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %></title>
     <link rel="stylesheet" href="/assets/styles.css">
+    <style>
+        /* Ouija Board Styles */
+        .ouija-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, #1a0a0a 0%, #0a0505 50%, #000 100%);
+            z-index: 10000;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        .ouija-modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .ouija-board {
+            position: relative;
+            width: 90vw;
+            max-width: 800px;
+            height: 80vh;
+            max-height: 600px;
+            background: linear-gradient(135deg, #2d1810 0%, #1a0f0a 50%, #2d1810 100%);
+            border-radius: 20px;
+            box-shadow:
+                0 0 50px rgba(128, 0, 128, 0.3),
+                0 0 100px rgba(75, 0, 130, 0.2),
+                inset 0 0 100px rgba(0, 0, 0, 0.5),
+                inset 0 0 20px rgba(139, 69, 19, 0.3);
+            border: 8px solid #3d2817;
+            padding: 30px;
+            font-family: 'Georgia', serif;
+            overflow: hidden;
+        }
+
+        .ouija-board::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><filter id="noise"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="4" /><feColorMatrix type="saturate" values="0" /></filter><rect width="100%" height="100%" filter="url(%23noise)" opacity="0.1"/></svg>');
+            pointer-events: none;
+            opacity: 0.3;
+        }
+
+        .ouija-letters-container {
+            position: relative;
+            width: 100%;
+            height: 300px;
+            margin-top: 20px;
+        }
+
+        .ouija-letters-arc {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .ouija-letter {
+            position: absolute;
+            font-size: 28px;
+            font-weight: bold;
+            color: #d4af37;
+            text-shadow:
+                0 0 10px rgba(212, 175, 55, 0.5),
+                0 0 20px rgba(212, 175, 55, 0.3),
+                2px 2px 4px rgba(0, 0, 0, 0.8);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            font-family: 'Times New Roman', serif;
+            letter-spacing: 2px;
+            transform-origin: center;
+        }
+
+        .ouija-letter:hover {
+            color: #ff6b6b;
+            text-shadow:
+                0 0 15px rgba(255, 107, 107, 0.8),
+                0 0 30px rgba(255, 107, 107, 0.5),
+                0 0 45px rgba(139, 0, 139, 0.3);
+            transform: scale(1.2);
+        }
+
+        .ouija-letter.selected {
+            color: #9b59b6;
+            animation: letterSelect 0.3s ease;
+        }
+
+        @keyframes letterSelect {
+            0% { transform: scale(1); }
+            50% { transform: scale(1.5); color: #fff; }
+            100% { transform: scale(1); }
+        }
+
+        .ouija-numbers {
+            position: absolute;
+            bottom: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 8px;
+        }
+
+        .ouija-number {
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #d4af37;
+            font-size: 16px;
+            font-weight: bold;
+            text-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
+        }
+
+        .ouija-words {
+            position: absolute;
+            bottom: 50px;
+            left: 0;
+            right: 0;
+            display: flex;
+            justify-content: space-around;
+            align-items: center;
+        }
+
+        .ouija-word {
+            font-size: 18px;
+            font-weight: bold;
+            color: #8b4513;
+            text-shadow: 0 0 5px rgba(139, 69, 19, 0.5);
+            cursor: pointer;
+            padding: 10px 15px;
+            border: 2px solid #5d3a1a;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .ouija-word:hover {
+            color: #9b59b6;
+            border-color: #9b59b6;
+            box-shadow: 0 0 15px rgba(155, 89, 182, 0.5);
+        }
+
+        .planchette {
+            position: absolute;
+            width: 120px;
+            height: 150px;
+            pointer-events: none;
+            z-index: 100;
+            transition: transform 0.1s ease;
+            filter: drop-shadow(0 10px 20px rgba(0, 0, 0, 0.8));
+        }
+
+        .planchette svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        .planchette-window {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            border: 3px solid #5d3a1a;
+            box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.5);
+            backdrop-filter: blur(2px);
+        }
+
+        .planchette.shaking {
+            animation: shake 0.1s infinite;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translate(0, 0) rotate(0deg); }
+            25% { transform: translate(-2px, 2px) rotate(-1deg); }
+            50% { transform: translate(2px, -2px) rotate(1deg); }
+            75% { transform: translate(-2px, -2px) rotate(-1deg); }
+        }
+
+        .ouija-current-value {
+            position: absolute;
+            top: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 24px;
+            color: #9b59b6;
+            text-shadow:
+                0 0 10px rgba(155, 89, 182, 0.8),
+                0 0 20px rgba(155, 89, 182, 0.5);
+            background: rgba(0, 0, 0, 0.6);
+            padding: 15px 30px;
+            border-radius: 10px;
+            border: 2px solid #5d3a1a;
+            min-width: 200px;
+            text-align: center;
+            font-family: 'Courier New', monospace;
+            letter-spacing: 3px;
+        }
+
+        .ouija-current-value .cursor {
+            display: inline-block;
+            width: 2px;
+            height: 24px;
+            background: #9b59b6;
+            margin-left: 2px;
+            animation: blink 1s infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .ouija-instructions {
+            position: absolute;
+            bottom: 10px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+            width: 90%;
+            line-height: 1.6;
+        }
+
+        .ouija-warning {
+            display: block;
+            color: #9b59b6;
+            font-style: italic;
+            margin-top: 5px;
+            animation: flicker 3s infinite;
+        }
+
+        @keyframes flicker {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.7; }
+            75% { opacity: 0.9; }
+        }
+
+        .ghostly-flash {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle, rgba(155, 89, 182, 0.3) 0%, transparent 70%);
+            pointer-events: none;
+            opacity: 0;
+            animation: ghostFlash 0.5s ease-out;
+        }
+
+        @keyframes ghostFlash {
+            0% { opacity: 1; }
+            100% { opacity: 0; }
+        }
+
+        .spooky-message {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 20px;
+            color: #9b59b6;
+            text-shadow: 0 0 20px rgba(155, 89, 182, 0.8);
+            background: rgba(0, 0, 0, 0.9);
+            padding: 20px 40px;
+            border-radius: 10px;
+            border: 2px solid #5d3a1a;
+            z-index: 200;
+            animation: spookyAppear 0.3s ease-out;
+            pointer-events: none;
+        }
+
+        @keyframes spookyAppear {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+            100% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .ouija-field-indicator {
+            position: absolute;
+            top: -15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 14px;
+            color: #d4af37;
+            text-shadow: 0 0 5px rgba(212, 175, 55, 0.5);
+            background: #1a0f0a;
+            padding: 5px 15px;
+            border-radius: 5px;
+            border: 1px solid #5d3a1a;
+        }
+
+        .ouija-start-btn {
+            background: linear-gradient(135deg, #4a0080 0%, #2d0a4a 100%);
+            border: 2px solid #9b59b6;
+            color: #fff;
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            text-shadow: 0 0 10px rgba(155, 89, 182, 0.5);
+            box-shadow: 0 0 15px rgba(155, 89, 182, 0.3);
+        }
+
+        .ouija-start-btn:hover {
+            background: linear-gradient(135deg, #6a00a0 0%, #4d0a6a 100%);
+            box-shadow: 0 0 25px rgba(155, 89, 182, 0.5);
+            transform: scale(1.05);
+        }
+
+        .ouija-display {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid #5d3a1a;
+            border-radius: 8px;
+            padding: 12px 16px;
+            min-height: 44px;
+            font-family: 'Courier New', monospace;
+            font-size: 18px;
+            color: #d4af37;
+            text-shadow: 0 0 5px rgba(212, 175, 55, 0.3);
+            margin-top: 5px;
+            letter-spacing: 2px;
+        }
+
+        .ouija-display.empty {
+            color: #666;
+            font-style: italic;
+        }
+
+        .fog-effect {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                radial-gradient(ellipse at 20% 80%, rgba(75, 0, 130, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 80% 20%, rgba(128, 0, 128, 0.1) 0%, transparent 50%),
+                radial-gradient(ellipse at 50% 50%, rgba(75, 0, 130, 0.05) 0%, transparent 70%);
+            pointer-events: none;
+            animation: fogMove 10s infinite ease-in-out;
+        }
+
+        @keyframes fogMove {
+            0%, 100% { opacity: 0.5; transform: translate(0, 0); }
+            50% { opacity: 0.8; transform: translate(10px, -10px); }
+        }
+
+        .close-modal-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(0, 0, 0, 0.6);
+            border: 2px solid #9b59b6;
+            color: #9b59b6;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            z-index: 300;
+        }
+
+        .close-modal-btn:hover {
+            background: rgba(155, 89, 182, 0.3);
+            box-shadow: 0 0 15px rgba(155, 89, 182, 0.5);
+        }
+
+        /* ==========================================
+           DDR MODE STYLES
+           ========================================== */
+
+        .ddr-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, #0a1a2a 0%, #050a10 50%, #000 100%);
+            z-index: 10000;
+            animation: ddrFadeIn 0.3s ease-out;
+        }
+
+        .ddr-modal.active {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        @keyframes ddrFadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .ddr-game {
+            position: relative;
+            width: 90vw;
+            max-width: 900px;
+            height: 85vh;
+            max-height: 700px;
+            background: linear-gradient(180deg, #0a1628 0%, #050a10 100%);
+            border-radius: 20px;
+            box-shadow:
+                0 0 50px rgba(255, 0, 128, 0.3),
+                0 0 100px rgba(0, 255, 255, 0.2),
+                inset 0 0 100px rgba(255, 0, 128, 0.05);
+            border: 4px solid #ff0080;
+            padding: 20px;
+            font-family: 'Arial Black', sans-serif;
+            overflow: hidden;
+        }
+
+        .ddr-game::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background:
+                repeating-linear-gradient(
+                    0deg,
+                    transparent,
+                    transparent 50px,
+                    rgba(255, 0, 128, 0.03) 50px,
+                    rgba(255, 0, 128, 0.03) 52px
+                );
+            pointer-events: none;
+            animation: ddrGridScroll 2s linear infinite;
+        }
+
+        @keyframes ddrGridScroll {
+            from { transform: translateY(0); }
+            to { transform: translateY(52px); }
+        }
+
+        .ddr-field-indicator {
+            position: absolute;
+            top: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 16px;
+            color: #00ffff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 8px 20px;
+            border-radius: 5px;
+            border: 2px solid #00ffff;
+            z-index: 100;
+            letter-spacing: 3px;
+        }
+
+        .ddr-current-value {
+            position: absolute;
+            top: 50px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 32px;
+            color: #ff0080;
+            text-shadow:
+                0 0 10px rgba(255, 0, 128, 0.8),
+                0 0 20px rgba(255, 0, 128, 0.5);
+            background: rgba(0, 0, 0, 0.8);
+            padding: 15px 40px;
+            border-radius: 10px;
+            border: 3px solid #ff0080;
+            min-width: 300px;
+            text-align: center;
+            letter-spacing: 5px;
+            z-index: 100;
+        }
+
+        .ddr-current-value .cursor {
+            display: inline-block;
+            width: 3px;
+            height: 32px;
+            background: #00ffff;
+            margin-left: 5px;
+            animation: ddrBlink 0.5s infinite;
+            vertical-align: middle;
+            box-shadow: 0 0 10px #00ffff;
+        }
+
+        @keyframes ddrBlink {
+            0%, 50% { opacity: 1; }
+            51%, 100% { opacity: 0; }
+        }
+
+        .ddr-lanes {
+            position: absolute;
+            top: 120px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 10px;
+            width: 80%;
+            max-width: 600px;
+            height: 400px;
+            z-index: 50;
+        }
+
+        .ddr-lane {
+            flex: 1;
+            position: relative;
+            background: rgba(255, 255, 255, 0.02);
+            border: 2px solid rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .ddr-lane[data-direction="left"] {
+            border-color: rgba(255, 0, 128, 0.3);
+            box-shadow: inset 0 0 20px rgba(255, 0, 128, 0.1);
+        }
+
+        .ddr-lane[data-direction="up"] {
+            border-color: rgba(0, 255, 255, 0.3);
+            box-shadow: inset 0 0 20px rgba(0, 255, 255, 0.1);
+        }
+
+        .ddr-lane[data-direction="down"] {
+            border-color: rgba(0, 255, 0, 0.3);
+            box-shadow: inset 0 0 20px rgba(0, 255, 0, 0.1);
+        }
+
+        .ddr-lane[data-direction="right"] {
+            border-color: rgba(255, 255, 0, 0.3);
+            box-shadow: inset 0 0 20px rgba(255, 255, 0, 0.1);
+        }
+
+        .ddr-arrow-target {
+            position: absolute;
+            bottom: 20px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 60px;
+            height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 36px;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.8);
+            border: 3px solid;
+            animation: ddrPulse 0.5s ease-in-out infinite;
+        }
+
+        .ddr-lane[data-direction="left"] .ddr-arrow-target {
+            color: #ff0080;
+            border-color: #ff0080;
+            box-shadow: 0 0 20px rgba(255, 0, 128, 0.5);
+        }
+
+        .ddr-lane[data-direction="up"] .ddr-arrow-target {
+            color: #00ffff;
+            border-color: #00ffff;
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+        }
+
+        .ddr-lane[data-direction="down"] .ddr-arrow-target {
+            color: #00ff00;
+            border-color: #00ff00;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+        }
+
+        .ddr-lane[data-direction="right"] .ddr-arrow-target {
+            color: #ffff00;
+            border-color: #ffff00;
+            box-shadow: 0 0 20px rgba(255, 255, 0, 0.5);
+        }
+
+        @keyframes ddrPulse {
+            0%, 100% { transform: translateX(-50%) scale(1); }
+            50% { transform: translateX(-50%) scale(1.1); }
+        }
+
+        .ddr-lane[data-direction="left"] .ddr-arrow-target.active {
+            animation: ddrHitLeft 0.2s ease-out;
+        }
+
+        .ddr-lane[data-direction="up"] .ddr-arrow-target.active {
+            animation: ddrHitUp 0.2s ease-out;
+        }
+
+        .ddr-lane[data-direction="down"] .ddr-arrow-target.active {
+            animation: ddrHitDown 0.2s ease-out;
+        }
+
+        .ddr-lane[data-direction="right"] .ddr-arrow-target.active {
+            animation: ddrHitRight 0.2s ease-out;
+        }
+
+        @keyframes ddrHitLeft {
+            0% { transform: translateX(-50%) scale(1); background: #ff0080; }
+            50% { transform: translateX(-50%) scale(1.3); }
+            100% { transform: translateX(-50%) scale(1); }
+        }
+
+        @keyframes ddrHitUp {
+            0% { transform: translateX(-50%) scale(1); background: #00ffff; }
+            50% { transform: translateX(-50%) scale(1.3); }
+            100% { transform: translateX(-50%) scale(1); }
+        }
+
+        @keyframes ddrHitDown {
+            0% { transform: translateX(-50%) scale(1); background: #00ff00; }
+            50% { transform: translateX(-50%) scale(1.3); }
+            100% { transform: translateX(-50%) scale(1); }
+        }
+
+        @keyframes ddrHitRight {
+            0% { transform: translateX(-50%) scale(1); background: #ffff00; }
+            50% { transform: translateX(-50%) scale(1.3); }
+            100% { transform: translateX(-50%) scale(1); }
+        }
+
+        .ddr-target-zone {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 80px;
+            background: linear-gradient(to top, rgba(255, 255, 255, 0.1), transparent);
+            border-top: 2px dashed rgba(255, 255, 255, 0.3);
+            pointer-events: none;
+        }
+
+        .ddr-note {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            border-radius: 50%;
+            background: rgba(0, 0, 0, 0.9);
+            border: 3px solid;
+            color: #fff;
+            text-shadow: 0 0 5px currentColor;
+            transition: top 0.016s linear;
+        }
+
+        .ddr-note.ddr-note-left {
+            border-color: #ff0080;
+            color: #ff0080;
+            box-shadow: 0 0 15px rgba(255, 0, 128, 0.5);
+        }
+
+        .ddr-note.ddr-note-up {
+            border-color: #00ffff;
+            color: #00ffff;
+            box-shadow: 0 0 15px rgba(0, 255, 255, 0.5);
+        }
+
+        .ddr-note.ddr-note-down {
+            border-color: #00ff00;
+            color: #00ff00;
+            box-shadow: 0 0 15px rgba(0, 255, 0, 0.5);
+        }
+
+        .ddr-note.ddr-note-right {
+            border-color: #ffff00;
+            color: #ffff00;
+            box-shadow: 0 0 15px rgba(255, 255, 0, 0.5);
+        }
+
+        .ddr-letter-hints {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            gap: 20px;
+            z-index: 80;
+        }
+
+        .ddr-hint {
+            font-size: 12px;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 8px 12px;
+            border-radius: 5px;
+            letter-spacing: 2px;
+            white-space: nowrap;
+        }
+
+        .ddr-hint[data-direction="left"] {
+            border: 1px solid #ff0080;
+            color: #ff0080;
+        }
+
+        .ddr-hint[data-direction="up"] {
+            border: 1px solid #00ffff;
+            color: #00ffff;
+        }
+
+        .ddr-hint[data-direction="down"] {
+            border: 1px solid #00ff00;
+            color: #00ff00;
+        }
+
+        .ddr-hint[data-direction="right"] {
+            border: 1px solid #ffff00;
+            color: #ffff00;
+        }
+
+        .ddr-score {
+            position: absolute;
+            top: 15px;
+            right: 70px;
+            font-size: 14px;
+            color: #fff;
+            background: rgba(0, 0, 0, 0.7);
+            padding: 8px 15px;
+            border-radius: 5px;
+            border: 1px solid #00ffff;
+            z-index: 100;
+            letter-spacing: 1px;
+        }
+
+        .ddr-combo {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 72px;
+            font-weight: bold;
+            color: #ffff00;
+            text-shadow:
+                0 0 20px rgba(255, 255, 0, 0.8),
+                0 0 40px rgba(255, 255, 0, 0.5);
+            pointer-events: none;
+            z-index: 200;
+            animation: comboFade 0.5s ease-out forwards;
+        }
+
+        @keyframes comboFade {
+            0% { opacity: 1; transform: translate(-50%, -50%) scale(1.5); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(1); }
+        }
+
+        .ddr-feedback {
+            position: absolute;
+            top: 45%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 36px;
+            font-weight: bold;
+            pointer-events: none;
+            z-index: 200;
+            animation: feedbackFade 0.4s ease-out forwards;
+        }
+
+        .ddr-feedback.perfect {
+            color: #00ff00;
+            text-shadow: 0 0 20px rgba(0, 255, 0, 0.8);
+        }
+
+        .ddr-feedback.miss {
+            color: #ff0000;
+            text-shadow: 0 0 20px rgba(255, 0, 0, 0.8);
+        }
+
+        @keyframes feedbackFade {
+            0% { opacity: 1; transform: translate(-50%, -50%) scale(1.2); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+        }
+
+        .ddr-instructions {
+            position: absolute;
+            bottom: 15px;
+            left: 50%;
+            transform: translateX(-50%);
+            font-size: 12px;
+            color: #888;
+            text-align: center;
+            width: 90%;
+            line-height: 1.6;
+            z-index: 100;
+        }
+
+        .ddr-warning {
+            display: block;
+            color: #ff0080;
+            margin-top: 5px;
+            animation: ddrWarningPulse 1s infinite;
+        }
+
+        @keyframes ddrWarningPulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.6; }
+        }
+
+        .switch-to-ouija-btn {
+            position: absolute;
+            bottom: 70px;
+            left: 50%;
+            transform: translateX(-50%);
+            background: linear-gradient(135deg, #4a0080 0%, #2d0a4a 100%);
+            border: 2px solid #9b59b6;
+            color: #fff;
+            padding: 10px 20px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            z-index: 100;
+        }
+
+        .switch-to-ouija-btn:hover {
+            background: linear-gradient(135deg, #6a00a0 0%, #4d0a6a 100%);
+            box-shadow: 0 0 15px rgba(155, 89, 182, 0.5);
+        }
+
+        /* Mode toggle button */
+        .mode-toggle-btn {
+            background: linear-gradient(135deg, #ff0080 0%, #00ffff 100%);
+            border: 2px solid #fff;
+            color: #000;
+            padding: 8px 16px;
+            font-size: 14px;
+            cursor: pointer;
+            border-radius: 20px;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+            font-weight: bold;
+        }
+
+        .mode-toggle-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(255, 0, 128, 0.5);
+        }
+
+        /* Mode-specific button styles */
+        .ddr-start-btn {
+            background: linear-gradient(135deg, #ff0080 0%, #00ffff 100%);
+            border: 2px solid #fff;
+            color: #000;
+            padding: 12px 24px;
+            font-size: 16px;
+            cursor: pointer;
+            border-radius: 8px;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            text-shadow: none;
+            box-shadow: 0 0 15px rgba(255, 0, 128, 0.3);
+        }
+
+        .ddr-start-btn:hover {
+            background: linear-gradient(135deg, #00ffff 0%, #ff0080 100%);
+            box-shadow: 0 0 25px rgba(0, 255, 255, 0.5);
+            transform: scale(1.05);
+        }
+
+        .ddr-display {
+            background: rgba(0, 0, 0, 0.3);
+            border: 2px solid #ff0080;
+            border-radius: 8px;
+            padding: 12px 16px;
+            min-height: 44px;
+            font-family: 'Arial Black', sans-serif;
+            font-size: 18px;
+            color: #00ffff;
+            text-shadow: 0 0 10px rgba(0, 255, 255, 0.5);
+            margin-top: 5px;
+            letter-spacing: 3px;
+        }
+
+        .ddr-display.empty {
+            color: #666;
+            font-style: italic;
+        }
+    </style>
 </head>
 <body>
     <div class="container">
@@ -14,12 +911,20 @@
         <div class="input-section">
             <div class="form-group">
                 <label for="origin">Origin</label>
-                <input type="text" id="origin" placeholder="e.g., London">
+                <div class="ddr-display empty" id="originDisplay">Dance to input location...</div>
+                <button class="ddr-start-btn" data-field="origin" id="originBtn">💃 DDR Mode 💃</button>
+                <input type="hidden" id="origin" value="">
             </div>
             <div class="form-group">
                 <label for="destination">Destination</label>
-                <input type="text" id="destination" placeholder="e.g., Edinburgh">
+                <div class="ddr-display empty" id="destinationDisplay">Dance to input destination...</div>
+                <button class="ddr-start-btn" data-field="destination" id="destinationBtn">💃 DDR Mode 💃</button>
+                <input type="hidden" id="destination" value="">
             </div>
+            <div style="text-align: center;">
+                <button class="mode-toggle-btn" id="modeToggle">Switch to 👻 Ouija Mode</button>
+            </div>
+        </div>
             <div class="form-group">
                 <label for="date">Departure Date</label>
                 <div class="date-wrapper">
@@ -63,6 +968,104 @@
                 <button class="cookie-btn cookie-btn-accept" id="acceptCookies">Accept All</button>
                 <button class="cookie-btn cookie-btn-decline" id="declineCookies">Decline</button>
             </div>
+        </div>
+    </div>
+
+    <!-- Ouija Board Modal -->
+    <div class="ouija-modal" id="ouijaModal">
+        <div class="ouija-board" id="ouijaBoard">
+            <button class="close-modal-btn" id="closeModalBtn">×</button>
+            <div class="fog-effect"></div>
+            <div class="ouija-field-indicator" id="ouijaFieldIndicator">ORIGIN</div>
+            <div class="ouija-current-value" id="ouijaValue">_ <span class="cursor"></span></div>
+
+            <div class="ouija-letters-container">
+                <div class="ouija-letters-arc" id="ouijaLettersArc"></div>
+            </div>
+
+            <div class="ouija-numbers" id="ouijaNumbers"></div>
+
+            <div class="ouija-words">
+                <div class="ouija-word" data-char=" ">YES</div>
+                <div class="ouija-word" data-char=" ">NO</div>
+                <div class="ouija-word" data-char=" ">GOODBYE</div>
+            </div>
+
+            <div class="planchette" id="planchette">
+                <svg viewBox="0 0 120 150">
+                    <defs>
+                        <linearGradient id="woodGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" style="stop-color:#5d3a1a;stop-opacity:1" />
+                            <stop offset="50%" style="stop-color:#8b5a2b;stop-opacity:1" />
+                            <stop offset="100%" style="stop-color:#3d2817;stop-opacity:1" />
+                        </linearGradient>
+                        <filter id="shadow">
+                            <feDropShadow dx="2" dy="4" stdDeviation="3" flood-opacity="0.5"/>
+                        </filter>
+                    </defs>
+                    <ellipse cx="60" cy="75" rx="50" ry="60" fill="url(#woodGradient)" filter="url(#shadow)" stroke="#3d2817" stroke-width="3"/>
+                    <ellipse cx="60" cy="50" rx="25" ry="20" fill="rgba(255,255,255,0.15)" stroke="#5d3a1a" stroke-width="2"/>
+                    <circle cx="60" cy="20" r="8" fill="#5d3a1a" filter="url(#shadow)"/>
+                </svg>
+                <div class="planchette-window"></div>
+            </div>
+
+            <div class="ouija-instructions">
+                Guide the planchette with your mouse to spell your location<br>
+                Press ENTER to finish | Press ESC to cancel<br>
+                <span class="ouija-warning">⚠️ The spirits are restless tonight... ⚠️</span>
+            </div>
+        </div>
+    </div>
+
+    <!-- DDR Modal -->
+    <div class="ddr-modal" id="ddrModal">
+        <div class="ddr-game" id="ddrGame">
+            <button class="close-modal-btn" id="closeDdrBtn" style="border-color: #ff0080; color: #ff0080;">×</button>
+            <div class="ddr-field-indicator" id="ddrFieldIndicator">ORIGIN</div>
+            <div class="ddr-current-value" id="ddrValue">_ <span class="cursor"></span></div>
+
+            <!-- 4 lanes for arrows -->
+            <div class="ddr-lanes" id="ddrLanes">
+                <div class="ddr-lane" data-direction="left">
+                    <div class="ddr-target-zone"></div>
+                    <div class="ddr-arrow-target">←</div>
+                </div>
+                <div class="ddr-lane" data-direction="up">
+                    <div class="ddr-target-zone"></div>
+                    <div class="ddr-arrow-target">↑</div>
+                </div>
+                <div class="ddr-lane" data-direction="down">
+                    <div class="ddr-target-zone"></div>
+                    <div class="ddr-arrow-target">↓</div>
+                </div>
+                <div class="ddr-lane" data-direction="right">
+                    <div class="ddr-target-zone"></div>
+                    <div class="ddr-arrow-target">→</div>
+                </div>
+            </div>
+
+            <!-- Letter display showing what each arrow does -->
+            <div class="ddr-letter-hints">
+                <div class="ddr-hint" data-direction="left">←: QWERTYUIOP</div>
+                <div class="ddr-hint" data-direction="up">↑: ASDFGHJKL</div>
+                <div class="ddr-hint" data-direction="down">↓: ZXCVBNM</div>
+                <div class="ddr-hint" data-direction="right">→: 0123456789</div>
+            </div>
+
+            <!-- Score/feedback -->
+            <div class="ddr-score" id="ddrScore">Perfect: 0 | Miss: 0</div>
+
+            <div class="ddr-instructions">
+                💃 Press arrows when letters reach the target zone! 💃<br>
+                Arrow keys or WASD | ENTER to finish | ESC to cancel<br>
+                <span class="ddr-warning">⚠️ Don't miss the beat! ⚠️</span>
+            </div>
+
+            <!-- Mode switch button -->
+            <button class="switch-to-ouija-btn" id="switchToOuija">
+                👻 Too hard? Try Ouija Board 👻
+            </button>
         </div>
     </div>
 
@@ -209,7 +1212,7 @@
             resultsSection.classList.remove('show');
 
             if (!origin || !destination) {
-                showError('Please enter both origin and destination');
+                showError('Please input both origin and destination locations');
                 return;
             }
 
@@ -239,16 +1242,726 @@
         // Event listeners
         calculateBtn.addEventListener('click', handleCalculate);
 
-        // Allow Enter key to trigger calculation
-        originInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') handleCalculate();
+        // ==========================================
+        // OUIJA BOARD IMPLEMENTATION
+        // ==========================================
+
+        const ouijaModal = document.getElementById('ouijaModal');
+        const ouijaBoard = document.getElementById('ouijaBoard');
+        const ouijaLettersArc = document.getElementById('ouijaLettersArc');
+        const ouijaNumbers = document.getElementById('ouijaNumbers');
+        const ouijaValue = document.getElementById('ouijaValue');
+        const planchette = document.getElementById('planchette');
+        const ouijaFieldIndicator = document.getElementById('ouijaFieldIndicator');
+        const closeModalBtn = document.getElementById('closeModalBtn');
+
+        let currentField = null;
+        let currentValue = '';
+        let mouseX = 0, mouseY = 0;
+        let planchetteX = 0, planchetteY = 0;
+        let isOuijaActive = false;
+        let hoverStartTime = null;
+        let currentLetter = null;
+        let animationFrameId = null;
+        let lastLetterTime = 0;
+        let spiritInterferenceTimer = null;
+
+        const letters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+        const spookyMessages = [
+            "The spirits sense your hesitation...",
+            "Is someone else here with us?",
+            "The planchette grows cold...",
+            "I sense... LONDON...",
+            "Why do you seek to travel?",
+            "BEWARE the journey ahead...",
+            "The veil grows thin...",
+            "Someone is watching...",
+            "They know where you're going...",
+            "The spirits demand answers..."
+        ];
+
+        // Initialize Ouija board letters in an arc pattern
+        function initializeOuijaBoard() {
+            // Create letters in arc
+            const arcRadius = 200;
+            const startAngle = Math.PI * 0.8;
+            const endAngle = Math.PI * 0.2;
+            const totalAngle = startAngle - endAngle;
+
+            letters.forEach((letter, index) => {
+                const letterEl = document.createElement('div');
+                letterEl.className = 'ouija-letter';
+                letterEl.dataset.char = letter;
+                letterEl.textContent = letter;
+
+                // Position in arc (reversed so A-Z reads left to right)
+                const angle = startAngle - (index / (letters.length - 1)) * totalAngle;
+                const x = 50 + 40 * Math.cos(angle);
+                const y = 50 + 35 * Math.sin(angle);
+
+                letterEl.style.left = `${x}%`;
+                letterEl.style.top = `${y}%`;
+                letterEl.style.transform = 'translate(-50%, -50%)';
+
+                ouijaLettersArc.appendChild(letterEl);
+            });
+
+            // Create numbers
+            for (let i = 0; i <= 9; i++) {
+                const numEl = document.createElement('div');
+                numEl.className = 'ouija-number';
+                numEl.dataset.char = i.toString();
+                numEl.textContent = i;
+                ouijaNumbers.appendChild(numEl);
+            }
+        }
+
+        // Ouija board button handlers (now handled by mode-aware buttons above)
+        // The buttons are now handled by the DDR/Ouija mode toggle system
+
+        function openOuijaModal() {
+            ouijaModal.classList.add('active');
+            isOuijaActive = true;
+
+            // Center planchette
+            const boardRect = ouijaBoard.getBoundingClientRect();
+            planchetteX = boardRect.width / 2 - 60;
+            planchetteY = boardRect.height / 2 - 75;
+            mouseX = planchetteX;
+            mouseY = planchetteY;
+
+            updatePlanchette();
+            animationFrameId = requestAnimationFrame(updatePlanchette);
+
+            // Start supernatural interference
+            spiritInterferenceTimer = setInterval(spiritInterference, 3000);
+        }
+
+        function closeOuijaModal(save = false) {
+            ouijaModal.classList.remove('active');
+            isOuijaActive = false;
+
+            if (animationFrameId) {
+                cancelAnimationFrame(animationFrameId);
+                animationFrameId = null;
+            }
+
+            if (spiritInterferenceTimer) {
+                clearInterval(spiritInterferenceTimer);
+                spiritInterferenceTimer = null;
+            }
+
+            if (save && currentValue) {
+                // Save the value
+                if (currentField === 'origin') {
+                    originInput.value = currentValue;
+                    const display = document.getElementById('originDisplay');
+                    display.textContent = currentValue;
+                    display.classList.remove('empty');
+                } else {
+                    destinationInput.value = currentValue;
+                    const display = document.getElementById('destinationDisplay');
+                    display.textContent = currentValue;
+                    display.classList.remove('empty');
+                }
+            }
+
+            currentField = null;
+            currentValue = '';
+        }
+
+        // Close button
+        closeModalBtn.addEventListener('click', () => closeOuijaModal(false));
+
+        // Planchette movement with eerie drift
+        function updatePlanchette() {
+            if (!isOuijaActive) return;
+
+            const boardRect = ouijaBoard.getBoundingClientRect();
+            const targetX = mouseX - boardRect.left - 60;
+            const targetY = mouseY - boardRect.top - 75;
+
+            // Add random "spirit" movement
+            const time = Date.now() / 1000;
+            const spiritDriftX = Math.sin(time * 2) * 15 + Math.cos(time * 3) * 10;
+            const spiritDriftY = Math.cos(time * 1.5) * 12 + Math.sin(time * 2.5) * 8;
+
+            // Smooth lag behind cursor (unsettling feel)
+            planchetteX += (targetX - planchetteX) * 0.08;
+            planchetteY += (targetY - planchetteY) * 0.08;
+
+            // Apply spirit drift
+            const finalX = Math.max(0, Math.min(boardRect.width - 120, planchetteX + spiritDriftX));
+            const finalY = Math.max(0, Math.min(boardRect.height - 150, planchetteY + spiritDriftY));
+
+            planchette.style.left = finalX + 'px';
+            planchette.style.top = finalY + 'px';
+
+            // Check for letter selection
+            checkLetterSelection();
+
+            animationFrameId = requestAnimationFrame(updatePlanchette);
+        }
+
+        // Track mouse movement
+        document.addEventListener('mousemove', (e) => {
+            if (!isOuijaActive) return;
+            mouseX = e.clientX;
+            mouseY = e.clientY;
         });
 
-        destinationInput.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') handleCalculate();
+        // Touch support
+        document.addEventListener('touchmove', (e) => {
+            if (!isOuijaActive) return;
+            const touch = e.touches[0];
+            mouseX = touch.clientX;
+            mouseY = touch.clientY;
         });
 
-        // Scientific Date Picker Logic
+        // Check if planchette is over a letter
+        function getHoveredLetter() {
+            const planchetteRect = planchette.getBoundingClientRect();
+            const centerX = planchetteRect.left + planchetteRect.width / 2;
+            const centerY = planchetteRect.top + planchetteRect.height / 2;
+
+            const letterElements = document.querySelectorAll('.ouija-letter, .ouija-number');
+
+            for (const letter of letterElements) {
+                const rect = letter.getBoundingClientRect();
+                if (centerX >= rect.left && centerX <= rect.right &&
+                    centerY >= rect.top && centerY <= rect.bottom) {
+                    return letter.dataset.char;
+                }
+            }
+            return null;
+        }
+
+        // Letter detection with timing threshold
+        function checkLetterSelection() {
+            const now = Date.now();
+
+            // Don't allow rapid-fire letter selection
+            if (now - lastLetterTime < 500) return;
+
+            const hovered = getHoveredLetter();
+
+            if (hovered) {
+                if (hovered === currentLetter) {
+                    // Still on same letter - check time threshold
+                    if (now - hoverStartTime > 800) {
+                        addLetter(hovered);
+                        hoverStartTime = now;
+                        lastLetterTime = now;
+                    }
+                } else {
+                    // New letter - start timing
+                    currentLetter = hovered;
+                    hoverStartTime = now;
+                }
+            } else {
+                currentLetter = null;
+                hoverStartTime = null;
+            }
+        }
+
+        // Add a letter to the current value
+        function addLetter(letter) {
+            if (currentValue.length < 50) {
+                currentValue += letter;
+                updateDisplay();
+
+                // Visual feedback
+                const letterEl = document.querySelector(`.ouija-letter[data-char="${letter}"]`);
+                if (letterEl) {
+                    letterEl.classList.add('selected');
+                    setTimeout(() => letterEl.classList.remove('selected'), 300);
+                }
+            }
+        }
+
+        // Update the display
+        function updateDisplay() {
+            const displayValue = currentValue || '_';
+            ouijaValue.innerHTML = `${displayValue} <span class="cursor"></span>`;
+        }
+
+        // Spirit interference - random supernatural events
+        function spiritInterference() {
+            if (!isOuijaActive) return;
+
+            const rand = Math.random();
+
+            // 5% chance to add a random letter
+            if (rand < 0.05) {
+                const randomLetter = letters[Math.floor(Math.random() * letters.length)];
+                addLetter(randomLetter);
+                showGhostlyFlash();
+            }
+
+            // 3% chance to show a spooky message
+            if (rand > 0.95 && rand < 0.98) {
+                showSpookyMessage();
+            }
+
+            // 10% chance to make planchette shake
+            if (rand > 0.8 && rand < 0.9) {
+                planchetteJitter();
+            }
+        }
+
+        // Ghostly flash effect
+        function showGhostlyFlash() {
+            const flash = document.createElement('div');
+            flash.className = 'ghostly-flash';
+            ouijaBoard.appendChild(flash);
+            setTimeout(() => flash.remove(), 500);
+        }
+
+        // Show spooky message
+        function showSpookyMessage() {
+            const message = spookyMessages[Math.floor(Math.random() * spookyMessages.length)];
+            const msgEl = document.createElement('div');
+            msgEl.className = 'spooky-message';
+            msgEl.textContent = message;
+            ouijaBoard.appendChild(msgEl);
+            setTimeout(() => msgEl.remove(), 2000);
+        }
+
+        // Planchette jitter
+        function planchetteJitter() {
+            planchette.classList.add('shaking');
+            setTimeout(() => {
+                planchette.classList.remove('shaking');
+            }, 500);
+        }
+
+        // Keyboard handlers
+        document.addEventListener('keydown', (e) => {
+            if (!isOuijaActive) return;
+
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                closeOuijaModal(true);
+            } else if (e.key === 'Escape') {
+                e.preventDefault();
+                closeOuijaModal(false);
+            }
+        });
+
+        // Initialize the Ouija board on load
+        initializeOuijaBoard();
+
+        // ==========================================
+        // DDR MODE IMPLEMENTATION
+        // ==========================================
+
+        const ddrModal = document.getElementById('ddrModal');
+        const ddrGame = document.getElementById('ddrGame');
+        const ddrLanes = document.getElementById('ddrLanes');
+        const ddrValue = document.getElementById('ddrValue');
+        const ddrFieldIndicator = document.getElementById('ddrFieldIndicator');
+        const ddrScore = document.getElementById('ddrScore');
+        const closeDdrBtn = document.getElementById('closeDdrBtn');
+        const switchToOuija = document.getElementById('switchToOuija');
+        const modeToggle = document.getElementById('modeToggle');
+        const originBtn = document.getElementById('originBtn');
+        const destinationBtn = document.getElementById('destinationBtn');
+
+        // DDR state
+        let ddrActive = false;
+        let ddrCurrentField = null;
+        let ddrCurrentValue = '';
+        let bpm = 80;
+        let combo = 0;
+        let perfectCount = 0;
+        let missCount = 0;
+        let fallingNotes = [];
+        let fallSpeed = 1.5;
+        let lastSpawnTime = 0;
+        let gameLoopId = null;
+        let ddrCurrentLetter = null;
+        let ddrHoverStartTime = null;
+        let ddrLastLetterTime = 0;
+
+        const letterGroups = {
+            left: 'QWERTYUIOP',
+            up: 'ASDFGHJKL',
+            down: 'ZXCVBNM',
+            right: '0123456789 '
+        };
+
+        const lanes = ['left', 'up', 'down', 'right'];
+
+        // Mode toggle
+        let inputMode = 'ddr'; // 'ddr' or 'ouija'
+
+        function toggleMode() {
+            inputMode = inputMode === 'ddr' ? 'ouija' : 'ddr';
+            updateModeButtons();
+        }
+
+        function updateModeButtons() {
+            const originDisplay = document.getElementById('originDisplay');
+            const destinationDisplay = document.getElementById('destinationDisplay');
+
+            if (inputMode === 'ddr') {
+                originBtn.textContent = '💃 DDR Mode 💃';
+                originBtn.className = 'ddr-start-btn';
+                destinationBtn.textContent = '💃 DDR Mode 💃';
+                destinationBtn.className = 'ddr-start-btn';
+                modeToggle.textContent = 'Switch to 👻 Ouija Mode';
+
+                originDisplay.className = 'ddr-display empty' + (originInput.value ? '' : ' empty');
+                destinationDisplay.className = 'ddr-display empty' + (destinationInput.value ? '' : ' empty');
+                if (!originInput.value) originDisplay.textContent = 'Dance to input location...';
+                if (!destinationInput.value) destinationDisplay.textContent = 'Dance to input destination...';
+            } else {
+                originBtn.textContent = '👻 Summon Location 👻';
+                originBtn.className = 'ouija-start-btn';
+                destinationBtn.textContent = '👻 Summon Location 👻';
+                destinationBtn.className = 'ouija-start-btn';
+                modeToggle.textContent = 'Switch to 💃 DDR Mode';
+
+                originDisplay.className = 'ouija-display empty' + (originInput.value ? '' : ' empty');
+                destinationDisplay.className = 'ouija-display empty' + (destinationInput.value ? '' : ' empty');
+                if (!originInput.value) originDisplay.textContent = 'Summon location from beyond...';
+                if (!destinationInput.value) destinationDisplay.textContent = 'Summon destination from beyond...';
+            }
+        }
+
+        modeToggle.addEventListener('click', toggleMode);
+
+        // DDR button handlers
+        originBtn.addEventListener('click', () => {
+            if (inputMode === 'ddr') {
+                openDdrModal('origin');
+            } else {
+                currentField = 'origin';
+                currentValue = '';
+                ouijaFieldIndicator.textContent = 'ORIGIN';
+                ouijaValue.innerHTML = '_ <span class="cursor"></span>';
+                openOuijaModal();
+            }
+        });
+
+        destinationBtn.addEventListener('click', () => {
+            if (inputMode === 'ddr') {
+                openDdrModal('destination');
+            } else {
+                currentField = 'destination';
+                currentValue = '';
+                ouijaFieldIndicator.textContent = 'DESTINATION';
+                ouijaValue.innerHTML = '_ <span class="cursor"></span>';
+                openOuijaModal();
+            }
+        });
+
+        // Switch from DDR to Ouija mid-game
+        switchToOuija.addEventListener('click', () => {
+            closeDdrModal(false);
+            inputMode = 'ouija';
+            updateModeButtons();
+
+            // Open Ouija modal for same field
+            setTimeout(() => {
+                if (ddrCurrentField) {
+                    currentField = ddrCurrentField;
+                    currentValue = ddrCurrentValue;
+                    ouijaFieldIndicator.textContent = currentField === 'origin' ? 'ORIGIN' : 'DESTINATION';
+                    ouijaValue.innerHTML = (currentValue || '_') + ' <span class="cursor"></span>';
+                    openOuijaModal();
+                }
+            }, 100);
+        });
+
+        function openDdrModal(field) {
+            ddrCurrentField = field;
+            ddrCurrentValue = '';
+            ddrFieldIndicator.textContent = field === 'origin' ? 'ORIGIN' : 'DESTINATION';
+            ddrValue.innerHTML = '_ <span class="cursor"></span>';
+
+            // Reset game state
+            combo = 0;
+            perfectCount = 0;
+            missCount = 0;
+            fallSpeed = 3;
+            fallingNotes = [];
+            updateDdrScore();
+
+            // Clear any existing notes
+            document.querySelectorAll('.ddr-note').forEach(n => n.remove());
+
+            ddrModal.classList.add('active');
+            ddrActive = true;
+
+            // Start game loop
+            lastSpawnTime = Date.now();
+            gameLoopId = requestAnimationFrame(ddrGameLoop);
+        }
+
+        function closeDdrModal(save = false) {
+            ddrModal.classList.remove('active');
+            ddrActive = false;
+
+            if (gameLoopId) {
+                cancelAnimationFrame(gameLoopId);
+                gameLoopId = null;
+            }
+
+            // Clear falling notes
+            fallingNotes = [];
+            document.querySelectorAll('.ddr-note').forEach(n => n.remove());
+
+            if (save && ddrCurrentValue) {
+                if (ddrCurrentField === 'origin') {
+                    originInput.value = ddrCurrentValue;
+                    const display = document.getElementById('originDisplay');
+                    display.textContent = ddrCurrentValue;
+                    display.classList.remove('empty');
+                } else {
+                    destinationInput.value = ddrCurrentValue;
+                    const display = document.getElementById('destinationDisplay');
+                    display.textContent = ddrCurrentValue;
+                    display.classList.remove('empty');
+                }
+            }
+
+            ddrCurrentField = null;
+            ddrCurrentValue = '';
+        }
+
+        closeDdrBtn.addEventListener('click', () => closeDdrModal(false));
+
+        // DDR Game Loop
+        function ddrGameLoop() {
+            if (!ddrActive) return;
+
+            const now = Date.now();
+
+            // Spawn new letters every beat (quarter notes at BPM)
+            const beatInterval = (60000 / bpm) / 4; // 4 spawns per beat
+            if (now - lastSpawnTime > beatInterval) {
+                spawnRandomLetter();
+                lastSpawnTime = now;
+            }
+
+            // Update falling note positions
+            updateFallingNotes();
+
+            gameLoopId = requestAnimationFrame(ddrGameLoop);
+        }
+
+        // Spawn a random letter in a random lane
+        function spawnRandomLetter() {
+            const lane = lanes[Math.floor(Math.random() * lanes.length)];
+            const letters = letterGroups[lane];
+            const letter = letters[Math.floor(Math.random() * letters.length)];
+
+            const note = {
+                id: Date.now() + Math.random(),
+                lane: lane,
+                letter: letter,
+                y: -50,
+                hit: false
+            };
+
+            fallingNotes.push(note);
+            createNoteElement(note);
+        }
+
+        // Create DOM element for falling note
+        function createNoteElement(note) {
+            const el = document.createElement('div');
+            el.className = `ddr-note ddr-note-${note.lane}`;
+            el.id = `note-${note.id}`;
+            el.textContent = note.letter;
+
+            const lane = document.querySelector(`.ddr-lane[data-direction="${note.lane}"]`);
+            if (lane) {
+                el.style.left = '50%';
+                el.style.transform = 'translateX(-50%)';
+                el.style.top = note.y + 'px';
+                lane.appendChild(el);
+            }
+        }
+
+        // Update note element position
+        function updateNoteElement(note) {
+            const el = document.getElementById(`note-${note.id}`);
+            if (el) el.style.top = note.y + 'px';
+        }
+
+        // Remove note element
+        function removeNoteElement(note) {
+            const el = document.getElementById(`note-${note.id}`);
+            if (el) el.remove();
+        }
+
+        // Update all falling note positions
+        function updateFallingNotes() {
+            const laneHeight = 400;
+            const targetY = laneHeight - 60; // Target zone position
+
+            fallingNotes.forEach(note => {
+                if (note.hit) return;
+
+                note.y += fallSpeed;
+                updateNoteElement(note);
+
+                // Check if note fell off screen (miss)
+                if (note.y > laneHeight) {
+                    note.hit = true;
+                    combo = 0;
+                    missCount++;
+                    showDdrFeedback('MISS', 'miss');
+                    updateDdrScore();
+                    removeNoteElement(note);
+                }
+            });
+
+            // Clean up hit notes
+            fallingNotes = fallingNotes.filter(n => !n.hit || n.y <= laneHeight);
+        }
+
+        // Handle arrow key press
+        function handleArrowPress(direction) {
+            if (!ddrActive) return;
+
+            const laneHeight = 400;
+            const targetY = laneHeight - 60;
+            const hitWindow = 60; // ±60px window
+
+            // Find lowest unhit note in this lane within hit window
+            const notesInLane = fallingNotes
+                .filter(n => n.lane === direction && !n.hit)
+                .sort((a, b) => b.y - a.y);
+
+            const hitNote = notesInLane.find(note => {
+                return Math.abs(note.y - targetY) <= hitWindow;
+            });
+
+            if (hitNote) {
+                // Hit!
+                hitNote.hit = true;
+                addDdrLetter(hitNote.letter);
+                combo++;
+                perfectCount++;
+
+                // Visual feedback on arrow
+                const arrowTarget = document.querySelector(`.ddr-lane[data-direction="${direction}"] .ddr-arrow-target`);
+                if (arrowTarget) {
+                    arrowTarget.classList.add('active');
+                    setTimeout(() => arrowTarget.classList.remove('active'), 200);
+                }
+
+                showDdrFeedback('PERFECT!', 'perfect');
+                showCombo();
+                updateDdrScore();
+                removeNoteElement(hitNote);
+
+                // Increase difficulty every 10 combo
+                if (combo % 10 === 0 && fallSpeed < 8) {
+                    fallSpeed += 0.3;
+                    bpm += 3;
+                }
+            } else {
+                // Miss - pressed too early or lane was empty
+                combo = 0;
+                missCount++;
+                showDdrFeedback('MISS', 'miss');
+                updateDdrScore();
+            }
+        }
+
+        // Add a letter to the current value
+        function addDdrLetter(letter) {
+            if (ddrCurrentValue.length < 50) {
+                ddrCurrentValue += letter;
+                updateDdrDisplay();
+            }
+        }
+
+        // Update the DDR display
+        function updateDdrDisplay() {
+            const displayValue = ddrCurrentValue || '_';
+            ddrValue.innerHTML = `${displayValue} <span class="cursor"></span>`;
+        }
+
+        // Update DDR score display
+        function updateDdrScore() {
+            ddrScore.textContent = `Perfect: ${perfectCount} | Miss: ${missCount}`;
+        }
+
+        // Show feedback message
+        function showDdrFeedback(text, type) {
+            const feedback = document.createElement('div');
+            feedback.className = `ddr-feedback ${type}`;
+            feedback.textContent = text;
+            ddrGame.appendChild(feedback);
+            setTimeout(() => feedback.remove(), 400);
+        }
+
+        // Show combo counter
+        function showCombo() {
+            if (combo > 1) {
+                const comboEl = document.createElement('div');
+                comboEl.className = 'ddr-combo';
+                comboEl.textContent = `${combo} COMBO!`;
+                ddrGame.appendChild(comboEl);
+                setTimeout(() => comboEl.remove(), 500);
+            }
+        }
+
+        // Keyboard handlers for DDR
+        document.addEventListener('keydown', (e) => {
+            if (!ddrActive) return;
+
+            const key = e.key.toLowerCase();
+
+            // Arrow keys
+            if (e.key === 'ArrowLeft') {
+                e.preventDefault();
+                handleArrowPress('left');
+            } else if (e.key === 'ArrowUp') {
+                e.preventDefault();
+                handleArrowPress('up');
+            } else if (e.key === 'ArrowDown') {
+                e.preventDefault();
+                handleArrowPress('down');
+            } else if (e.key === 'ArrowRight') {
+                e.preventDefault();
+                handleArrowPress('right');
+            }
+            // WASD keys
+            else if (key === 'a') {
+                e.preventDefault();
+                handleArrowPress('left');
+            } else if (key === 'w') {
+                e.preventDefault();
+                handleArrowPress('up');
+            } else if (key === 's') {
+                e.preventDefault();
+                handleArrowPress('down');
+            } else if (key === 'd') {
+                e.preventDefault();
+                handleArrowPress('right');
+            }
+            // Enter to finish
+            else if (e.key === 'Enter') {
+                e.preventDefault();
+                closeDdrModal(true);
+            }
+            // ESC to cancel
+            else if (e.key === 'Escape') {
+                e.preventDefault();
+                closeDdrModal(false);
+            }
+        });
+
+        // ==========================================
+        // SCIENTIFIC DATE PICKER LOGIC
+        // ==========================================
+
         /*
           The formula I use is not the scientifically best formula.
           If you want more correct result use Kepler's laws.
@@ -359,12 +2072,15 @@
 
         // Close date picker when clicking outside
         document.addEventListener('click', (e) => {
-            if (!dateButton.contains(e.target)) {
+            if (!dateButton.contains(e.target) && !ouijaModal.classList.contains('active')) {
                 dateButton.querySelector('input[type="checkbox"]').checked = false;
             }
         });
 
-        // Cookie Banner
+        // ==========================================
+        // COOKIE BANNER
+        // ==========================================
+
         const cookieBanner = document.getElementById('cookieBanner');
         const acceptCookies = document.getElementById('acceptCookies');
         const declineCookies = document.getElementById('declineCookies');
