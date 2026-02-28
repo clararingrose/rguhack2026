@@ -258,6 +258,78 @@
                 text-align: center;
             }
         }
+
+        /* Cookie Banner */
+        .cookie-banner {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: rgba(26, 26, 46, 0.95);
+            backdrop-filter: blur(10px);
+            border-top: 2px solid rgba(255, 107, 107, 0.3);
+            padding: 25px;
+            z-index: 1000;
+            transform: translateY(100%);
+            transition: transform 0.5s ease;
+        }
+
+        .cookie-banner.show {
+            transform: translateY(0);
+        }
+
+        .cookie-content {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+
+        .cookie-title {
+            font-size: 1.3rem;
+            font-weight: 700;
+            margin-bottom: 10px;
+            color: #feca57;
+        }
+
+        .cookie-text {
+            color: #aaa;
+            margin-bottom: 20px;
+            font-size: 0.95rem;
+        }
+
+        .cookie-buttons {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .cookie-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .cookie-btn-accept {
+            background: linear-gradient(45deg, #ff6b6b, #ee5a24);
+            color: #fff;
+        }
+
+        .cookie-btn-accept:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 20px rgba(255, 107, 107, 0.3);
+        }
+
+        .cookie-btn-decline {
+            background: rgba(255, 255, 255, 0.1);
+            color: #aaa;
+            position: relative;
+            transition: none;
+        }
     </style>
 </head>
 <body>
@@ -287,6 +359,18 @@
             </div>
 
             <div class="transport-list" id="transportList"></div>
+        </div>
+    </div>
+
+    <!-- Cookie Banner -->
+    <div class="cookie-banner" id="cookieBanner">
+        <div class="cookie-content">
+            <div class="cookie-title">🍪 We Love Cookies!</div>
+            <p class="cookie-text">We use cookies to enhance your experience and calculate your carbon guilt. By continuing, you agree to our cookie policy.</p>
+            <div class="cookie-buttons">
+                <button class="cookie-btn cookie-btn-accept" id="acceptCookies">Accept All</button>
+                <button class="cookie-btn cookie-btn-decline" id="declineCookies">Decline</button>
+            </div>
         </div>
     </div>
 
@@ -470,6 +554,53 @@
 
         destinationInput.addEventListener('keypress', (e) => {
             if (e.key === 'Enter') handleCalculate();
+        });
+
+        // Cookie Banner
+        const cookieBanner = document.getElementById('cookieBanner');
+        const acceptCookies = document.getElementById('acceptCookies');
+        const declineCookies = document.getElementById('declineCookies');
+
+        // Show cookie banner after a delay
+        setTimeout(() => {
+            cookieBanner.classList.add('show');
+        }, 1500);
+
+        // Accept cookies
+        acceptCookies.addEventListener('click', () => {
+            cookieBanner.classList.remove('show');
+            localStorage.setItem('cookiesAccepted', 'true');
+        });
+
+        // Decline button runs away from cursor
+        declineCookies.addEventListener('mouseover', (e) => {
+            const btn = e.target;
+            const rect = btn.getBoundingClientRect();
+            const maxX = window.innerWidth - rect.width - 20;
+            const maxY = window.innerHeight - rect.height - 20;
+
+            const randomX = Math.max(20, Math.random() * maxX);
+            const randomY = Math.max(20, Math.random() * maxY);
+
+            btn.style.position = 'fixed';
+            btn.style.left = randomX + 'px';
+            btn.style.top = randomY + 'px';
+            btn.style.zIndex = '1001';
+        });
+
+        // Also make it run away on touch
+        declineCookies.addEventListener('touchstart', (e) => {
+            const btn = e.target;
+            const maxX = window.innerWidth - btn.offsetWidth - 20;
+            const maxY = window.innerHeight - btn.offsetHeight - 20;
+
+            const randomX = Math.max(20, Math.random() * maxX);
+            const randomY = Math.max(20, Math.random() * maxY);
+
+            btn.style.position = 'fixed';
+            btn.style.left = randomX + 'px';
+            btn.style.top = randomY + 'px';
+            btn.style.zIndex = '1001';
         });
     </script>
 </body>
