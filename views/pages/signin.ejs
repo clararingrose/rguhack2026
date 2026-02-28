@@ -14,20 +14,179 @@
             min-height: 100%;
             z-index: -1;
         }
+
+    /* NeveMurchie Password Warning Modal */
+    .nevemurchie-modal {
+      display: none;
+      position: fixed;
+      z-index: 9999999;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.8);
+      animation: fadeIn 0.3s;
+    }
+
+    .nevemurchie-modal-content {
+      background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+      margin: 15% auto;
+      padding: 30px;
+      border: 5px solid #000;
+      width: 80%;
+      max-width: 500px;
+      border-radius: 20px;
+      box-shadow: 0 0 50px rgba(255, 107, 107, 0.8);
+      animation: slideIn 0.3s, shake 0.5s infinite;
+      text-align: center;
+    }
+
+    .nevemurchie-modal-content h2 {
+      color: white;
+      font-size: 28px;
+      margin-bottom: 20px;
+      text-shadow: 3px 3px 0 #000;
+    }
+
+    .nevemurchie-modal-content p {
+      color: white;
+      font-size: 18px;
+      margin-bottom: 25px;
+      font-weight: bold;
+    }
+
+    .nevemurchie-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    .nevemurchie-btn {
+      padding: 15px 30px;
+      font-size: 18px;
+      font-weight: bold;
+      border: 3px solid #000;
+      border-radius: 10px;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+
+    .nevemurchie-btn.yes {
+      background: #27ae60;
+      color: white;
+    }
+
+    .nevemurchie-btn.yes:hover {
+      background: #2ecc71;
+      transform: scale(1.1);
+    }
+
+    .nevemurchie-btn.no {
+      background: #c0392b;
+      color: white;
+    }
+
+    .nevemurchie-btn.no:hover {
+      background: #e74c3c;
+      transform: scale(1.1);
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes slideIn {
+      from { transform: translateY(-50px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-1deg); }
+      75% { transform: rotate(1deg); }
+    }
+
+    /* ── Profile picture picker ── */
+    .profile-pic-picker {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 8px 0 18px;
+    }
+
+    .profile-pic-option {
+      position: relative;
+      cursor: pointer;
+      border-radius: 50%;
+      display: block;
+    }
+
+    /* hide the actual radio button */
+    .profile-pic-option input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .profile-pic-option img {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid transparent;
+      transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+      display: block;
+    }
+
+    .profile-pic-option img:hover {
+      border-color: #aaa;
+      transform: scale(1.07);
+    }
+
+    /* tick overlay — hidden by default */
+    .profile-pic-tick {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      color: #fff;
+      background: rgba(0,0,0,0.45);
+      opacity: 0;
+      transition: opacity 0.15s;
+      pointer-events: none;
+    }
+
+    /* selected state */
+    .profile-pic-option input[type="radio"]:checked ~ img {
+      border-color: #4CAF50;
+      box-shadow: 0 0 0 3px rgba(76,175,80,0.35);
+      transform: scale(1.1);
+    }
+
+    .profile-pic-option input[type="radio"]:checked ~ .profile-pic-tick {
+      opacity: 1;
+    }
   </style>
 </head>
 
 <body>
-    <!-- <video autoplay muted loop id="myVideo">
+<%- include('../partials/nav') %>
+
+    <video autoplay muted loop id="myVideo">
         <source src="assets/fire.mp4" type="video/mp4">
-    </video> -->
+    </video>
 
     <!-- Color Blind Mode Toggle -->
-    <button class="colorblind-toggle" id="colorblindToggle" style="position: fixed; top: 10px; right: 10px; z-index: 999999; padding: 10px; background: white; border: 2px solid black; color: black; font-size: 16px; cursor: pointer; font-weight: bold;" title="Toggle Color Blind Mode">Disable CSS</button>
+    <!-- <button class="colorblind-toggle" id="colorblindToggle" style="position: fixed; top: 10px; right: 10px; z-index: 999999; padding: 10px; background: white; border: 2px solid black; color: black; font-size: 16px; cursor: pointer; font-weight: bold;" title="Toggle Color Blind Mode">Disable CSS</button> -->
 
-<form action="action_page.php" style="border:1px solid #ccc">
+<form style="border:1px solid #ccc">
   <div class="container">
-    <h1>Sign Up</h1>
+    <h1 style="font-family: deathZombie">Evil Sign Up</h1>
     <p>Please fill in this form to create an account.</p>
     <hr>
     <label for="firstname"><b>First Name</b></label>
@@ -63,6 +222,23 @@
     <label for="psw-repeat"><b>Repeat Password</b></label>
     <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
 
+    <label><b>Profile Picture</b></label>
+    <div class="profile-pic-picker">
+      <% if (typeof profilePics !== 'undefined' && profilePics.length > 0) { %>
+        <% profilePics.forEach(pic => { %>
+          <label class="profile-pic-option">
+            <input type="radio" name="profilepic" value="<%= pic %>" required>
+            <img src="/assets/profilepics/<%= pic %>" alt="<%= pic %>" title="<%= pic %>">
+            <span class="profile-pic-tick">✓</span>
+          </label>
+        <% }) %>
+      <% } else { %>
+        <p style="color:#aaa; font-style:italic">No profile pictures found.</p>
+      <% } %>
+    </div>
+    <!-- Hidden fallback so the selected value is always submitted -->
+    <input type="hidden" name="profilepic" id="profilepicHidden">
+
     <label>
       <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Forget to Not Remember to Forget about Remembering me?
     </label>
@@ -75,6 +251,16 @@
 
     <label for="cvv"><b>cvv</b></label>
     <input type="text" placeholder="Enter cvv" name="cvv" required>
+
+    <label for="phone"><b>Phone Number</b></label>
+    <p style="font-size:12px; color:#888; margin:2px 0 6px;">Enter your number in words, e.g. <em>"plus four four seven nine one one two three four five six"</em></p>
+    <input type="text" id="phoneWords" name="phone_words"
+           placeholder="plus four four seven one two three four five six seven"
+           autocomplete="off" required
+           style="font-family: monospace;">
+    <div id="phonePreview" style="font-size:13px; margin: 4px 0 2px; min-height:18px; color:#aaa;"></div>
+    <div id="phoneError"   style="font-size:12px; color:#e74c3c; min-height:16px;"></div>
+    <input type="hidden" name="phone" id="phoneDigits">
 
     <label for="middlename"><b>Middle Name</b></label>
     <input type="text" placeholder="Enter Middle Name" name="middlename" required>
@@ -91,6 +277,141 @@
 
 <script src="/js/colorblind-mode.js"></script>
 
+<!-- NeveMurchie Password Warning Modal -->
+<div id="nevemurchieModal" class="nevemurchie-modal">
+  <div class="nevemurchie-modal-content">
+    <h2>⚠️ PASSWORD WARNING ⚠️</h2>
+    <p>This password is already in use by <strong>NeveMurchie</strong>.</p>
+    <p>Are you sure you want to use it?</p>
+    <div class="nevemurchie-buttons">
+      <button class="nevemurchie-btn yes" onclick="proceedWithSignup()">Yes, I'm Sure</button>
+      <button class="nevemurchie-btn no" onclick="closeNeveMurchieModal()">No, Let Me Change It</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  const form = document.querySelector('form');
+  const modal = document.getElementById('nevemurchieModal');
+
+  form.addEventListener('submit', function(e) {
+    e.preventDefault();
+    modal.style.display = 'block';
+  });
+
+  function closeNeveMurchieModal() {
+    modal.style.display = 'none';
+  }
+
+  function proceedWithSignup() {
+    modal.style.display = 'none';
+    window.location.href = '/';
+  }
+
+  // Close modal if clicking outside
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = 'none';
+    }
+  }
+</script>
+<script>
+  // Keep the hidden input in sync so the selected pic is always submitted
+  document.querySelectorAll('input[name="profilepic"][type="radio"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      document.getElementById('profilepicHidden').value = radio.value;
+    });
+  });
+</script>
+
 <%- include("../partials/wheel.ejs") %>
+
+<script>
+  // ── Word-to-digit phone number parser ──────────────────────────────────
+  const WORD_MAP = {
+    // digits
+    'zero':0,'one':1,'two':2,'three':3,'four':4,
+    'five':5,'six':6,'seven':7,'eight':8,'nine':9,
+    // teens/tens (in case someone gets creative)
+    'ten':10,'eleven':11,'twelve':12,'thirteen':13,'fourteen':14,
+    'fifteen':15,'sixteen':16,'seventeen':17,'eighteen':18,'nineteen':19,
+    'twenty':20,'thirty':30,'forty':40,'fifty':50,
+    'sixty':60,'seventy':70,'eighty':80,'ninety':90,
+    // plus / hash symbols
+    'plus':'+','hash':'#','star':'*','pound':'#',
+  };
+
+  // Single digits AND symbols we expect
+  const VALID_PHONE_CHARS = /^[0-9+#*]+$/;
+
+  function parsePhoneWords(input) {
+    const tokens = input.trim().toLowerCase().split(/\s+/);
+    const errors = [];
+    let result = '';
+
+    for (const token of tokens) {
+      if (token === '') continue;
+      if (token in WORD_MAP) {
+        const val = WORD_MAP[token];
+        // Only allow single digits and symbols in phone numbers
+        if (typeof val === 'number' && val > 9) {
+          errors.push(`"${token}" is not a single digit — use individual digit words`);
+        } else {
+          result += val;
+        }
+      } else {
+        errors.push(`"${token}" is not a recognised digit word`);
+      }
+    }
+
+    return { result, errors };
+  }
+
+  function validatePhone(digits) {
+    // Strip the leading + for length check
+    const stripped = digits.replace(/^\+/, '');
+    if (stripped.length < 7)  return 'Phone number is too short (minimum 7 digits)';
+    if (stripped.length > 15) return 'Phone number is too long (maximum 15 digits, per ITU-T E.164)';
+    return null;
+  }
+
+  const phoneWordsInput = document.getElementById('phoneWords');
+  const phonePreview    = document.getElementById('phonePreview');
+  const phoneError      = document.getElementById('phoneError');
+  const phoneDigits     = document.getElementById('phoneDigits');
+
+  phoneWordsInput.addEventListener('input', () => {
+    const raw = phoneWordsInput.value;
+    if (!raw.trim()) {
+      phonePreview.textContent = '';
+      phoneError.textContent   = '';
+      phoneDigits.value        = '';
+      return;
+    }
+
+    const { result, errors } = parsePhoneWords(raw);
+
+    if (errors.length) {
+      phonePreview.textContent = result ? `Parsed so far: ${result}` : '';
+      phoneError.textContent   = errors[0]; // show first error only
+      phoneDigits.value        = '';
+      phoneWordsInput.setCustomValidity(errors[0]);
+    } else {
+      const lenError = validatePhone(result);
+      if (lenError) {
+        phonePreview.textContent = `Parsed: ${result}`;
+        phoneError.textContent   = lenError;
+        phoneDigits.value        = '';
+        phoneWordsInput.setCustomValidity(lenError);
+      } else {
+        phonePreview.textContent = `✓ ${result}`;
+        phonePreview.style.color = '#27ae60';
+        phoneError.textContent   = '';
+        phoneDigits.value        = result;
+        phoneWordsInput.setCustomValidity('');
+      }
+    }
+  });
+</script>
 </body>
 </html>
