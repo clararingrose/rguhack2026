@@ -15,6 +15,8 @@ body {
 .container {
     max-width: 800px;
     margin: 0 auto;
+    position: relative;
+    z-index: 10;
 }
 
 h1 {
@@ -40,6 +42,8 @@ h1 {
     padding: 30px;
     margin-bottom: 30px;
     backdrop-filter: blur(10px);
+    position: relative;
+    z-index: 5;
 }
 
 .form-group {
@@ -329,6 +333,7 @@ input::placeholder {
     position: relative;
     display: inline-block;
     width: 100%;
+    z-index: 10;
 }
 
 #datePicker {
@@ -337,7 +342,7 @@ input::placeholder {
     width: 100%;
     max-width: 400px;
     position: absolute;
-    z-index: 99;
+    z-index: 10000;
     background-color: rgba(0, 0, 0, 0.95);
     border-radius: 60px 0px 60px 60px;
     clip-path: circle(0% at 100% 0%);
@@ -364,6 +369,7 @@ input::placeholder {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    z-index: 10;
 }
 
 #date:hover {
@@ -386,6 +392,7 @@ input::placeholder {
     appearance: none;
     -webkit-appearance: none;
     opacity: 0;
+    z-index: 20;
 }
 
 #date input[type="checkbox"]:checked ~ #datePicker {
