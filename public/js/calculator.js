@@ -33,7 +33,7 @@ const errorContainer = document.getElementById('errorContainer');
 
 // Geocode a location using Nominatim API
 async function geocode(location) {
-    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(location)}`;
+    const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(location)}&addressdetails=1`;
     const response = await fetch(url, {
         headers: {
             'User-Agent': 'CarbonCalculator/1.0'
@@ -45,9 +45,96 @@ async function geocode(location) {
         throw new Error(`Location "${location}" not found`);
     }
 
+    const firstResult = data[0];
+    console.log('Raw geocode result for', location, ':', firstResult);
+    console.log('Address object:', firstResult.address);
+
+    // Extract country code from various possible locations
+    let countryCode = null;
+
+    // Try address.country_code first
+    if (firstResult.address?.country_code) {
+        countryCode = firstResult.address.country_code.toUpperCase();
+    }
+
+    // If still no country code, try to extract from display_name
+    if (!countryCode && firstResult.display_name) {
+        const displayName = firstResult.display_name.toLowerCase();
+
+        // Comprehensive country name to code mapping
+        const countryMappings = {
+            'thailand': 'TH', 'thai': 'TH',
+            'hong kong': 'HK',
+            'macau': 'MO', 'macao': 'MO',
+            'taiwan': 'TW',
+            'united kingdom': 'GB', 'uk': 'GB', 'scotland': 'GB', 'england': 'GB', 'wales': 'GB', 'northern ireland': 'GB',
+            'united states': 'US', 'usa': 'US',
+            'france': 'FR',
+            'germany': 'DE',
+            'spain': 'ES',
+            'italy': 'IT',
+            'japan': 'JP',
+            'china': 'CN',
+            'india': 'IN',
+            'australia': 'AU',
+            'canada': 'CA',
+            'brazil': 'BR',
+            'russia': 'RU',
+            'south korea': 'KR', 'korea': 'KR',
+            'vietnam': 'VN',
+            'singapore': 'SG',
+            'malaysia': 'MY',
+            'indonesia': 'ID',
+            'philippines': 'PH',
+            'netherlands': 'NL',
+            'belgium': 'BE',
+            'switzerland': 'CH',
+            'sweden': 'SE',
+            'norway': 'NO',
+            'denmark': 'DK',
+            'finland': 'FI',
+            'poland': 'PL',
+            'portugal': 'PT',
+            'greece': 'GR',
+            'turkey': 'TR',
+            'mexico': 'MX',
+            'argentina': 'AR',
+            'colombia': 'CO',
+            'chile': 'CL',
+            'peru': 'PE',
+            'south africa': 'ZA',
+            'egypt': 'EG',
+            'israel': 'IL',
+            'saudi arabia': 'SA',
+            'uae': 'AE', 'united arab emirates': 'AE',
+            'new zealand': 'NZ',
+            'ireland': 'IE',
+            'austria': 'AT',
+            'czech republic': 'CZ',
+            'hungary': 'HU',
+            'romania': 'RO',
+            'bulgaria': 'BG',
+            'croatia': 'HR',
+            'serbia': 'RS',
+            'ukraine': 'UA',
+            'finland': 'FI'
+        };
+
+        for (const [name, code] of Object.entries(countryMappings)) {
+            if (displayName.includes(name)) {
+                countryCode = code;
+                console.log(`Found country code "${code}" from display_name containing "${name}"`);
+                break;
+            }
+        }
+    }
+
+    console.log('Geocoded:', location, '→ Country code:', countryCode);
+
     return {
-        lat: parseFloat(data[0].lat),
-        lon: parseFloat(data[0].lon)
+        lat: parseFloat(firstResult.lat),
+        lon: parseFloat(firstResult.lon),
+        countryCode: countryCode
     };
 }
 
@@ -103,13 +190,18 @@ function displayResults(distance, results) {
         const isWorst = index === 0 && mode.emissions > 0;
         const formatted = formatEmissions(mode.emissions);
 
+        // Get translated transport name if available
+        const transportName = (typeof getTransportModeName === 'function')
+            ? getTransportModeName(mode.name)
+            : mode.name;
+
         const card = document.createElement('div');
         card.className = `transport-card${isWorst ? ' worst' : ''}`;
 
         card.innerHTML = `
             <div class="transport-left">
                 <span class="transport-icon">${mode.icon}</span>
-                <span class="transport-name">${mode.name}</span>
+                <span class="transport-name" data-original-name="${mode.name}">${transportName}</span>
             </div>
             <div class="transport-right">
                 <div class="emissions">${formatted.value}</div>
@@ -122,6 +214,17 @@ function displayResults(distance, results) {
     });
 
     resultsSection.classList.add('show');
+
+    // Translate "MOST EXCITING!" badge if language is set
+    if (window.currentLanguageCode && typeof changeLanguageToCountry === 'function') {
+        const badge = document.querySelector('.recommendation-badge');
+        if (badge && window.translations) {
+            const texts = window.translations[window.currentLanguageCode] || window.translations.en;
+            if (texts) {
+                badge.innerHTML = `<span class="fire-emoji">🔥</span> ${texts.mostExciting.replace('🔥 ', '')}`;
+            }
+        }
+    }
 }
 
 // Show error message
@@ -163,20 +266,50 @@ async function handleCalculate() {
     calculateBtn.textContent = 'Calculating...';
 
     try {
+        console.log('=== Starting calculation ===');
+        console.log('Origin:', origin);
+        console.log('Destination:', destination);
+
         const originCoords = await geocode(origin);
+        console.log('Origin coords:', originCoords);
+
         const destCoords = await geocode(destination);
+        console.log('Destination coords:', destCoords);
+
+        console.log('✅ Geocoding complete, calculating distance...');
 
         const distance = calculateDistance(
             originCoords.lat, originCoords.lon,
             destCoords.lat, destCoords.lon
         );
 
+        console.log('✅ Distance calculated:', distance, 'km');
+
         const results = calculateEmissions(distance);
+        console.log('✅ Emissions calculated:', results.length, 'transport modes');
+
         displayResults(distance, results);
+        console.log('✅ Results displayed');
+
+        // Change language based on destination country (do this LAST, after results)
+        try {
+            if (destCoords.countryCode) {
+                console.log('🎯 Changing language to match destination country:', destCoords.countryCode);
+                if (typeof changeLanguageToCountry === 'function') {
+                    changeLanguageToCountry(destCoords.countryCode);
+                }
+            } else {
+                console.log('⚠️ No country code found for destination:', destination);
+            }
+        } catch (langError) {
+            console.error('Language change error (continuing anyway):', langError);
+        }
 
     } catch (error) {
+        console.error('❌ Calculation error:', error);
         showError(error.message);
     } finally {
+        console.log('♻️ Resetting button state');
         calculateBtn.disabled = false;
         calculateBtn.textContent = 'Calculate Emissions';
     }
