@@ -32,6 +32,12 @@ app.get('/blog', (req, res) => {
     });
 });
 
+app.get('/signin', (req, res) => {
+    res.render('pages/signin', {
+        title: 'Evil Sign In'
+    });
+});
+
 // Start server
 app.listen(PORT, () => {
     console.log(`🌍 Carbon Calculator running at http://localhost:${PORT}`);
