@@ -35,4 +35,25 @@ Click on a sponsor or checkout the [Challenges Folder](challenges/)
 #### Join our discord server [https://discord.gg/MuntB88f](https://discord.gg/MuntB88f) and tag us on LinkedIn [#rguhack](https://www.linkedin.com/search/results/all/?keywords=%23rguhack)
 
 
+---
+
+## Our Project: Carbon Emissions Calculator 🌍
+
+A web-based carbon emissions calculator that helps users find the most environmentally destructive travel options (for educational purposes!).
+
+### Features
+- Calculate carbon emissions for journeys between any two locations
+- Compare 17 different transport modes from Walking to Killdozer
+- Scientific Date Picker using orbital mechanics UI
+- Cookie consent banner with unclickable "Decline" button
+
+### Tech Stack
+- Single HTML file with embedded CSS and JavaScript
+- OpenStreetMap Nominatim API for geocoding
+- Haversine formula for distance calculation
+
+### Credits
+- **Scientific Date Picker** adapted from [RedditBadUIBattles](https://github.com/i01000101/RedditBadUIBattles) by [i01000101](https://github.com/i01000101)
+- Carbon emission factors sourced from UK government and UN climate data
+
 # Good Luck! 🎉
