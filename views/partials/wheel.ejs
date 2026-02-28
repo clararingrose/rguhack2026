@@ -1,18 +1,53 @@
-<script>const props = {
-  items: [
-    {
-      label: 'one',
-    },
-    {
-      label: 'two',
-    },
-    {
-      label: 'three',
-    },
-  ]
-}
+<!-- <div id="wheel-container" style="height:400px;width:400px;"></div>
 
-    const container = document.querySelector('.wheel-container');
+<script src="spin-wheel.js"></script>
+<script>
+  const props = {
+    items: [
+      { label: 'one' },
+      { label: 'two' },
+      { label: 'three' },
+    ]
+  };
+
+  const container = document.getElementById('wheel-container');
+  const wheel = new Wheel(container, props);
+
+  wheel.start(); 
+</script> -->
+
+<div id="wheel-container" style="width:400px;height:400px;"></div>
+<!-- 
+<script src="https://cdn.jsdelivr.net/npm/spin-wheel@4.3.1/dist/spin-wheel.min.js"></script> -->
+
+<script type="module">
+    import {Wheel} from 'https://cdn.jsdelivr.net/npm/spin-wheel@5.0.2/dist/spin-wheel-esm.js';
+  document.addEventListener("DOMContentLoaded", function () {
+
+    const props = {
+      items: [
+        { label: 'One',
+            textColor: '#000000',
+            labelColor: '#ffffff',
+            backgroundColor: 'redw'
+         },
+        { label: 'Two' },
+        { label: 'Three' },
+      ],
+      radius: 180,
+      itemLabelRadius: 0.75,
+      itemLabelRotation: 180,
+      isInteractive: true,
+    };
+
+    const container = document.getElementById('wheel-container');
 
     const wheel = new Wheel(container, props);
+
+    // Spin when clicked
+    wheel.on('rest', e => {
+      console.log('Stopped on:', wheel.items[wheel.getCurrentIndex()].label);
+    });
+
+  });
 </script>
