@@ -322,7 +322,7 @@ input::placeholder {
 }
 
 .cookie-btn-decline {
-    background: rgba(255, 255, 255, 0.1);
+    background: rgba(255, 255, 255, 0.5);
     color: #aaa;
     position: relative;
     transition: none;
