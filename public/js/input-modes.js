@@ -358,28 +358,40 @@ function updateModeButtons() {
     const originDisplay = document.getElementById('originDisplay');
     const destinationDisplay = document.getElementById('destinationDisplay');
 
+    // Get translations from window.currentTranslations, falling back to English defaults
+    const t = window.currentTranslations || {
+        ddrModeBtn: 'DDR Mode',
+        summonLocation: 'Summon Location',
+        switchToOuija: 'Switch to Ouija Mode',
+        switchToDdr: 'Switch to DDR Mode',
+        danceToInput: 'Dance to input location...',
+        danceToDestination: 'Dance to input destination...',
+        summonFromBeyond: 'Summon location from beyond...',
+        summonDestinationFromBeyond: 'Summon destination from beyond...'
+    };
+
     if (inputMode === 'ddr') {
-        originBtn.textContent = 'DDR Mode';
+        originBtn.textContent = t.ddrModeBtn;
         originBtn.className = 'ddr-start-btn';
-        destinationBtn.textContent = 'DDR Mode';
+        destinationBtn.textContent = t.ddrModeBtn;
         destinationBtn.className = 'ddr-start-btn';
-        modeToggle.textContent = 'Switch to Ouija Mode';
+        modeToggle.textContent = t.switchToOuija;
 
         originDisplay.className = 'ddr-display empty' + (originInput.value ? '' : ' empty');
         destinationDisplay.className = 'ddr-display empty' + (destinationInput.value ? '' : ' empty');
-        if (!originInput.value) originDisplay.textContent = 'Dance to input location...';
-        if (!destinationInput.value) destinationDisplay.textContent = 'Dance to input destination...';
+        if (!originInput.value) originDisplay.textContent = t.danceToInput;
+        if (!destinationInput.value) destinationDisplay.textContent = t.danceToDestination;
     } else {
-        originBtn.textContent = 'Summon Location';
+        originBtn.textContent = t.summonLocation;
         originBtn.className = 'ouija-start-btn';
-        destinationBtn.textContent = 'Summon Location';
+        destinationBtn.textContent = t.summonLocation;
         destinationBtn.className = 'ouija-start-btn';
-        modeToggle.textContent = 'Switch to DDR Mode';
+        modeToggle.textContent = t.switchToDdr;
 
         originDisplay.className = 'ouija-display empty' + (originInput.value ? '' : ' empty');
         destinationDisplay.className = 'ouija-display empty' + (destinationInput.value ? '' : ' empty');
-        if (!originInput.value) originDisplay.textContent = 'Summon location from beyond...';
-        if (!destinationInput.value) destinationDisplay.textContent = 'Summon destination from beyond...';
+        if (!originInput.value) originDisplay.textContent = t.summonFromBeyond;
+        if (!destinationInput.value) destinationDisplay.textContent = t.summonDestinationFromBeyond;
     }
 }
 
@@ -437,6 +449,161 @@ originBoring.addEventListener('input', () => {
 destinationBoring.addEventListener('input', () => {
     destinationInput.value = destinationBoring.value;
 });
+
+// ── LET IT BURN - Find Furthest City ────────────────────────────────────────
+// List of major world cities with their approximate coordinates
+const majorCities = [
+    { name: 'Tokyo, Japan', lat: 35.6762, lon: 139.6503 },
+    { name: 'Sydney, Australia', lat: -33.8688, lon: 151.2093 },
+    { name: 'Buenos Aires, Argentina', lat: -34.6037, lon: -58.3816 },
+    { name: 'Cape Town, South Africa', lat: -33.9249, lon: 18.4241 },
+    { name: 'Auckland, New Zealand', lat: -36.8485, lon: 174.7633 },
+    { name: 'Reykjavik, Iceland', lat: 64.1466, lon: -21.9426 },
+    { name: 'Honolulu, Hawaii', lat: 21.3099, lon: -157.8581 },
+    { name: 'Anchorage, Alaska', lat: 61.2181, lon: -149.9003 },
+    { name: 'Singapore', lat: 1.3521, lon: 103.8198 },
+    { name: 'Dubai, UAE', lat: 25.2048, lon: 55.2708 },
+    { name: 'Mumbai, India', lat: 19.0760, lon: 72.8777 },
+    { name: 'São Paulo, Brazil', lat: -23.5505, lon: -46.6333 },
+    { name: 'Moscow, Russia', lat: 55.7558, lon: 37.6173 },
+    { name: 'Beijing, China', lat: 39.9042, lon: 116.4074 },
+    { name: 'Lima, Peru', lat: -12.0464, lon: -77.0428 },
+    { name: 'Cairo, Egypt', lat: 30.0444, lon: 31.2357 },
+    { name: 'Jakarta, Indonesia', lat: -6.2088, lon: 106.8456 },
+    { name: 'Madrid, Spain', lat: 40.4168, lon: -3.7038 },
+    { name: 'Seoul, South Korea', lat: 37.5665, lon: 126.9780 },
+    { name: 'Manila, Philippines', lat: 14.5995, lon: 120.9842 },
+    { name: 'Bangkok, Thailand', lat: 13.7563, lon: 100.5018 },
+    { name: 'Hong Kong', lat: 22.3193, lon: 114.1694 },
+    { name: 'Karachi, Pakistan', lat: 24.8607, lon: 67.0011 },
+    { name: 'Tehran, Iran', lat: 35.6892, lon: 51.3890 },
+    { name: 'Lagos, Nigeria', lat: 6.5244, lon: 3.3792 },
+    { name: 'Nairobi, Kenya', lat: -1.2921, lon: 36.8219 },
+    { name: 'Casablanca, Morocco', lat: 33.5731, lon: -7.5898 },
+    { name: 'Santiago, Chile', lat: -33.4489, lon: -70.6693 },
+    { name: 'Caracas, Venezuela', lat: 10.4806, lon: -66.9036 },
+    { name: 'Bogotá, Colombia', lat: 4.7110, lon: -74.0721 },
+    { name: 'Mexico City, Mexico', lat: 19.4326, lon: -99.1332 },
+    { name: 'Toronto, Canada', lat: 43.6532, lon: -79.3832 },
+    { name: 'Vancouver, Canada', lat: 49.2827, lon: -123.1207 },
+    { name: 'Chicago, USA', lat: 41.8781, lon: -87.6298 },
+    { name: 'Los Angeles, USA', lat: 34.0522, lon: -118.2437 },
+    { name: 'Miami, USA', lat: 25.7617, lon: -80.1918 },
+    { name: 'New York, USA', lat: 40.7128, lon: -74.0060 },
+    { name: 'San Francisco, USA', lat: 37.7749, lon: -122.4194 },
+    { name: 'Seattle, USA', lat: 47.6062, lon: -122.3321 },
+    { name: 'Boston, USA', lat: 42.3601, lon: -71.0589 },
+    { name: 'Paris, France', lat: 48.8566, lon: 2.3522 },
+    { name: 'London, UK', lat: 51.5074, lon: -0.1278 },
+    { name: 'Berlin, Germany', lat: 52.5200, lon: 13.4050 },
+    { name: 'Rome, Italy', lat: 41.9028, lon: 12.4964 },
+    { name: 'Amsterdam, Netherlands', lat: 52.3676, lon: 4.9041 },
+    { name: 'Vienna, Austria', lat: 48.2082, lon: 16.3738 },
+    { name: 'Athens, Greece', lat: 37.9838, lon: 23.7275 },
+    { name: 'Lisbon, Portugal', lat: 38.7223, lon: -9.1393 },
+    { name: 'Warsaw, Poland', lat: 52.2297, lon: 21.0122 },
+    { name: 'Stockholm, Sweden', lat: 59.3293, lon: 18.0686 },
+    { name: 'Oslo, Norway', lat: 59.9139, lon: 10.7522 },
+    { name: 'Helsinki, Finland', lat: 60.1695, lon: 24.9354 },
+    { name: 'Copenhagen, Denmark', lat: 55.6761, lon: 12.5683 },
+    { name: 'Dublin, Ireland', lat: 53.3498, lon: -6.2603 },
+    { name: 'Brussels, Belgium', lat: 50.8503, lon: 4.3517 },
+    { name: 'Zurich, Switzerland', lat: 47.3769, lon: 8.5417 },
+    { name: 'Prague, Czech Republic', lat: 50.0755, lon: 14.4378 },
+    { name: 'Budapest, Hungary', lat: 47.4979, lon: 19.0402 },
+    { name: 'Istanbul, Turkey', lat: 41.0082, lon: 28.9784 },
+    { name: 'Kolkata, India', lat: 22.5726, lon: 88.3639 },
+    { name: 'Dhaka, Bangladesh', lat: 23.8103, lon: 90.4125 },
+    { name: 'Kathmandu, Nepal', lat: 27.7172, lon: 85.3238 },
+    { name: 'Colombo, Sri Lanka', lat: 6.9271, lon: 79.8612 },
+    { name: 'Yangon, Myanmar', lat: 16.8661, lon: 96.1951 },
+    { name: 'Ho Chi Minh City, Vietnam', lat: 10.8231, lon: 106.6297 },
+    { name: 'Phnom Penh, Cambodia', lat: 11.5564, lon: 104.9282 },
+    { name: 'Vientiane, Laos', lat: 17.9757, lon: 102.6331 },
+    { name: 'Ulaanbaatar, Mongolia', lat: 47.8863, lon: 106.9057 },
+    { name: 'Pyongyang, North Korea', lat: 39.0392, lon: 125.7625 },
+    { name: 'Taipei, Taiwan', lat: 25.0330, lon: 121.5654 },
+    { name: 'Kuala Lumpur, Malaysia', lat: 3.1390, lon: 101.6869 },
+    { name: 'Fiji', lat: -17.7134, lon: 178.0650 },
+    { name: 'Papua New Guinea', lat: -9.4438, lon: 147.1803 },
+    { name: 'Solomon Islands', lat: -9.6457, lon: 160.1569 },
+    { name: 'Vanuatu', lat: -17.7444, lon: 168.3201 },
+    { name: 'Samoa', lat: -13.7590, lon: -172.1046 },
+    { name: 'Tonga', lat: -21.1790, lon: -175.1982 },
+];
+
+// Calculate distance using Haversine formula
+function calculateDistanceToCity(lat1, lon1, lat2, lon2) {
+    const R = 6371; // Earth's radius in km
+    const dLat = (lat2 - lat1) * Math.PI / 180;
+    const dLon = (lon2 - lon1) * Math.PI / 180;
+    const a = Math.sin(dLat / 2) ** 2 +
+              Math.cos(lat1 * Math.PI / 180) * Math.cos(lat2 * Math.PI / 180) *
+              Math.sin(dLon / 2) ** 2;
+    return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
+}
+
+// Find and set furthest city
+async function findFurthestCity() {
+    const originValue = boringMode
+        ? document.getElementById('originBoring').value.trim()
+        : originInput.value.trim();
+
+    if (!originValue) {
+        alert('Please enter an origin first!');
+        return;
+    }
+
+    try {
+        // Geocode the origin
+        const response = await fetch(
+            `https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(originValue)}&addressdetails=1`,
+            { headers: { 'User-Agent': 'CarbonCalculator/1.0' } }
+        );
+        const data = await response.json();
+
+        if (data.length === 0) {
+            alert(`Could not find location: "${originValue}"`);
+            return;
+        }
+
+        const originLat = parseFloat(data[0].lat);
+        const originLon = parseFloat(data[0].lon);
+
+        // Calculate distances to all major cities
+        let furthestCity = null;
+        let maxDistance = 0;
+
+        for (const city of majorCities) {
+            const distance = calculateDistanceToCity(originLat, originLon, city.lat, city.lon);
+            if (distance > maxDistance) {
+                maxDistance = distance;
+                furthestCity = city;
+            }
+        }
+
+        if (furthestCity) {
+            // Set the destination
+            destinationInput.value = furthestCity.name;
+
+            if (boringMode) {
+                document.getElementById('destinationBoring').value = furthestCity.name;
+            } else {
+                const display = document.getElementById('destinationDisplay');
+                display.textContent = furthestCity.name;
+                display.classList.remove('empty');
+            }
+        }
+
+    } catch (error) {
+        console.error('Error finding furthest city:', error);
+        alert('Failed to find furthest city. Please try again.');
+    }
+}
+
+// Add event listeners to both "Let it burn" buttons
+document.getElementById('furthestBtn').addEventListener('click', findFurthestCity);
+document.getElementById('furthestBtnBoring').addEventListener('click', findFurthestCity);
 
 // DDR button handlers
 originBtn.addEventListener('click', () => {

@@ -4,8 +4,17 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %></title>
-    <link rel="stylesheet" href="/assets/styles.css">
-    <style>
+    <link rel="stylesheet" href="/assets/styles.css" id="mainStylesheet">
+    <style id="inlineStyles">
+        #myVideo {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -1;
+        }
+
         body {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
@@ -167,6 +176,9 @@
     </style>
 </head>
 <body>
+    <video autoplay muted loop id="myVideo">
+        <source src="assets/fire.mp4" type="video/mp4">
+    </video>
     <!-- Emoji rain background -->
     <div class="emoji-rain" style="left: 10%; animation-delay: 0s;">🌍</div>
     <div class="emoji-rain" style="left: 20%; animation-delay: 1s;">💨</div>
@@ -179,6 +191,9 @@
     <div class="emoji-rain" style="left: 90%; animation-delay: 8s;">🚗</div>
 
     <div class="blog-container">
+        <!-- Color Blind Mode Toggle -->
+        <button class="colorblind-toggle" id="colorblindToggle" style="position: fixed; top: 10px; right: 10px; z-index: 999999; padding: 10px; background: white; border: 2px solid black; color: black; font-size: 16px; cursor: pointer; font-weight: bold;" title="Toggle Color Blind Mode">Disable CSS</button>
+
         <a href="/" class="back-link">← Escape Back to Calculator</a>
 
         <div class="blog-header">
@@ -243,6 +258,7 @@
         </div>
     </div>
 
+    <script src="/js/colorblind-mode.js"></script>
     <script>
         // Add random rotation to blog posts
         document.querySelectorAll('.blog-post').forEach(post => {

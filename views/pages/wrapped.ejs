@@ -6,7 +6,7 @@
   <title>Your Carbon Crimes Wrapped</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
-  <style>
+  <style id="inlineStyles">
     :root {
       --black: #0a0a0a;
       --offwhite: #f0ede6;
@@ -423,9 +423,25 @@
       .input-bar { flex-direction: column; gap: 12px; padding: 20px; }
       .input-wrap input[type="number"] { width: 140px; }
     }
+
+    #myVideo {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -1;
+        }
   </style>
 </head>
 <body>
+
+  <video autoplay muted loop id="myVideo">
+    <source src="assets/fire.mp4" type="video/mp4">
+</video>
+
+  <!-- Color Blind Mode Toggle -->
+  <button class="colorblind-toggle" id="colorblindToggle" style="position: fixed; top: 10px; right: 10px; z-index: 999999; padding: 10px; background: white; border: 2px solid black; color: black; font-size: 16px; cursor: pointer; font-weight: bold;" title="Toggle Color Blind Mode">Disable CSS</button>
 
   <a href="/" class="nav-back">← Back</a>
 
@@ -632,6 +648,7 @@
     <a href="/" class="btn-share">Calculate Another Trip</a>
   </div>
 
+  <script src="/js/colorblind-mode.js"></script>
   <script>
     // ── Constants (mirror of EJS values) ──────────────────────────
     const BP_SPILL_TONNES    = 1_700_000;
