@@ -123,6 +123,9 @@ function isLeapyear(){
 
 // Close date picker when clicking outside
 document.addEventListener('click', (e) => {
-    if (!dateButton.contains(e.target) && !ouijaModal.classList.contains('active')) {
+    const ouijaModal = document.getElementById('ouijaModal');
+    if (!dateButton.contains(e.target) && (!ouijaModal || !ouijaModal.classList.contains('active'))) {
         dateButton.querySelector('input[type="checkbox"]').checked = false;
     }
+});
+

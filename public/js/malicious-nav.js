@@ -99,3 +99,5 @@ setInterval(() => {
         maliciousNav.style.left = '50%';
         maliciousNav.style.top = '50%';
     }
+}, 1000);
+
