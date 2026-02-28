@@ -396,11 +396,33 @@
     </style>
 </head>
 <body>
-    <div class="container">
+<!-- MALICIOUS SPINNING NAVIGATION -->
+<nav class="malicious-nav" id="maliciousNav">
+    <div class="malicious-nav-items">
+        <a href="#home" class="malicious-nav-item" style="transform: rotate(0deg) translateY(-130px) rotate(0deg);">Home</a>
+        <a href="#calculator" class="malicious-nav-item" style="transform: rotate(24deg) translateY(-130px) rotate(-24deg);">Calc</a>
+        <a href="#results" class="malicious-nav-item" style="transform: rotate(48deg) translateY(-130px) rotate(-48deg);">Results</a>
+        <a href="#about" class="malicious-nav-item" style="transform: rotate(72deg) translateY(-130px) rotate(-72deg);">About</a>
+        <a href="#faq" class="malicious-nav-item" style="transform: rotate(96deg) translateY(-130px) rotate(-96deg);">FAQ</a>
+        <a href="#help" class="malicious-nav-item" style="transform: rotate(120deg) translateY(-130px) rotate(-120deg);">Help</a>
+        <a href="#contact" class="malicious-nav-item" style="transform: rotate(144deg) translateY(-130px) rotate(-144deg);">Contact</a>
+        <a href="#settings" class="malicious-nav-item" style="transform: rotate(168deg) translateY(-130px) rotate(-168deg);">Settings</a>
+        <a href="#privacy" class="malicious-nav-item" style="transform: rotate(192deg) translateY(-130px) rotate(-192deg);">Privacy</a>
+        <a href="#terms" class="malicious-nav-item" style="transform: rotate(216deg) translateY(-130px) rotate(-216deg);">Terms</a>
+        <a href="#blog" class="malicious-nav-item" style="transform: rotate(240deg) translateY(-130px) rotate(-240deg);">Blog</a>
+        <a href="#newsletter" class="malicious-nav-item" style="transform: rotate(264deg) translateY(-130px) rotate(-264deg);">News</a>
+        <a href="#api" class="malicious-nav-item" style="transform: rotate(288deg) translateY(-130px) rotate(-2828deg);">API</a>
+        <a href="#careers" class="malicious-nav-item" style="transform: rotate(312deg) translateY(-130px) rotate(-312deg);">Careers</a>
+        <a href="#donate" class="malicious-nav-item" style="transform: rotate(336deg) translateY(-130px) rotate(-336deg);">Donate</a>
+        <div class="malicious-nav-center">🌍</div>
+    </div>
+</nav>
+
+    <div class="container" id="home">
         <h1>🌍 Carbon Calculator</h1>
         <p class="subtitle">Find the most exciting way to travel! 🔥</p>
 
-        <div class="input-section">
+        <div class="input-section" id="calculator">
             <div class="form-group">
                 <label for="origin">Origin</label>
                 <div class="ddr-display empty" id="originDisplay">Dance to input location...</div>
@@ -1674,6 +1696,108 @@
             btn.style.height = rect.height + 'px';
             btn.style.zIndex = '1001';
         });
+
+        // ==========================================
+        // MALICIOUS NAV BEHAVIOR
+        // ==========================================
+
+        const maliciousNav = document.getElementById('maliciousNav');
+
+        // Random direction change every 5-10 seconds
+        setInterval(() => {
+            maliciousNav.classList.toggle('reverse');
+            // Random speed burst
+            if (Math.random() > 0.7) {
+                maliciousNav.classList.add('speed-burst');
+                setTimeout(() => {
+                    maliciousNav.classList.remove('speed-burst');
+                }, 2000);
+            }
+        }, Math.random() * 5000 + 5000);
+
+        // Hover evasion - nav moves away when cursor approaches
+        let mouseX = 0, mouseY = 0;
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+        });
+
+        function evadeCursor() {
+            const navRect = maliciousNav.getBoundingClientRect();
+            const navCenterX = navRect.left + navRect.width / 2;
+            const navCenterY = navRect.top + navRect.height / 2;
+
+            const distance = Math.sqrt(
+                Math.pow(mouseX - navCenterX, 2) +
+                Math.pow(mouseY - navCenterY, 2)
+            );
+
+            // If cursor is within 150px, move away
+            if (distance < 150) {
+                const angle = Math.atan2(navCenterY - mouseY, navCenterX - mouseX);
+                const pushDistance = 200 - distance;
+                const newLeft = navCenterX + Math.cos(angle) * pushDistance;
+                const newTop = navCenterY + Math.sin(angle) * pushDistance;
+
+                // Keep within viewport
+                const boundedLeft = Math.max(50, Math.min(window.innerWidth - 350, newLeft - 150));
+                const boundedTop = Math.max(50, Math.min(window.innerHeight - 350, newTop - 150));
+
+                maliciousNav.style.left = boundedLeft + 'px';
+                maliciousNav.style.top = boundedTop + 'px';
+            }
+
+            requestAnimationFrame(evadeCursor);
+        }
+        evadeCursor();
+
+        // Speed up on nav item hover
+        const navItems = document.querySelectorAll('.malicious-nav-item');
+        navItems.forEach(item => {
+            item.addEventListener('mouseenter', () => {
+                maliciousNav.classList.add('speed-burst');
+            });
+            item.addEventListener('mouseleave', () => {
+                setTimeout(() => {
+                    maliciousNav.classList.remove('speed-burst');
+                }, 1000);
+            });
+
+            // Smooth scroll for anchor links
+            item.addEventListener('click', (e) => {
+                e.preventDefault();
+                const targetId = item.getAttribute('href').substring(1);
+                const targetElement = document.getElementById(targetId);
+
+                if (targetElement) {
+                    targetElement.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                } else {
+                    // If section doesn't exist, scroll to top
+                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                }
+
+                // 50% chance of nav "escaping" after click
+                if (Math.random() > 0.5) {
+                    setTimeout(() => {
+                        maliciousNav.style.left = Math.random() * (window.innerWidth - 300) + 'px';
+                        maliciousNav.style.top = Math.random() * (window.innerHeight - 300) + 'px';
+                    }, 300);
+                }
+            });
+        });
+
+        // Emergency reset if nav goes off-screen
+        setInterval(() => {
+            const rect = maliciousNav.getBoundingClientRect();
+            if (rect.right < 0 || rect.left > window.innerWidth ||
+                rect.bottom < 0 || rect.top > window.innerHeight) {
+                maliciousNav.style.left = '50%';
+                maliciousNav.style.top = '50%';
+            }
+        }, 1000);
     </script>
 </body>
 </html>
