@@ -1030,6 +1030,23 @@ input::placeholder {
     transition: background 0.2s, box-shadow 0.2s, filter 0.2s;
     cursor: pointer;
     user-select: none;
+    text-align: center;
+    box-sizing: border-box;
+    padding: 0;
+    line-height: 1;
+    overflow: hidden;
+}
+
+/* Explicit button styling for nav items */
+.malicious-nav-item.button,
+button.malicious-nav-item {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    font: inherit;
+    font-family: inherit;
+    font-size: 11px;
+    font-weight: bold;
 }
 
 /* Hover effect - makes it easier to click! */
