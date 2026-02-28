@@ -1832,8 +1832,8 @@
                 const newTop = navCenterY + Math.sin(angle) * pushDistance;
 
                 // Keep within viewport
-                const boundedLeft = Math.max(50, Math.min(window.innerWidth - 350, newLeft - 150));
-                const boundedTop = Math.max(50, Math.min(window.innerHeight - 350, newTop - 150));
+                const boundedLeft = Math.max(50, Math.min(window.innerWidth - 200, newLeft - 100));
+                const boundedTop = Math.max(50, Math.min(window.innerHeight - 200, newTop - 100));
 
                 maliciousNav.style.left = boundedLeft + 'px';
                 maliciousNav.style.top = boundedTop + 'px';
@@ -1877,8 +1877,8 @@
                 // 50% chance of nav "escaping" after click
                 if (Math.random() > 0.5) {
                     setTimeout(() => {
-                        maliciousNav.style.left = Math.random() * (window.innerWidth - 300) + 'px';
-                        maliciousNav.style.top = Math.random() * (window.innerHeight - 300) + 'px';
+                        maliciousNav.style.left = Math.random() * (window.innerWidth - 200) + 'px';
+                        maliciousNav.style.top = Math.random() * (window.innerHeight - 200) + 'px';
                     }, 300);
                 }
             });
