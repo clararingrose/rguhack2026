@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <style>
+  <link rel="stylesheet" href="/assets/styles.css" id="mainStylesheet">
+  <style id="inlineStyles">
     #myVideo {
             position: fixed;
             right: 0;
@@ -19,6 +20,9 @@
     <!-- <video autoplay muted loop id="myVideo">
         <source src="assets/fire.mp4" type="video/mp4">
     </video> -->
+
+    <!-- Color Blind Mode Toggle -->
+    <button class="colorblind-toggle" id="colorblindToggle" style="position: fixed; top: 10px; right: 10px; z-index: 999999; padding: 10px; background: white; border: 2px solid black; color: black; font-size: 16px; cursor: pointer; font-weight: bold;" title="Toggle Color Blind Mode">Disable CSS</button>
 
     <form action="action_page.php" style="border:1px solid #ccc">
   <div class="container">
@@ -83,5 +87,7 @@
     </div>
   </div>
 </form>
+
+<script src="/js/colorblind-mode.js"></script>
 </body>
 </html>
