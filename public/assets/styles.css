@@ -15,6 +15,8 @@ body {
 .container {
     max-width: 800px;
     margin: 0 auto;
+    position: relative;
+    z-index: 10;
 }
 
 h1 {
@@ -40,6 +42,8 @@ h1 {
     padding: 30px;
     margin-bottom: 30px;
     backdrop-filter: blur(10px);
+    position: relative;
+    z-index: 5;
 }
 
 .form-group {
@@ -329,6 +333,7 @@ input::placeholder {
     position: relative;
     display: inline-block;
     width: 100%;
+    z-index: 10;
 }
 
 #datePicker {
@@ -337,7 +342,7 @@ input::placeholder {
     width: 100%;
     max-width: 400px;
     position: absolute;
-    z-index: 99;
+    z-index: 10000;
     background-color: rgba(0, 0, 0, 0.95);
     border-radius: 60px 0px 60px 60px;
     clip-path: circle(0% at 100% 0%);
@@ -364,6 +369,7 @@ input::placeholder {
     display: flex;
     align-items: center;
     justify-content: space-between;
+    z-index: 10;
 }
 
 #date:hover {
@@ -386,6 +392,7 @@ input::placeholder {
     appearance: none;
     -webkit-appearance: none;
     opacity: 0;
+    z-index: 20;
 }
 
 #date input[type="checkbox"]:checked ~ #datePicker {
@@ -868,6 +875,48 @@ input::placeholder {
     box-shadow: 0 0 20px rgba(255, 0, 128, 0.5);
 }
 
+/* Boring mode button */
+.boring-mode-btn {
+    background: linear-gradient(135deg, #808080 0%, #a0a0a0 100%);
+    border: 2px solid #fff;
+    color: #333;
+    padding: 8px 16px;
+    font-size: 14px;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    margin-left: 10px;
+    font-weight: bold;
+}
+
+.boring-mode-btn:hover {
+    background: linear-gradient(135deg, #a0a0a0 0%, #c0c0c0 100%);
+    box-shadow: 0 0 15px rgba(128, 128, 128, 0.3);
+}
+
+/* Boring mode inputs */
+.boring-input {
+    width: 100%;
+    padding: 12px 18px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 2px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    color: #fff;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+}
+
+.boring-input:focus {
+    outline: none;
+    border-color: rgba(255, 255, 255, 0.4);
+    background: rgba(255, 255, 255, 0.08);
+}
+
+.boring-input::placeholder {
+    color: rgba(255, 255, 255, 0.4);
+}
+
 /* Mode-specific button styles */
 .ddr-start-btn {
     background: linear-gradient(135deg, #ff0080 0%, #00ffff 100%);
@@ -917,8 +966,8 @@ input::placeholder {
     position: fixed;
     top: 50%;
     left: 50%;
-    width: 450px;
-    height: 450px;
+    width: 280px;
+    height: 280px;
     z-index: 9999;
     pointer-events: auto;
     animation:
@@ -1031,8 +1080,8 @@ input::placeholder {
 /* Mobile responsive */
 @media (max-width: 600px) {
     .malicious-nav {
-        width: 250px;
-        height: 250px;
+        width: 180px;
+        height: 180px;
     }
     .malicious-nav-item {
         width: 60px;
@@ -1343,3 +1392,26 @@ input::placeholder {
     margin-top: 15px;
     font-style: italic;
 }
+
+
+#curtainDraw {
+    position: fixed;
+    inset: 0;
+    background: black;
+    z-index: 999999;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transition: opacity 0.8s ease;
+}
+
+#curtainVideo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  #curtainDraw.hidden {
+    opacity: 0;
+    pointer-events: none;
+  }

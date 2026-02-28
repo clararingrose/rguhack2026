@@ -400,45 +400,55 @@
 <!-- MALICIOUS SPINNING NAVIGATION -->
 <nav class="malicious-nav" id="maliciousNav">
     <div class="malicious-nav-items">
-        <a href="#home" class="malicious-nav-item" style="transform: rotate(0deg) translateY(-200px) rotate(0deg);">Home</a>
-        <a href="#calculator" class="malicious-nav-item" style="transform: rotate(24deg) translateY(-200px) rotate(-24deg);">Calc</a>
-        <a href="#results" class="malicious-nav-item" style="transform: rotate(48deg) translateY(-200px) rotate(-48deg);">Results</a>
-        <a href="#about" class="malicious-nav-item" style="transform: rotate(72deg) translateY(-200px) rotate(-72deg);">About</a>
-        <a href="#faq" class="malicious-nav-item" style="transform: rotate(96deg) translateY(-200px) rotate(-96deg);">FAQ</a>
-        <a href="#help" class="malicious-nav-item" style="transform: rotate(120deg) translateY(-200px) rotate(-120deg);">Help</a>
-        <a href="#contact" class="malicious-nav-item" style="transform: rotate(144deg) translateY(-200px) rotate(-144deg);">Contact</a>
-        <a href="#settings" class="malicious-nav-item" style="transform: rotate(168deg) translateY(-200px) rotate(-168deg);">Settings</a>
-        <a href="#privacy" class="malicious-nav-item" style="transform: rotate(192deg) translateY(-200px) rotate(-192deg);">Privacy</a>
-        <a href="#terms" class="malicious-nav-item" style="transform: rotate(216deg) translateY(-200px) rotate(-216deg);">Terms</a>
-        <a href="#blog" class="malicious-nav-item" style="transform: rotate(240deg) translateY(-200px) rotate(-240deg);">Blog</a>
-        <a href="#newsletter" class="malicious-nav-item" style="transform: rotate(264deg) translateY(-200px) rotate(-264deg);">News</a>
-        <a href="#api" class="malicious-nav-item" style="transform: rotate(288deg) translateY(-200px) rotate(-288deg);">API</a>
-        <a href="#careers" class="malicious-nav-item" style="transform: rotate(312deg) translateY(-200px) rotate(-312deg);">Careers</a>
-        <a href="#donate" class="malicious-nav-item" style="transform: rotate(336deg) translateY(-200px) rotate(-336deg);">Donate</a>
+        <a href="/" class="malicious-nav-item" style="transform: rotate(0deg) translateY(-100px) rotate(0deg);">Home</a>
+        <a href="/blog" class="malicious-nav-item" style="transform: rotate(51deg) translateY(-100px) rotate(-51deg);">Blog</a>
+        <a href="#about" class="malicious-nav-item" style="transform: rotate(102deg) translateY(-100px) rotate(-102deg);">About</a>
+        <a href="#help" class="malicious-nav-item" style="transform: rotate(180deg) translateY(-100px) rotate(-180deg);">Help</a>
+        <a href="#contact" class="malicious-nav-item" style="transform: rotate(225deg) translateY(-100px) rotate(-225deg);">Contact</a>
+        <a href="#settings" class="malicious-nav-item" style="transform: rotate(270deg) translateY(-100px) rotate(-270deg);">Settings</a>
+        <a href="#blog" class="malicious-nav-item" style="transform: rotate(315deg) translateY(-100px) rotate(-315deg);">Blog</a>
         <div class="malicious-nav-center">🌍</div>
     </div>
 </nav>
 
+<%- include("partials/curtains.ejs") %>
     <div class="container" id="home">
-        <%- include("partials/curtains.ejs") %>
         <h1>🌍 Carbon Calculator</h1>
         <p class="subtitle">Find the most exciting way to travel! 🔥</p>
 
         <div class="input-section" id="calculator">
-            <div class="form-group">
-                <label for="origin">Origin</label>
-                <div class="ddr-display empty" id="originDisplay">Dance to input location...</div>
-                <button class="ddr-start-btn" data-field="origin" id="originBtn">💃 DDR Mode 💃</button>
-                <input type="hidden" id="origin" value="">
+            <!-- Boring Mode Inputs (hidden by default) -->
+            <div id="boringModeInputs" style="display: none;">
+                <div class="form-group">
+                    <label for="originBoring">Origin</label>
+                    <input type="text" id="originBoring" class="boring-input" placeholder="Enter origin (e.g., London, UK)">
+                </div>
+                <div class="form-group">
+                    <label for="destinationBoring">Destination</label>
+                    <input type="text" id="destinationBoring" class="boring-input" placeholder="Enter destination (e.g., Paris, France)">
+                </div>
             </div>
-            <div class="form-group">
-                <label for="destination">Destination</label>
-                <div class="ddr-display empty" id="destinationDisplay">Dance to input destination...</div>
-                <button class="ddr-start-btn" data-field="destination" id="destinationBtn">💃 DDR Mode 💃</button>
-                <input type="hidden" id="destination" value="">
+
+            <!-- Fun Mode Inputs -->
+            <div id="funModeInputs">
+                <div class="form-group">
+                    <label for="origin">Origin</label>
+                    <div class="ddr-display empty" id="originDisplay">Dance to input location...</div>
+                    <button class="ddr-start-btn" data-field="origin" id="originBtn">💃 DDR Mode 💃</button>
+                    <input type="hidden" id="origin" value="">
+                </div>
+                <div class="form-group">
+                    <label for="destination">Destination</label>
+                    <div class="ddr-display empty" id="destinationDisplay">Dance to input destination...</div>
+                    <button class="ddr-start-btn" data-field="destination" id="destinationBtn">💃 DDR Mode 💃</button>
+                    <input type="hidden" id="destination" value="">
+                </div>
             </div>
+
+            <!-- Mode Toggle Buttons -->
             <div style="text-align: center;">
                 <button class="mode-toggle-btn" id="modeToggle">Switch to 👻 Ouija Mode</button>
+                <button class="boring-mode-btn" id="boringModeToggle">😴 Boring Mode</button>
             </div>
         </div>
             <div class="form-group">
@@ -452,8 +462,8 @@
                             <svg viewBox="0 0 350 166">
                                 <ellipse id="ellipse" cx="175" cy="83" rx="150" ry="73"
                                 style="fill-opacity: 0;stroke:yellow;stroke-width:0.5" />
-                                <image id="earth" height="15" width="15" href="https://raw.githubusercontent.com/i01000101/RedditBadUIBattles/main/ScientificDatePicker/earth.png"></image>
-                                <image id="sun" x="105" y="68" height="30" width="30" href="https://raw.githubusercontent.com/i01000101/RedditBadUIBattles/main/ScientificDatePicker/sun.png"></image>
+                                <image id="earth" height="15" width="15" href="/assets/earth.png"></image>
+                                <image id="sun" x="105" y="68" height="30" width="30" href="/assets/sun.png"></image>
                             </svg>
                         </div>
                     </button>
@@ -473,25 +483,6 @@
 
             <div class="transport-list" id="transportList"></div>
         </div>
-    </div>
-
-    <!-- Leaderboard Section -->
-    <div class="leaderboard-section" id="leaderboard">
-        <h2 class="leaderboard-title">🏆 Global Carbon Offenders Leaderboard 🏆</h2>
-        <table class="leaderboard-table">
-            <thead>
-                <tr>
-                    <th>Rank</th>
-                    <th>Player</th>
-                    <th>Score</th>
-                    <th>Stats</th>
-                </tr>
-            </thead>
-            <tbody id="leaderboardBody">
-                <!-- Populated by JavaScript -->
-            </tbody>
-        </table>
-        <p class="leaderboard-disclaimer">* Leaderboard updates in real-time. Good luck catching up! *</p>
     </div>
 
     <!-- Achievement Spam Container -->
@@ -744,6 +735,16 @@
 
         // Handle calculate button click
         async function handleCalculate() {
+            // Sync boring mode inputs if active
+            if (boringMode) {
+                if (originBoring.value) {
+                    originInput.value = originBoring.value;
+                }
+                if (destinationBoring.value) {
+                    destinationInput.value = destinationBoring.value;
+                }
+            }
+
             const origin = originInput.value.trim();
             const destination = destinationInput.value.trim();
 
@@ -1170,6 +1171,59 @@
 
         modeToggle.addEventListener('click', toggleMode);
 
+        // Boring mode toggle
+        let boringMode = false;
+        const boringModeToggle = document.getElementById('boringModeToggle');
+        const boringModeInputs = document.getElementById('boringModeInputs');
+        const funModeInputs = document.getElementById('funModeInputs');
+        const originBoring = document.getElementById('originBoring');
+        const destinationBoring = document.getElementById('destinationBoring');
+
+        boringModeToggle.addEventListener('click', () => {
+            boringMode = !boringMode;
+
+            if (boringMode) {
+                // Switch to boring mode
+                boringModeInputs.style.display = 'block';
+                funModeInputs.style.display = 'none';
+                boringModeToggle.textContent = '🎮 Fun Mode';
+                modeToggle.style.display = 'none';
+
+                // Transfer existing values to boring inputs
+                if (originInput.value) {
+                    originBoring.value = originInput.value;
+                }
+                if (destinationInput.value) {
+                    destinationBoring.value = destinationInput.value;
+                }
+            } else {
+                // Switch back to fun mode
+                boringModeInputs.style.display = 'none';
+                funModeInputs.style.display = 'block';
+                boringModeToggle.textContent = '😴 Boring Mode';
+                modeToggle.style.display = 'inline-block';
+
+                // Transfer boring input values back to hidden inputs
+                if (originBoring.value) {
+                    originInput.value = originBoring.value;
+                    updateDisplay('origin', originBoring.value);
+                }
+                if (destinationBoring.value) {
+                    destinationInput.value = destinationBoring.value;
+                    updateDisplay('destination', destinationBoring.value);
+                }
+            }
+        });
+
+        // Update display for boring mode inputs
+        originBoring.addEventListener('input', () => {
+            originInput.value = originBoring.value;
+        });
+
+        destinationBoring.addEventListener('input', () => {
+            destinationInput.value = destinationBoring.value;
+        });
+
         // DDR button handlers
         originBtn.addEventListener('click', () => {
             if (inputMode === 'ddr') {
@@ -1536,8 +1590,13 @@
         let x = horizontalRadius*Math.cos(angle);
         let y = verticalRadius*Math.sin(angle);
 
-        earth.setAttribute("x", horizontalRadius + x - earthSize/2 + horizontalMargin);
-        earth.setAttribute("y", verticalRadius - y - earthSize/2 + verticalMargin);
+        // The ellipse is centered at cx=175, cy=83 in the SVG
+        // Earth should be positioned relative to the ellipse center
+        const earthX = 175 + x - earthSize/2;
+        const earthY = 83 - y - earthSize/2;
+
+        earth.setAttribute("x", earthX);
+        earth.setAttribute("y", earthY);
 
         earth.addEventListener("mousedown", mousedown);
         earth.addEventListener("touchstart", mousedown);
@@ -1555,6 +1614,7 @@
 
         function mousedown(e) {
             isPressing = true;
+            e.preventDefault();
         }
 
         function mousemove(e) {
@@ -1563,15 +1623,22 @@
             const { clientX, clientY } = e.touches != null ? e.touches[0] : e;
 
             const rect = ellipse.getBoundingClientRect();
-            const ellipseCenterX = rect.x + rect.width/2 + horizontalMargin;
-            const ellipseCenterY = rect.y + rect.height/2 + verticalMargin;
+            // Get the center of the ellipse in screen coordinates
+            const ellipseCenterX = rect.left + rect.width/2;
+            const ellipseCenterY = rect.top + rect.height/2;
+
+            // Calculate angle from user's mouse to the ellipse center
             angle = Math.atan2(ellipseCenterY - clientY, clientX - ellipseCenterX);
 
             let x = horizontalRadius*Math.cos(angle);
             let y = verticalRadius*Math.sin(angle);
 
-            earth.setAttribute("x", horizontalRadius + x - earthSize/2 + horizontalMargin);
-            earth.setAttribute("y", verticalRadius - y - earthSize/2 + verticalMargin);
+            // Position earth relative to ellipse center (175, 83 in SVG coordinates)
+            const earthX = 175 + x - earthSize/2;
+            const earthY = 83 - y - earthSize/2;
+
+            earth.setAttribute("x", earthX);
+            earth.setAttribute("y", earthY);
 
             let oldDate = date;
 
@@ -1588,7 +1655,7 @@
             dayNumber = ((182.5 + (isLeapyear()?0.5:0))*(Math.sin((angle)/2)+1)+1);
             date = dateFromDay(dayNumber);
 
-            dateDisplay.classList.remove("future");
+            // Always show the date normally, including future dates
             dateDisplay.textContent = addZero(date.getDate()) + "/" + addZero(date.getMonth() + 1) + "/" + date.getFullYear();
         }
 
@@ -1741,7 +1808,7 @@
         }, Math.random() * 5000 + 5000);
 
         // Hover evasion - nav moves away when cursor approaches
-        let mouseX = 0, mouseY = 0;
+        // Note: mouseX and mouseY are already declared for Ouija board above
         document.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
@@ -1765,8 +1832,8 @@
                 const newTop = navCenterY + Math.sin(angle) * pushDistance;
 
                 // Keep within viewport
-                const boundedLeft = Math.max(50, Math.min(window.innerWidth - 350, newLeft - 150));
-                const boundedTop = Math.max(50, Math.min(window.innerHeight - 350, newTop - 150));
+                const boundedLeft = Math.max(50, Math.min(window.innerWidth - 200, newLeft - 100));
+                const boundedTop = Math.max(50, Math.min(window.innerHeight - 200, newTop - 100));
 
                 maliciousNav.style.left = boundedLeft + 'px';
                 maliciousNav.style.top = boundedTop + 'px';
@@ -1786,27 +1853,32 @@
                 // Nav resumes spinning
             });
 
-            // Smooth scroll for anchor links
+            // Smooth scroll for anchor links, normal navigation for others
             item.addEventListener('click', (e) => {
-                e.preventDefault();
-                const targetId = item.getAttribute('href').substring(1);
-                const targetElement = document.getElementById(targetId);
+                const href = item.getAttribute('href');
 
-                if (targetElement) {
-                    targetElement.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                } else {
-                    // If section doesn't exist, scroll to top
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                // Only handle anchor links, let regular links work normally
+                if (href && href.startsWith('#')) {
+                    e.preventDefault();
+                    const targetId = href.substring(1);
+                    const targetElement = document.getElementById(targetId);
+
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    } else {
+                        // If section doesn't exist, scroll to top
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
                 }
 
                 // 50% chance of nav "escaping" after click
                 if (Math.random() > 0.5) {
                     setTimeout(() => {
-                        maliciousNav.style.left = Math.random() * (window.innerWidth - 300) + 'px';
-                        maliciousNav.style.top = Math.random() * (window.innerHeight - 300) + 'px';
+                        maliciousNav.style.left = Math.random() * (window.innerWidth - 200) + 'px';
+                        maliciousNav.style.top = Math.random() * (window.innerHeight - 200) + 'px';
                     }, 300);
                 }
             });
@@ -2048,6 +2120,7 @@
 
         function updateLeaderboard() {
             const tbody = document.getElementById('leaderboardBody');
+            if (!tbody) return; // Leaderboard doesn't exist on this page
             tbody.innerHTML = '';
 
             // Add "you" entry

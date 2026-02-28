@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title><%= title %></title>
+    <link rel="stylesheet" href="/assets/styles.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            font-family: 'Comic Sans MS', cursive, sans-serif;
+        }
+
+        .blog-container {
+            max-width: 900px;
+            margin: 0 auto;
+        }
+
+        .blog-header {
+            text-align: center;
+            color: white;
+            margin-bottom: 40px;
+            animation: rainbow 3s linear infinite;
+        }
+
+        @keyframes rainbow {
+            0% { filter: hue-rotate(0deg); }
+            100% { filter: hue-rotate(360deg); }
+        }
+
+        .blog-header h1 {
+            font-size: 3rem;
+            text-shadow: 4px 4px 0 #000, -2px -2px 0 #ff0;
+            animation: shake 0.5s infinite;
+        }
+
+        @keyframes shake {
+            0%, 100% { transform: translateX(0); }
+            25% { transform: translateX(-5px) rotate(-1deg); }
+            75% { transform: translateX(5px) rotate(1deg); }
+        }
+
+        .blog-post {
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 30px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+            border: 5px solid;
+            border-image: linear-gradient(45deg, #ff0000, #ff7f00, #ffff00, #00ff00, #0000ff, #4b0082, #9400d3) 1;
+            animation: float 3s ease-in-out infinite;
+            cursor: pointer;
+            transition: transform 0.3s;
+        }
+
+        .blog-post:nth-child(odd) {
+            animation-delay: -1.5s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0px) rotate(0deg); }
+            50% { transform: translateY(-10px) rotate(1deg); }
+        }
+
+        .blog-post:hover {
+            transform: scale(1.05) rotate(-2deg);
+            animation: wobble 0.3s infinite;
+        }
+
+        @keyframes wobble {
+            0%, 100% { transform: scale(1.05) rotate(-2deg); }
+            25% { transform: scale(1.05) rotate(2deg); }
+            75% { transform: scale(1.05) rotate(-1deg); }
+        }
+
+        .post-title {
+            font-size: 2rem;
+            color: #ff6b6b;
+            margin-bottom: 15px;
+            text-shadow: 2px 2px 0 #000;
+        }
+
+        .post-meta {
+            color: #666;
+            font-size: 0.9rem;
+            margin-bottom: 20px;
+            font-style: italic;
+        }
+
+        .post-content {
+            color: #333;
+            line-height: 1.8;
+            font-size: 1.1rem;
+        }
+
+        .post-content p {
+            margin-bottom: 15px;
+        }
+
+        .read-more {
+            display: inline-block;
+            margin-top: 15px;
+            padding: 10px 25px;
+            background: linear-gradient(45deg, #ff6b6b, #feca57);
+            color: white;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            transition: all 0.3s;
+            border: none;
+        }
+
+        .read-more:hover {
+            transform: scale(1.1);
+            box-shadow: 0 5px 20px rgba(255, 107, 107, 0.5);
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-bottom: 30px;
+            padding: 15px 30px;
+            background: rgba(255, 255, 255, 0.9);
+            color: #764ba2;
+            text-decoration: none;
+            border-radius: 50px;
+            font-weight: bold;
+            font-size: 1.1rem;
+            transition: all 0.3s;
+        }
+
+        .back-link:hover {
+            background: white;
+            transform: translateX(-10px);
+        }
+
+        .featured-badge {
+            display: inline-block;
+            background: linear-gradient(45deg, #ff0000, #ff6b6b);
+            color: white;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: bold;
+            margin-bottom: 10px;
+            animation: pulse 1s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        .emoji-rain {
+            position: fixed;
+            font-size: 2rem;
+            animation: fall 5s linear infinite;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        @keyframes fall {
+            0% { transform: translateY(-100vh) rotate(0deg); opacity: 1; }
+            100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Emoji rain background -->
+    <div class="emoji-rain" style="left: 10%; animation-delay: 0s;">🌍</div>
+    <div class="emoji-rain" style="left: 20%; animation-delay: 1s;">💨</div>
+    <div class="emoji-rain" style="left: 30%; animation-delay: 2s;">🚗</div>
+    <div class="emoji-rain" style="left: 40%; animation-delay: 3s;">✈️</div>
+    <div class="emoji-rain" style="left: 50%; animation-delay: 4s;">🚂</div>
+    <div class="emoji-rain" style="left: 60%; animation-delay: 5s;">🚢</div>
+    <div class="emoji-rain" style="left: 70%; animation-delay: 6s;">🌍</div>
+    <div class="emoji-rain" style="left: 80%; animation-delay: 7s;">💨</div>
+    <div class="emoji-rain" style="left: 90%; animation-delay: 8s;">🚗</div>
+
+    <div class="blog-container">
+        <a href="/" class="back-link">← Escape Back to Calculator</a>
+
+        <div class="blog-header">
+            <h1>🌍 The Carbon Chronicles 🌍</h1>
+            <p>Where we shame your travel choices, one blog post at a time!</p>
+        </div>
+
+        <div class="blog-post">
+            <span class="featured-badge">🔥 HOT TAKE 🔥</span>
+            <h2 class="post-title">Why Walking is Actually DESTROYING the Planet</h2>
+            <p class="post-meta">Posted: February 28, 2026 | Author: Dr. Climate Denier</p>
+            <div class="post-content">
+                <p>You thought walking was eco-friendly? Think again! When you walk, you EXHALE CO2. That's right, every breath you take is literally murdering baby polar bears. According to our very scientific research, walking produces 0.04 grams of CO2 per breath. After just 100 miles of walking, you've essentially canceled out everything Greta Thunberg has ever done.</p>
+                <p>The solution? Stop moving entirely. Just stay in bed. It's the only way to be truly carbon neutral (until you start breathing again, you monster).</p>
+            </div>
+            <a href="#" class="read-more" onclick="alert('You actually wanted to READ MORE? The audacity!'); return false;">Read More (Don't)</a>
+        </div>
+
+        <div class="blog-post">
+            <h2 class="post-title">10 Transportation Modes Ranked by How Much They Hate Earth</h2>
+            <p class="post-meta">Posted: February 27, 2026 | Author: Captain Planet's Nightmare</p>
+            <div class="post-content">
+                <p>We crunched the numbers so you don't have to! Coming in at #1 most destructive: the Killdozer (shocking, we know). But did you know that #2 might surprise you? It's not private jets. It's not even cargo ships. It's... WAIT, you need to subscribe to our premium newsletter to find out!</p>
+                <p>Just kidding, it's actually walking. See our previous blog post for details.</p>
+            </div>
+            <a href="#" class="read-more" onclick="this.textContent = Math.random() > 0.5 ? 'Loading...' : 'Error 404: Patience not found'; setTimeout(() => this.textContent = 'Read More', 2000); return false;">Read More</a>
+        </div>
+
+        <div class="blog-post">
+            <h2 class="post-title">We Added a "Teleportation" Option and the Results Are Hilarious</h2>
+            <p class="post-meta">Posted: February 26, 2026 | Author: The Physics Guy</p>
+            <div class="post-content">
+                <p>Users kept asking for teleportation in our transport options. So we added it! It shows "0g CO2" which is technically correct if you ignore the massive energy requirements, quantum entanglement issues, and the fact that TELEPORTATION DOESN'T EXIST.</p>
+                <p>Fun fact: 47% of users now select teleportation for their daily commute. The other 53% are lying.</p>
+            </div>
+            <a href="#" class="read-more" onclick="this.innerHTML = '🚀 TELEPORTING TO ARTICLE... <br><small>(just kidding)</small>'; return false;">Read More</a>
+        </div>
+
+        <div class="blog-post">
+            <h2 class="post-title">User Story: "I Used This Calculator Once and Now I Live in a Cave"</h2>
+            <p class="post-meta">Posted: February 25, 2026 | Author: Cave Dweller Monthly</p>
+            <div class="post-content">
+                <p>Sarah T. from London writes: "After calculating that my morning latte habit contributed approximately 0.0003% to global warming, I immediately quit my job, sold all possessions, and moved to a cave in Wales. I now communicate exclusively through smoke signals (carbon neutral!)."</p>
+                <p>"Would recommend! 5/5 stars!" - Sarah T. (formerly a tax accountant)</p>
+            </div>
+            <a href="#" class="read-more" onclick="document.body.style.filter = 'invert(1)'; setTimeout(() => document.body.style.filter = '', 500); return false;">Read More (Maybe)</a>
+        </div>
+
+        <div class="blog-post">
+            <h2 class="post-title">Breaking: Study Finds That Reading This Blog Reduces Carbon Footprint by 0%</h2>
+            <p class="post-meta">Posted: February 24, 2026 | Author: The Research Institute We Made Up</p>
+            <div class="post-content">
+                <p>In a groundbreaking study conducted entirely in our imagination, researchers found that reading blog posts about climate change has exactly zero impact on actual carbon emissions. However, it DOES make you feel superior to people who drive SUVs, so that's something!</p>
+                <p>The study also found that 73% of statistics in blog posts are completely fabricated. You're welcome!</p>
+            </div>
+            <a href="#" class="read-more" onclick="alert('🎊 Congratulations! You are the 1,000,000th visitor! Click OK to claim your non-existent prize! 🎊'); return false;">Read More</a>
+        </div>
+
+        <div style="text-align: center; margin-top: 50px; color: white;">
+            <p style="font-size: 1.2rem;">🌍 End of Posts 🌍</p>
+            <p style="opacity: 0.7;">More posts coming never (probably)</p>
+        </div>
+    </div>
+
+    <script>
+        // Add random rotation to blog posts
+        document.querySelectorAll('.blog-post').forEach(post => {
+            post.style.transform = `rotate(${Math.random() * 2 - 1}deg)`;
+        });
+
+        // Make blog posts run away when hovered (slightly)
+        document.querySelectorAll('.blog-post').forEach(post => {
+            post.addEventListener('mouseenter', function() {
+                if (Math.random() > 0.8) {
+                    this.style.marginLeft = Math.random() * 50 - 25 + 'px';
+                }
+            });
+            post.addEventListener('mouseleave', function() {
+                this.style.marginLeft = '0';
+            });
+        });
+
+        // Randomly shake the header
+        setInterval(() => {
+            const header = document.querySelector('.blog-header h1');
+            if (Math.random() > 0.7) {
+                header.style.animation = 'none';
+                setTimeout(() => {
+                    header.style.animation = 'shake 0.5s infinite';
+                }, 10);
+            }
+        }, 3000);
+    </script>
+</body>
+</html>
