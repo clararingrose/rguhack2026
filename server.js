@@ -21,6 +21,12 @@ app.get('/', (req, res) => {
     });
 });
 
+app.get('/blog', (req, res) => {
+    res.render('blog', {
+        title: 'Blog - Carbon Emissions Calculator'
+    });
+});
+
 // Start server
 app.listen(PORT, () => {
     console.log(`🌍 Carbon Calculator running at http://localhost:${PORT}`);

@@ -401,7 +401,8 @@
 <nav class="malicious-nav" id="maliciousNav">
     <div class="malicious-nav-items">
         <a href="/" class="malicious-nav-item" style="transform: rotate(0deg) translateY(-100px) rotate(0deg);">Home</a>
-        <a href="#about" class="malicious-nav-item" style="transform: rotate(60deg) translateY(-100px) rotate(-60deg);">About</a>
+        <a href="/blog" class="malicious-nav-item" style="transform: rotate(51deg) translateY(-100px) rotate(-51deg);">Blog</a>
+        <a href="#about" class="malicious-nav-item" style="transform: rotate(102deg) translateY(-100px) rotate(-102deg);">About</a>
         <a href="#help" class="malicious-nav-item" style="transform: rotate(180deg) translateY(-100px) rotate(-180deg);">Help</a>
         <a href="#contact" class="malicious-nav-item" style="transform: rotate(225deg) translateY(-100px) rotate(-225deg);">Contact</a>
         <a href="#settings" class="malicious-nav-item" style="transform: rotate(270deg) translateY(-100px) rotate(-270deg);">Settings</a>
@@ -1516,8 +1517,6 @@
         earth.setAttribute("x", earthX);
         earth.setAttribute("y", earthY);
 
-        console.log('Initial position - angle:', angle, 'x:', x, 'y:', y, 'earthX:', earthX, 'earthY:', earthY);
-
         earth.addEventListener("mousedown", mousedown);
         earth.addEventListener("touchstart", mousedown);
 
@@ -1773,20 +1772,25 @@
                 // Nav resumes spinning
             });
 
-            // Smooth scroll for anchor links
+            // Smooth scroll for anchor links, normal navigation for others
             item.addEventListener('click', (e) => {
-                e.preventDefault();
-                const targetId = item.getAttribute('href').substring(1);
-                const targetElement = document.getElementById(targetId);
+                const href = item.getAttribute('href');
 
-                if (targetElement) {
-                    targetElement.scrollIntoView({
-                        behavior: 'smooth',
-                        block: 'start'
-                    });
-                } else {
-                    // If section doesn't exist, scroll to top
-                    window.scrollTo({ top: 0, behavior: 'smooth' });
+                // Only handle anchor links, let regular links work normally
+                if (href && href.startsWith('#')) {
+                    e.preventDefault();
+                    const targetId = href.substring(1);
+                    const targetElement = document.getElementById(targetId);
+
+                    if (targetElement) {
+                        targetElement.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    } else {
+                        // If section doesn't exist, scroll to top
+                        window.scrollTo({ top: 0, behavior: 'smooth' });
+                    }
                 }
 
                 // 50% chance of nav "escaping" after click
@@ -2035,6 +2039,7 @@
 
         function updateLeaderboard() {
             const tbody = document.getElementById('leaderboardBody');
+            if (!tbody) return; // Leaderboard doesn't exist on this page
             tbody.innerHTML = '';
 
             // Add "you" entry
