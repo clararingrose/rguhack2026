@@ -17,7 +17,7 @@ app.use(express.json());
 // Routes
 app.get('/', (req, res) => {
     res.render('index', {
-        title: 'Carbon Emissions Calculator'
+        title: 'Evil Carbon Emissions Calculator'
     });
 });
 
@@ -28,7 +28,7 @@ app.get('/wrapped', (req, res) => {
 
 app.get('/blog', (req, res) => {
     res.render('blog', {
-        title: 'Blog - Carbon Emissions Calculator'
+        title: 'Evil Blog - Carbon Emissions Calculator'
     });
 });
 
