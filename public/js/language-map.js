@@ -255,6 +255,7 @@ const translations = {
         ddrMode: 'DDR Mode',
         ouijaMode: 'Switch to Ouija Mode',
         boringMode: 'Boring Mode',
+        funMode: 'Fun Mode',
         selectDate: 'Select Date',
         results: 'Results',
         // Transport modes
@@ -294,6 +295,7 @@ const translations = {
         ddrMode: 'Mode DDR',
         ouijaMode: 'Passer au Mode Ouija',
         boringMode: 'Mode Ennuyeux',
+        funMode: 'Mode Amusant',
         selectDate: 'Sélectionner la Date',
         results: 'Résultats'
     },
@@ -310,6 +312,7 @@ const translations = {
         ddrMode: 'DDR-Modus',
         ouijaMode: 'Zum Ouija-Modus Wechseln',
         boringMode: 'Langweiliger Modus',
+        funMode: 'Spaßiger Modus',
         selectDate: 'Datum Wählen',
         results: 'Ergebnisse'
     },
@@ -326,6 +329,7 @@ const translations = {
         ddrMode: 'Modo DDR',
         ouijaMode: 'Cambiar a Modo Ouija',
         boringMode: 'Modo Aburrido',
+        funMode: 'Modo Divertido',
         selectDate: 'Seleccionar Fecha',
         results: 'Resultados'
     },
@@ -342,6 +346,7 @@ const translations = {
         ddrMode: 'Modalità DDR',
         ouijaMode: 'Passa alla Modalità Ouija',
         boringMode: 'Modalità Noiosa',
+        funMode: 'Modalità Divertente',
         selectDate: 'Seleziona Data',
         results: 'Risultati'
     },
@@ -358,6 +363,7 @@ const translations = {
         ddrMode: 'Modo DDR',
         ouijaMode: 'Mudar para Modo Ouija',
         boringMode: 'Modo Chato',
+        funMode: 'Modo Divertido',
         selectDate: 'Selecionar Data',
         results: 'Resultados'
     },
@@ -438,6 +444,7 @@ const translations = {
         ddrMode: 'DDR模式',
         ouijaMode: '切换到灵应板模式',
         boringMode: '无聊模式',
+        funMode: '有趣模式',
         selectDate: '选择日期',
         results: '结果'
     },
@@ -454,6 +461,7 @@ const translations = {
         ddrMode: 'DDRモード',
         ouijaMode: 'ウイジャボードモードに切り替え',
         boringMode: '退屈モード',
+        funMode: 'ファンモード',
         selectDate: '日付を選択',
         results: '結果'
     },
@@ -984,12 +992,32 @@ function changeLanguageToCountry(countryCode) {
     const distanceUnit = document.querySelector('.distance-unit');
     if (distanceUnit) distanceUnit.textContent = texts.kilometers;
 
-    // Update mode buttons
+    // Update mode buttons - store original text first
     const modeToggle = document.getElementById('modeToggle');
-    if (modeToggle) modeToggle.textContent = texts.ouijaMode;
+    if (modeToggle) {
+        if (!modeToggle.getAttribute('data-original-text')) {
+            modeToggle.setAttribute('data-original-text', 'Ouija Mode');
+        }
+        modeToggle.textContent = texts.ouijaMode;
+    }
 
     const boringToggle = document.getElementById('boringModeToggle');
-    if (boringToggle) boringToggle.textContent = texts.boringMode;
+    if (boringToggle) {
+        // Store the original English text if not already stored
+        if (!boringToggle.getAttribute('data-original-text')) {
+            boringToggle.setAttribute('data-original-text', boringToggle.textContent.trim());
+        }
+
+        // Get the original English text to determine what to translate
+        const originalText = boringToggle.getAttribute('data-original-text');
+
+        // Translate based on what the button originally said
+        if (originalText === 'Boring Mode') {
+            boringToggle.textContent = texts.boringMode;
+        } else if (originalText === 'Fun Mode') {
+            boringToggle.textContent = texts.funMode || 'Fun Mode';
+        }
+    }
 
     // Show language notification
     showLanguageNotification(lang);
@@ -1251,12 +1279,32 @@ function changeLanguageToCountry(countryCode) {
     const distanceUnit = document.querySelector('.distance-unit');
     if (distanceUnit) distanceUnit.textContent = texts.kilometers;
 
-    // Update mode buttons
+    // Update mode buttons - store original text first
     const modeToggle = document.getElementById('modeToggle');
-    if (modeToggle) modeToggle.textContent = texts.ouijaMode;
+    if (modeToggle) {
+        if (!modeToggle.getAttribute('data-original-text')) {
+            modeToggle.setAttribute('data-original-text', 'Ouija Mode');
+        }
+        modeToggle.textContent = texts.ouijaMode;
+    }
 
     const boringToggle = document.getElementById('boringModeToggle');
-    if (boringToggle) boringToggle.textContent = texts.boringMode;
+    if (boringToggle) {
+        // Store the original English text if not already stored
+        if (!boringToggle.getAttribute('data-original-text')) {
+            boringToggle.setAttribute('data-original-text', boringToggle.textContent.trim());
+        }
+
+        // Get the original English text to determine what to translate
+        const originalText = boringToggle.getAttribute('data-original-text');
+
+        // Translate based on what the button originally said
+        if (originalText === 'Boring Mode') {
+            boringToggle.textContent = texts.boringMode;
+        } else if (originalText === 'Fun Mode') {
+            boringToggle.textContent = texts.funMode || 'Fun Mode';
+        }
+    }
 
     // Update nav items using comprehensive translation mapping
     const navItems = document.querySelectorAll('.malicious-nav-item');
