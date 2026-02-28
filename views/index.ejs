@@ -377,6 +377,7 @@
         // Accept cookies
         acceptCookies.addEventListener('click', () => {
             cookieBanner.classList.remove('show');
+            declineCookies.style.display = 'none';
             localStorage.setItem('cookiesAccepted', 'true');
         });
 
