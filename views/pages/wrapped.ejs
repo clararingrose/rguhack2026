@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Your Carbon Crimes Wrapped</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --black: #0a0a0a;
+      --offwhite: #f0ede6;
+      --red: #e63946;
+      --amber: #f4a261;
+      --green: #2a9d8f;
+      --faint: rgba(240,237,230,0.06);
+      --card-border: rgba(240,237,230,0.12);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--black);
+      color: var(--offwhite);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── noise overlay ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 150px 150px;
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    /* ── hero ── */
+    .hero {
+      position: relative; z-index: 1;
+      padding: 80px 40px 60px;
+      text-align: center;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .hero-eyebrow {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--red);
+      margin-bottom: 20px;
+    }
+
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(56px, 10vw, 130px);
+      line-height: 0.9;
+      letter-spacing: 0.02em;
+      background: linear-gradient(135deg, var(--offwhite) 40%, var(--amber) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      margin-top: 24px;
+      font-size: 16px;
+      font-weight: 300;
+      color: rgba(240,237,230,0.55);
+      max-width: 480px;
+      margin-left: auto; margin-right: auto;
+    }
+
+    /* ── total callout ── */
+    .total-banner {
+      position: relative; z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 20px 40px;
+      background: linear-gradient(90deg, rgba(230,57,70,0.15), rgba(244,162,97,0.15));
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .total-banner .label {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(240,237,230,0.5);
+    }
+
+    .total-banner .value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 40px;
+      color: var(--amber);
+      line-height: 1;
+    }
+
+    .total-banner .unit {
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      color: rgba(240,237,230,0.4);
+    }
+
+    /* ── grid ── */
+    .grid-section {
+      position: relative; z-index: 1;
+      padding: 60px 40px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .section-title {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.4em;
+      text-transform: uppercase;
+      color: rgba(240,237,230,0.35);
+      margin-bottom: 32px;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 20px;
+    }
+
+    /* ── achievement card ── */
+    .card {
+      background: var(--faint);
+      border: 1px solid var(--card-border);
+      border-radius: 4px;
+      padding: 28px;
+      position: relative;
+      overflow: hidden;
+      transition: transform 0.25s, border-color 0.25s;
+      animation: fadeUp 0.5s both;
+    }
+
+    .card:hover {
+      transform: translateY(-4px);
+      border-color: rgba(240,237,230,0.25);
+    }
+
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
+
+    /* stagger the cards */
+    .card:nth-child(1)  { animation-delay: 0.05s }
+    .card:nth-child(2)  { animation-delay: 0.10s }
+    .card:nth-child(3)  { animation-delay: 0.15s }
+    .card:nth-child(4)  { animation-delay: 0.20s }
+    .card:nth-child(5)  { animation-delay: 0.25s }
+    .card:nth-child(6)  { animation-delay: 0.30s }
+    .card:nth-child(7)  { animation-delay: 0.35s }
+    .card:nth-child(8)  { animation-delay: 0.40s }
+
+    .card-glow {
+      position: absolute; inset: 0;
+      opacity: 0;
+      transition: opacity 0.4s;
+      pointer-events: none;
+    }
+    .card:hover .card-glow { opacity: 1; }
+
+    .card.red    .card-glow { background: radial-gradient(circle at 30% 30%, rgba(230,57,70,0.12), transparent 70%); }
+    .card.amber  .card-glow { background: radial-gradient(circle at 30% 30%, rgba(244,162,97,0.12), transparent 70%); }
+    .card.green  .card-glow { background: radial-gradient(circle at 30% 30%, rgba(42,157,143,0.12), transparent 70%); }
+    .card.blue   .card-glow { background: radial-gradient(circle at 30% 30%, rgba(100,180,255,0.10), transparent 70%); }
+
+    .card-icon {
+      font-size: 36px;
+      margin-bottom: 16px;
+      display: block;
+    }
+
+    .card-comparison-name {
+      font-family: 'Space Mono', monospace;
+      font-size: 9px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(240,237,230,0.35);
+      margin-bottom: 6px;
+    }
+
+    .card h3 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 22px;
+      letter-spacing: 0.04em;
+      color: var(--offwhite);
+      margin-bottom: 14px;
+      line-height: 1.1;
+    }
+
+    /* progress bar */
+    .bar-wrap {
+      background: rgba(240,237,230,0.08);
+      border-radius: 2px;
+      height: 6px;
+      margin-bottom: 10px;
+      overflow: hidden;
+    }
+
+    .bar-fill {
+      height: 100%;
+      border-radius: 2px;
+      transition: width 1.2s cubic-bezier(.16,1,.3,1);
+    }
+
+    .card.red   .bar-fill { background: linear-gradient(90deg, #e63946, #ff6b6b); }
+    .card.amber .bar-fill { background: linear-gradient(90deg, #f4a261, #ffd166); }
+    .card.green .bar-fill { background: linear-gradient(90deg, #2a9d8f, #57cc99); }
+    .card.blue  .bar-fill { background: linear-gradient(90deg, #4cc9f0, #90e0ef); }
+
+    .bar-stats {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+    }
+
+    .bar-pct {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 32px;
+      line-height: 1;
+    }
+
+    .card.red   .bar-pct { color: #e63946; }
+    .card.amber .bar-pct { color: #f4a261; }
+    .card.green .bar-pct { color: #2a9d8f; }
+    .card.blue  .bar-pct { color: #4cc9f0; }
+
+    .bar-desc {
+      font-size: 12px;
+      font-weight: 300;
+      color: rgba(240,237,230,0.45);
+      text-align: right;
+      max-width: 150px;
+    }
+
+    .card-footnote {
+      margin-top: 14px;
+      font-size: 11px;
+      font-weight: 300;
+      color: rgba(240,237,230,0.3);
+      font-style: italic;
+      line-height: 1.5;
+    }
+
+    /* ── badge row ── */
+    .badge-section {
+      position: relative; z-index: 1;
+      padding: 0 40px 80px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .badges {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+    }
+
+    .badge {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 18px;
+      border: 1px solid var(--card-border);
+      border-radius: 100px;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.05em;
+      color: rgba(240,237,230,0.6);
+      animation: fadeUp 0.5s both;
+      transition: border-color 0.2s, color 0.2s;
+    }
+
+    .badge:hover { border-color: var(--amber); color: var(--offwhite); }
+
+    .badge-icon { font-size: 16px; }
+
+    /* ── share strip ── */
+    .share-strip {
+      position: relative; z-index: 1;
+      text-align: center;
+      padding: 40px;
+      border-top: 1px solid var(--card-border);
+    }
+
+    .share-strip p {
+      font-size: 13px;
+      color: rgba(240,237,230,0.4);
+      margin-bottom: 16px;
+      font-family: 'Space Mono', monospace;
+      letter-spacing: 0.05em;
+    }
+
+    .btn-share {
+      display: inline-block;
+      padding: 14px 36px;
+      background: var(--red);
+      color: var(--offwhite);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 18px;
+      letter-spacing: 0.1em;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      text-decoration: none;
+    }
+
+    .btn-share:hover { background: #ff4d5a; transform: scale(1.03); }
+
+    /* ── nav back ── */
+    .nav-back {
+      position: fixed; top: 20px; left: 24px; z-index: 100;
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: rgba(240,237,230,0.45);
+      text-decoration: none;
+      transition: color 0.2s;
+    }
+    .nav-back:hover { color: var(--offwhite); }
+
+    /* ── input bar ── */
+    .input-bar {
+      position: relative; z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      padding: 28px 40px;
+      background: rgba(240,237,230,0.03);
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .input-bar label {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.25em;
+      text-transform: uppercase;
+      color: rgba(240,237,230,0.45);
+      white-space: nowrap;
+      margin-right: 16px;
+    }
+
+    .input-wrap {
+      display: flex;
+      align-items: stretch;
+      border: 1px solid rgba(240,237,230,0.2);
+      border-radius: 3px;
+      overflow: hidden;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .input-wrap:focus-within {
+      border-color: var(--amber);
+      box-shadow: 0 0 0 3px rgba(244,162,97,0.12);
+    }
+
+    .input-wrap input[type="number"] {
+      background: rgba(240,237,230,0.05);
+      border: none;
+      outline: none;
+      color: var(--offwhite);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      letter-spacing: 0.05em;
+      padding: 10px 16px;
+      width: 200px;
+      -moz-appearance: textfield;
+    }
+
+    .input-wrap input[type="number"]::-webkit-outer-spin-button,
+    .input-wrap input[type="number"]::-webkit-inner-spin-button { -webkit-appearance: none; }
+
+    .input-unit {
+      display: flex;
+      align-items: center;
+      padding: 0 14px;
+      background: rgba(240,237,230,0.07);
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      color: rgba(240,237,230,0.4);
+      letter-spacing: 0.1em;
+      border-left: 1px solid rgba(240,237,230,0.1);
+    }
+
+    .btn-recalc {
+      margin-left: 12px;
+      padding: 0 22px;
+      height: 52px;
+      background: var(--amber);
+      color: var(--black);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 18px;
+      letter-spacing: 0.08em;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+    }
+
+    .btn-recalc:hover { background: #ffd166; transform: scale(1.03); }
+    .btn-recalc:active { transform: scale(0.97); }
+
+    /* ── responsive ── */
+    @media (max-width: 600px) {
+      .hero { padding: 70px 24px 48px; }
+      .grid-section, .badge-section { padding-left: 20px; padding-right: 20px; }
+      .cards { grid-template-columns: 1fr; }
+      .total-banner { flex-direction: column; gap: 4px; }
+      .input-bar { flex-direction: column; gap: 12px; padding: 20px; }
+      .input-wrap input[type="number"] { width: 140px; }
+    }
+  </style>
+</head>
+<body>
+
+  <a href="/" class="nav-back">← Back</a>
+
+  <!-- HERO -->
+  <section class="hero">
+    <p class="hero-eyebrow">Your Environmental Legacy</p>
+    <h1>Your Carbon<br>Crimes Wrapped</h1>
+    <p class="hero-sub">Congratulations. Here's what your journey's emissions look like when compared to things that actually matter.</p>
+  </section>
+
+  <!-- TOTAL EMISSIONS BANNER -->
+  <div class="total-banner">
+    <span class="label">Total emissions this trip</span>
+    <span class="value" data-key="bannerKg"><%= totalCO2kg.toFixed(1) %></span>
+    <span class="unit">kg CO₂e</span>
+    <span class="label" style="margin-left:20px;">≈</span>
+    <span class="value" style="color:var(--red)" data-key="bannerT"><%= (totalCO2kg / 1000).toFixed(4) %></span>
+    <span class="unit">tonnes</span>
+  </div>
+
+  <!-- INPUT BAR -->
+  <div class="input-bar">
+    <label for="co2-input">Enter your emissions</label>
+    <div class="input-wrap">
+      <input type="number" id="co2-input" min="0" step="0.1"
+             value="<%= totalCO2kg.toFixed(1) %>"
+             placeholder="0.0" />
+      <span class="input-unit">kg CO₂e</span>
+    </div>
+    <button class="btn-recalc" onclick="recalculate()">Update</button>
+  </div>
+
+  <!-- COMPARISON CARDS -->
+  <section class="grid-section">
+    <p class="section-title">// Context you didn't ask for</p>
+    <div class="cards">
+
+      <%
+        // ── Reference data ──────────────────────────────────────────
+        // BP Deepwater Horizon spill: ~1.7 million tonnes CO₂e (combustion of spilled oil estimate)
+        const BP_SPILL_TONNES    = 1_700_000;
+        // Taylor Swift 2023 jet emissions (Carbon Market Watch): ~8,293 tonnes
+        const TAYLORSWIFT_TONNES = 8_293;
+        // Average UK person annual footprint: ~5.5 tonnes
+        const UK_ANNUAL_TONNES   = 5.5;
+        // Amazon rainforest absorbs ~2.2 billion tonnes/year; per second ≈ 69.7 kg/s
+        const AMAZON_KG_PER_SEC  = 69.7;
+        // Driving a petrol car: avg 0.21 kg CO₂/km
+        const CAR_KG_PER_KM      = 0.21;
+        // Transatlantic flight LHR→JFK ≈ 510 kg CO₂e per passenger (economy, with radiative forcing)
+        const FLIGHT_TRANSATL_KG = 510;
+        // Average cow: ~2,000 kg CO₂e / year → per hour ≈ 0.228 kg
+        const COW_KG_PER_HOUR    = 0.228;
+        // Eiffel Tower steel mass: 7,300 tonnes; producing 1 tonne steel ≈ 1.85 tonnes CO₂
+        const EIFFEL_STEEL_KG    = 7300 * 1850; // kg CO₂ to build it
+
+        const totalTonnes = totalCO2kg / 1000;
+
+        // Computed percentages / ratios (clamped for display)
+        const bpPct          = Math.min((totalTonnes / BP_SPILL_TONNES) * 100, 100);
+        const taylorPct      = Math.min((totalTonnes / TAYLORSWIFT_TONNES) * 100, 100);
+        const ukYearPct      = Math.min((totalTonnes / UK_ANNUAL_TONNES) * 100, 100);
+        const amazonSeconds  = totalCO2kg / AMAZON_KG_PER_SEC;
+        const carKm          = totalCO2kg / CAR_KG_PER_KM;
+        const transatlFlights= totalTonnes / (FLIGHT_TRANSATL_KG / 1000);
+        const cowHours       = totalCO2kg / COW_KG_PER_HOUR;
+        const eiffelPct      = Math.min((totalCO2kg / EIFFEL_STEEL_KG) * 100, 100);
+      %>
+
+      <!-- Card 1: BP Oil Spill -->
+      <div class="card red">
+        <div class="card-glow"></div>
+        <span class="card-icon">🛢️</span>
+        <p class="card-comparison-name">BP Deepwater Horizon, 2010</p>
+        <h3>Of the World's Worst Oil Spill</h3>
+        <div class="bar-wrap">
+          <div class="bar-fill" data-bar="bp" style="width: 0%"></div>
+        </div>
+        <div class="bar-stats">
+          <span class="bar-pct" data-key="bpPct"><%= bpPct < 0.01 ? '<0.01' : bpPct.toFixed(4) %>%</span>
+          <span class="bar-desc">of ~1.7M tonnes CO₂e spilled &amp; burned</span>
+        </div>
+        <p class="card-footnote">The Deepwater Horizon disaster leaked 4.9 million barrels of crude oil into the Gulf of Mexico. Your trip contributed <span data-key="bpTonnes"><%= (bpPct / 100 * BP_SPILL_TONNES).toFixed(4) %></span> tonnes towards that legacy.</p>
+      </div>
+
+      <!-- Card 2: Taylor Swift -->
+      <div class="card amber">
+        <div class="card-glow"></div>
+        <span class="card-icon">✈️</span>
+        <p class="card-comparison-name">Taylor Swift — 2023 Private Jet Usage</p>
+        <h3>Of Taylor Swift's Annual Jet Emissions</h3>
+        <div class="bar-wrap">
+          <div class="bar-fill" data-bar="taylor" style="width: 0%"></div>
+        </div>
+        <div class="bar-stats">
+          <span class="bar-pct" data-key="taylorPct"><%= taylorPct < 0.1 ? '<0.1' : taylorPct.toFixed(2) %>%</span>
+          <span class="bar-desc">of ~8,293 tonnes CO₂e in 2023</span>
+        </div>
+        <p class="card-footnote">Carbon Market Watch estimated Swift's private jets emitted over 8,000 tonnes in a single year — roughly 1,200× the average person. Shake it off.</p>
+      </div>
+
+      <!-- Card 3: UK Annual Footprint -->
+      <div class="card green">
+        <div class="card-glow"></div>
+        <span class="card-icon">🇬🇧</span>
+        <p class="card-comparison-name">Average UK Person — Annual Carbon Budget</p>
+        <h3>Of Your Yearly Climate Allowance</h3>
+        <div class="bar-wrap">
+          <div class="bar-fill" data-bar="uk" style="width: 0%"></div>
+        </div>
+        <div class="bar-stats">
+          <span class="bar-pct" data-key="ukPct"><%= ukYearPct.toFixed(1) %>%</span>
+          <span class="bar-desc">of a 5.5-tonne annual budget</span>
+        </div>
+        <p class="card-footnote">You've used <span data-key="ukPctInline"><%= ukYearPct.toFixed(1) %></span>% of the average UK person's yearly footprint. <span data-key="ukQuip"><%= ukYearPct > 5 ? "Maybe take the train next time?" : "Gold star. You're practically a tree." %></span></p>
+      </div>
+
+      <!-- Card 4: Amazon Rainforest -->
+      <div class="card blue">
+        <div class="card-glow"></div>
+        <span class="card-icon">🌳</span>
+        <p class="card-comparison-name">Amazon Rainforest — Carbon Absorption</p>
+        <h3>Seconds the Amazon Needed to Fix This</h3>
+        <div class="bar-wrap">
+          <div class="bar-fill" data-bar="amazon" style="width: 0%"></div>
+        </div>
+        <div class="bar-stats">
+          <span class="bar-pct" data-key="amazonTime"><%= amazonSeconds < 60 ? amazonSeconds.toFixed(1) + 's' : (amazonSeconds / 60).toFixed(1) + 'm' %></span>
+          <span class="bar-desc">at 69.7 kg CO₂ absorbed per second</span>
+        </div>
+        <p class="card-footnote">The Amazon absorbs ~2.2 billion tonnes of CO₂ per year. It took the world's largest rainforest <span data-key="amazonSecs"><%= amazonSeconds.toFixed(1) %></span> seconds to un-do your trip. <span data-key="amazonQuip"><%= amazonSeconds < 10 ? "Not bad, actually." : "Yikes." %></span></p>
+      </div>
+
+      <!-- Card 5: Driving equivalent -->
+      <div class="card amber">
+        <div class="card-glow"></div>
+        <span class="card-icon">🚗</span>
+        <p class="card-comparison-name">Petrol Car — Distance Equivalent</p>
+        <h3>Kilometres in a Petrol Car</h3>
+        <div class="bar-wrap">
+          <div class="bar-fill" data-bar="car" style="width: 0%"></div>
+        </div>
+        <div class="bar-stats">
+          <span class="bar-pct" data-key="carKm"><%= carKm.toFixed(0) %> km</span>
+          <span class="bar-desc">at 0.21 kg CO₂/km average</span>
+        </div>
+        <p class="card-footnote">Your emissions are equivalent to driving an average petrol car <span data-key="carKmInline"><%= carKm.toFixed(0) %></span> km (<span data-key="carMiles"><%= (carKm * 0.621371).toFixed(0) %></span> miles). That's <span data-key="carQuip"><%= carKm > 1000 ? "more than London to " + (carKm > 2500 ? "Moscow" : "Barcelona") : "a long Sunday drive" %></span>.</p>
+      </div>
+
+      <!-- Card 6: Transatlantic Flights -->
+      <div class="card red">
+        <div class="card-glow"></div>
+        <span class="card-icon">🌍</span>
+        <p class="card-comparison-name">London → New York — Economy Class</p>
+        <h3>Transatlantic Flights Equivalent</h3>
+        <div class="bar-wrap">
+          <div class="bar-fill" data-bar="flights" style="width: 0%"></div>
+        </div>
+        <div class="bar-stats">
+          <span class="bar-pct" data-key="flightsPct"><%= transatlFlights.toFixed(2) %></span>
+          <span class="bar-desc">flights LHR → JFK (≈510 kg CO₂e each)</span>
+        </div>
+        <p class="card-footnote">A single economy seat from London to New York produces ~510 kg of CO₂e including radiative forcing. Your trip was equivalent to <span data-key="flightsLong"><%= transatlFlights.toFixed(3) %></span> of those.</p>
+      </div>
+
+      <!-- Card 7: Cow Hours -->
+      <div class="card green">
+        <div class="card-glow"></div>
+        <span class="card-icon">🐄</span>
+        <p class="card-comparison-name">Dairy Cow — Methane Output</p>
+        <h3>Hours of Cow Burps</h3>
+        <div class="bar-wrap">
+          <div class="bar-fill" data-bar="cow" style="width: 0%"></div>
+        </div>
+        <div class="bar-stats">
+          <span class="bar-pct" data-key="cowHours"><%= cowHours.toFixed(1) %>h</span>
+          <span class="bar-desc">at ~0.228 kg CO₂e per hour per cow</span>
+        </div>
+        <p class="card-footnote">A dairy cow produces ~2,000 kg CO₂e per year via enteric fermentation (that's burping, mostly). Your trip equals <span data-key="cowHoursInline"><%= cowHours.toFixed(1) %></span> hours of one very gassy cow.</p>
+      </div>
+
+      <!-- Card 8: Eiffel Tower -->
+      <div class="card blue">
+        <div class="card-glow"></div>
+        <span class="card-icon">🗼</span>
+        <p class="card-comparison-name">Eiffel Tower — Construction Emissions</p>
+        <h3>Of the Carbon Cost of the Eiffel Tower</h3>
+        <div class="bar-wrap">
+          <div class="bar-fill" data-bar="eiffel" style="width: 0%"></div>
+        </div>
+        <div class="bar-stats">
+          <span class="bar-pct" data-key="eiffelPct"><%= eiffelPct < 0.01 ? '<0.01' : eiffelPct.toFixed(3) %>%</span>
+          <span class="bar-desc">of ~13,505 tonnes CO₂ to produce its steel</span>
+        </div>
+        <p class="card-footnote">The Eiffel Tower used 7,300 tonnes of puddle iron. Modern steel production emits ~1.85 t CO₂ per tonne. Your trip is <span data-key="eiffelPctInline"><%= eiffelPct.toFixed(4) %></span>% of building the most Instagrammed structure on Earth.</p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- SHARE / BACK -->
+  <div class="share-strip">
+    <p>// Spread the guilt</p>
+    <a href="/" class="btn-share">Calculate Another Trip</a>
+  </div>
+
+  <script>
+    // ── Constants (mirror of EJS values) ──────────────────────────
+    const BP_SPILL_TONNES    = 1_700_000;
+    const TAYLORSWIFT_TONNES = 8_293;
+    const UK_ANNUAL_TONNES   = 5.5;
+    const AMAZON_KG_PER_SEC  = 69.7;
+    const CAR_KG_PER_KM      = 0.21;
+    const FLIGHT_TRANSATL_KG = 510;
+    const COW_KG_PER_HOUR    = 0.228;
+    const EIFFEL_STEEL_KG    = 7300 * 1850;
+
+    function setBar(attr, pct) {
+      const el = document.querySelector(`[data-bar="${attr}"]`);
+      if (el) el.style.width = Math.min(pct, 100) + '%';
+    }
+
+    function setText(key, val) {
+      document.querySelectorAll(`[data-key="${key}"]`).forEach(el => el.textContent = val);
+    }
+
+    function update(kg) {
+      if (isNaN(kg) || kg < 0) return;
+      const t = kg / 1000;
+
+      // Banner
+      setText('bannerKg', kg.toFixed(1));
+      setText('bannerT',  t.toFixed(4));
+
+      // BP
+      const bpPct = Math.min((t / BP_SPILL_TONNES) * 100, 100);
+      setBar('bp', Math.max(bpPct, 0.2));
+      setText('bpPct',    bpPct < 0.01 ? '<0.01%' : bpPct.toFixed(4) + '%');
+      setText('bpTonnes', (bpPct / 100 * BP_SPILL_TONNES).toFixed(4));
+
+      // Taylor
+      const taylorPct = Math.min((t / TAYLORSWIFT_TONNES) * 100, 100);
+      setBar('taylor', Math.max(taylorPct, 0.5));
+      setText('taylorPct', taylorPct < 0.1 ? '<0.1%' : taylorPct.toFixed(2) + '%');
+
+      // UK
+      const ukPct = Math.min((t / UK_ANNUAL_TONNES) * 100, 100);
+      setBar('uk', ukPct);
+      setText('ukPct',       ukPct.toFixed(1) + '%');
+      setText('ukPctInline', ukPct.toFixed(1));
+      setText('ukQuip',      ukPct > 5 ? "Maybe take the train next time?" : "Gold star. You're practically a tree.");
+
+      // Amazon
+      const amazonSecs = kg / AMAZON_KG_PER_SEC;
+      setBar('amazon', Math.min((amazonSecs / 3600) * 100, 100));
+      setText('amazonTime', amazonSecs < 60 ? amazonSecs.toFixed(1) + 's' : (amazonSecs / 60).toFixed(1) + 'm');
+      setText('amazonSecs', amazonSecs.toFixed(1));
+      setText('amazonQuip', amazonSecs < 10 ? "Not bad, actually." : "Yikes.");
+
+      // Car
+      const carKm = kg / CAR_KG_PER_KM;
+      setBar('car', Math.min((carKm / 1000) * 10, 100));
+      setText('carKm',      carKm.toFixed(0) + ' km');
+      setText('carKmInline', carKm.toFixed(0));
+      setText('carMiles',    (carKm * 0.621371).toFixed(0));
+      setText('carQuip',     carKm > 1000 ? 'more than London to ' + (carKm > 2500 ? 'Moscow' : 'Barcelona') : 'a long Sunday drive');
+
+      // Transatlantic flights
+      const flights = t / (FLIGHT_TRANSATL_KG / 1000);
+      setBar('flights', Math.min(flights * 10, 100));
+      setText('flightsPct',  flights.toFixed(2));
+      setText('flightsLong', flights.toFixed(3));
+
+      // Cow
+      const cowH = kg / COW_KG_PER_HOUR;
+      setBar('cow', Math.min(cowH, 100));
+      setText('cowHours',       cowH.toFixed(1) + 'h');
+      setText('cowHoursInline', cowH.toFixed(1));
+
+      // Eiffel
+      const eiffelPct = Math.min((kg / EIFFEL_STEEL_KG) * 100, 100);
+      setBar('eiffel', Math.max(eiffelPct, 0.01));
+      setText('eiffelPct',       eiffelPct < 0.01 ? '<0.01%' : eiffelPct.toFixed(3) + '%');
+      setText('eiffelPctInline', eiffelPct.toFixed(4));
+
+      // Badges
+      updateBadges({ kg, taylorPct, ukPct, flights, amazonSecs, carKm, cowH });
+    }
+
+    function updateBadges({ kg, taylorPct, ukPct, flights, amazonSecs, carKm, cowH }) {
+      const container = document.getElementById('badges-container');
+      const all = [
+        { show: kg < 1,          icon: '🌿', label: 'Basically a Leaf' },
+        { show: kg >= 100,       icon: '🔥', label: 'Triple Digits' },
+        { show: kg >= 500,       icon: '💀', label: 'Planet Punisher' },
+        { show: taylorPct >= 1,  icon: '🎸', label: 'Swiftie-Level Emitter' },
+        { show: ukPct >= 50,     icon: '📅', label: 'Half-Year in One Trip' },
+        { show: ukPct >= 100,    icon: '🏆', label: 'Annual Budget Speedrun' },
+        { show: flights >= 1,    icon: '✈️', label: 'Transatlantic Equivalent' },
+        { show: amazonSecs < 5,  icon: '🌲', label: "Amazon's Problem for 5 Seconds" },
+        { show: carKm > 500,     icon: '🚗', label: 'Road Tripper' },
+        { show: cowH > 24,       icon: '🐄', label: 'A Whole Day of Cow' },
+        { show: true,            icon: '🎖️', label: 'At Least You Checked' },
+      ];
+
+      container.innerHTML = all
+        .filter(b => b.show)
+        .map(b => `<div class="badge" style="animation:fadeUp 0.3s both">
+          <span class="badge-icon">${b.icon}</span> ${b.label}
+        </div>`)
+        .join('');
+    }
+
+    function recalculate() {
+      const val = parseFloat(document.getElementById('co2-input').value);
+      if (!isNaN(val) && val >= 0) update(val);
+    }
+
+    // Also update on Enter key
+    document.getElementById('co2-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter') recalculate();
+    });
+
+    // Animate bars on page load
+    document.addEventListener('DOMContentLoaded', () => {
+      const initialKg = parseFloat(document.getElementById('co2-input').value) || 0;
+      // Small delay so CSS transitions fire
+      setTimeout(() => update(initialKg), 120);
+    });
+  </script>
+</body>
+</html>
