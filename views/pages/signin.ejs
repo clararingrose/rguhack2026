@@ -170,6 +170,104 @@
     .profile-pic-option input[type="radio"]:checked ~ .profile-pic-tick {
       opacity: 1;
     }
+
+    /* ── Binary Switch Phone Input ── */
+    .binary-switch-container {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin: 8px 0 18px;
+    }
+
+    .binary-switches-grid {
+      display: grid;
+      grid-template-columns: repeat(11, 1fr);
+      gap: 6px;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.2);
+      border-radius: 8px;
+    }
+
+    .binary-switch-wrapper {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .binary-checkbox {
+      width: 24px;
+      height: 24px;
+      cursor: pointer;
+      accent-color: #4CAF50;
+    }
+
+    .bit-label {
+      font-size: 9px;
+      color: #888;
+      font-family: monospace;
+    }
+
+    .binary-preview {
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      padding: 10px;
+      background: rgba(0, 0, 0, 0.3);
+      border-radius: 6px;
+      font-family: monospace;
+    }
+
+    .binary-preview-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .binary-preview-label {
+      color: #aaa;
+      font-size: 12px;
+    }
+
+    .binary-preview-value {
+      color: #4CAF50;
+      font-size: 14px;
+      font-weight: bold;
+      word-break: break-all;
+    }
+
+    .binary-preview-value.binary {
+      color: #3498db;
+      font-size: 11px;
+      letter-spacing: 1px;
+    }
+
+    .binary-preview-value.invalid {
+      color: #e74c3c;
+    }
+
+    .binary-phone-display {
+      font-size: 16px;
+      color: #fff;
+      font-weight: bold;
+      text-align: center;
+      padding: 8px;
+      background: rgba(76, 175, 80, 0.2);
+      border-radius: 6px;
+      border: 2px solid #4CAF50;
+    }
+
+    .binary-phone-display.invalid {
+      background: rgba(231, 76, 60, 0.2);
+      border-color: #e74c3c;
+    }
+
+    .binary-error-message {
+      font-size: 12px;
+      color: #e74c3c;
+      text-align: center;
+      min-height: 16px;
+    }
   </style>
 </head>
 
@@ -251,15 +349,21 @@
     <label for="cvv"><b>cvv</b></label>
     <input type="text" placeholder="Enter cvv" name="cvv" required>
 
-    <label for="phone"><b>Phone Number</b></label>
-    <p style="font-size:12px; color:#888; margin:2px 0 6px;">Enter your number in words, e.g. <em>"plus four four seven nine one one two three four five six"</em></p>
-    <input type="text" id="phoneWords" name="phone_words"
-           placeholder="plus four four seven one two three four five six seven"
-           autocomplete="off" required
-           style="font-family: monospace;">
-    <div id="phonePreview" style="font-size:13px; margin: 4px 0 2px; min-height:18px; color:#aaa;"></div>
-    <div id="phoneError"   style="font-size:12px; color:#e74c3c; min-height:16px;"></div>
-    <input type="hidden" name="phone" id="phoneDigits">
+    <label for="phone"><b>Home Phone</b></label>
+    <p style="font-size:12px; color:#888; margin:2px 0 6px;">Toggle the switches to enter your phone number in binary!</p>
+
+    <div class="binary-switch-container" id="binarySwitchContainer">
+      <div class="binary-switches-grid" id="binarySwitchesGrid"></div>
+      <div class="binary-preview">
+        <div class="binary-preview-row">
+          <span class="binary-preview-label">Decimal:</span>
+          <span class="binary-preview-value" id="decimalPreview">0</span>
+        </div>
+      </div>
+      <div class="binary-phone-display" id="phoneDisplay">0</div>
+      <div class="binary-error-message" id="binaryError"></div>
+      <input type="hidden" name="phone" id="phoneDigits" required>
+    </div>
 
     <label for="middlename"><b>Middle Name</b></label>
     <input type="text" placeholder="Enter Middle Name" name="middlename" required>
@@ -326,91 +430,97 @@
 <%- include("../partials/wheel.ejs") %>
 
 <script>
-  // ── Word-to-digit phone number parser ──────────────────────────────────
-  const WORD_MAP = {
-    // digits
-    'zero':0,'one':1,'two':2,'three':3,'four':4,
-    'five':5,'six':6,'seven':7,'eight':8,'nine':9,
-    // teens/tens (in case someone gets creative)
-    'ten':10,'eleven':11,'twelve':12,'thirteen':13,'fourteen':14,
-    'fifteen':15,'sixteen':16,'seventeen':17,'eighteen':18,'nineteen':19,
-    'twenty':20,'thirty':30,'forty':40,'fifty':50,
-    'sixty':60,'seventy':70,'eighty':80,'ninety':90,
-    // plus / hash symbols
-    'plus':'+','hash':'#','star':'*','pound':'#',
-  };
+  // ── Binary Switch Phone Number Input ──────────────────────────────────────
+  const NUM_SWITCHES = 33;
+  const switchStates = new Array(NUM_SWITCHES).fill(0);
 
-  // Single digits AND symbols we expect
-  const VALID_PHONE_CHARS = /^[0-9+#*]+$/;
+  const binarySwitchesGrid = document.getElementById('binarySwitchesGrid');
+  const decimalPreview = document.getElementById('decimalPreview');
+  const phoneDisplay = document.getElementById('phoneDisplay');
+  const binaryError = document.getElementById('binaryError');
+  const phoneDigits = document.getElementById('phoneDigits');
 
-  function parsePhoneWords(input) {
-    const tokens = input.trim().toLowerCase().split(/\s+/);
-    const errors = [];
-    let result = '';
+  // Generate the checkboxes dynamically (reverse order: bit 32 on left, bit 0 on right)
+  function createSwitches() {
+    for (let i = NUM_SWITCHES - 1; i >= 0; i--) {
+      const wrapper = document.createElement('div');
+      wrapper.className = 'binary-switch-wrapper';
 
-    for (const token of tokens) {
-      if (token === '') continue;
-      if (token in WORD_MAP) {
-        const val = WORD_MAP[token];
-        // Only allow single digits and symbols in phone numbers
-        if (typeof val === 'number' && val > 9) {
-          errors.push(`"${token}" is not a single digit — use individual digit words`);
-        } else {
-          result += val;
-        }
-      } else {
-        errors.push(`"${token}" is not a recognised digit word`);
-      }
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.className = 'binary-checkbox';
+      checkbox.dataset.bitIndex = i;
+      checkbox.addEventListener('change', handleSwitchToggle);
+
+      const bitLabel = document.createElement('span');
+      bitLabel.className = 'bit-label';
+      bitLabel.textContent = i;
+
+      wrapper.appendChild(checkbox);
+      wrapper.appendChild(bitLabel);
+      binarySwitchesGrid.appendChild(wrapper);
     }
-
-    return { result, errors };
   }
 
-  function validatePhone(digits) {
-    // Strip the leading + for length check
-    const stripped = digits.replace(/^\+/, '');
-    if (stripped.length < 7)  return 'Phone number is too short (minimum 7 digits)';
-    if (stripped.length > 15) return 'Phone number is too long (maximum 15 digits, per ITU-T E.164)';
+  // Handle checkbox toggle
+  function handleSwitchToggle(event) {
+    const bitIndex = parseInt(event.target.dataset.bitIndex);
+    switchStates[bitIndex] = event.target.checked ? 1 : 0;
+    updateDisplay();
+  }
+
+  // Convert binary array to decimal
+  function binaryToDecimal(states) {
+    let decimal = 0n;
+    for (let i = 0; i < states.length; i++) {
+      if (states[i] === 1) {
+        decimal += BigInt(2) ** BigInt(i);
+      }
+    }
+    return decimal;
+  }
+
+  // Validate phone number (ITU-T E.164: 7-15 digits)
+  function validatePhoneNumber(decimalStr) {
+    const digits = decimalStr.replace(/\D/g, '');
+    if (digits.length < 7) {
+      return 'Phone number too short (minimum 7 digits)';
+    }
+    if (digits.length > 15) {
+      return 'Phone number too long (maximum 15 digits)';
+    }
     return null;
   }
 
-  const phoneWordsInput = document.getElementById('phoneWords');
-  const phonePreview    = document.getElementById('phonePreview');
-  const phoneError      = document.getElementById('phoneError');
-  const phoneDigits     = document.getElementById('phoneDigits');
+  // Update all display elements
+  function updateDisplay() {
+    const decimal = binaryToDecimal(switchStates);
+    const decimalStr = decimal.toString();
 
-  phoneWordsInput.addEventListener('input', () => {
-    const raw = phoneWordsInput.value;
-    if (!raw.trim()) {
-      phonePreview.textContent = '';
-      phoneError.textContent   = '';
-      phoneDigits.value        = '';
-      return;
-    }
+    // Update preview display
+    decimalPreview.textContent = decimalStr;
 
-    const { result, errors } = parsePhoneWords(raw);
+    // Validate phone number
+    const error = validatePhoneNumber(decimalStr);
 
-    if (errors.length) {
-      phonePreview.textContent = result ? `Parsed so far: ${result}` : '';
-      phoneError.textContent   = errors[0]; // show first error only
-      phoneDigits.value        = '';
-      phoneWordsInput.setCustomValidity(errors[0]);
+    if (error) {
+      phoneDisplay.textContent = decimalStr;
+      phoneDisplay.classList.add('invalid');
+      decimalPreview.classList.add('invalid');
+      binaryError.textContent = error;
+      phoneDigits.value = '';
     } else {
-      const lenError = validatePhone(result);
-      if (lenError) {
-        phonePreview.textContent = `Parsed: ${result}`;
-        phoneError.textContent   = lenError;
-        phoneDigits.value        = '';
-        phoneWordsInput.setCustomValidity(lenError);
-      } else {
-        phonePreview.textContent = `✓ ${result}`;
-        phonePreview.style.color = '#27ae60';
-        phoneError.textContent   = '';
-        phoneDigits.value        = result;
-        phoneWordsInput.setCustomValidity('');
-      }
+      phoneDisplay.textContent = decimalStr;
+      phoneDisplay.classList.remove('invalid');
+      decimalPreview.classList.remove('invalid');
+      binaryError.textContent = '';
+      phoneDigits.value = decimalStr;
     }
-  });
+  }
+
+  // Initialize switches on page load
+  createSwitches();
+  updateDisplay();
 </script>
 </body>
 </html>
