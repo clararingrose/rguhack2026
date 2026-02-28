@@ -262,7 +262,7 @@ input::placeholder {
     backdrop-filter: blur(10px);
     border-top: 2px solid rgba(255, 107, 107, 0.3);
     padding: 25px;
-    z-index: 1000;
+    z-index: 10001;
     transform: translateY(100%);
     transition: transform 0.5s ease;
 }
@@ -917,14 +917,19 @@ input::placeholder {
     position: fixed;
     top: 50%;
     left: 50%;
-    width: 300px;
-    height: 300px;
+    width: 450px;
+    height: 450px;
     z-index: 9999;
     pointer-events: auto;
     animation:
         navSpin 8s linear infinite,
         navOrbit 20s ease-in-out infinite alternate;
     will-change: transform, left, top;
+}
+
+/* Freeze on hover */
+.malicious-nav:hover {
+    animation-play-state: paused;
 }
 
 /* Constant rotation */
@@ -952,8 +957,12 @@ input::placeholder {
 /* Individual nav items */
 .malicious-nav-item {
     position: absolute;
-    width: 80px;
-    height: 30px;
+    top: 50%;
+    left: 50%;
+    width: 90px;
+    height: 35px;
+    margin-left: -45px;
+    margin-top: -17px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -969,28 +978,25 @@ input::placeholder {
     box-shadow:
         0 0 15px rgba(255, 0, 128, 0.5),
         0 0 30px rgba(0, 255, 255, 0.3);
-    transition: all 0.1s ease;
+    transition: background 0.2s, box-shadow 0.2s, filter 0.2s;
     cursor: pointer;
     user-select: none;
-    animation: counterSpin 8s linear infinite;
 }
 
-@keyframes counterSpin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(-360deg); }
-}
-
-/* Hover effect - makes it harder! */
+/* Hover effect - makes it easier to click! */
 .malicious-nav-item:hover {
     background: linear-gradient(135deg, #ffff00, #ff0000);
-    transform: scale(0.8) rotate(15deg);
-    animation: panicShake 0.1s infinite;
+    box-shadow:
+        0 0 25px rgba(255, 255, 0, 1),
+        0 0 50px rgba(255, 0, 0, 0.8);
+    filter: brightness(1.3);
+    z-index: 10000;
 }
 
 @keyframes panicShake {
-    0%, 100% { transform: translateX(0) scale(0.8); }
-    25% { transform: translateX(-3px) scale(0.8); }
-    75% { transform: translateX(3px) scale(0.8); }
+    0%, 100% { margin-left: -40px; }
+    25% { margin-left: -43px; }
+    75% { margin-left: -37px; }
 }
 
 /* Nav center logo */
@@ -1017,10 +1023,6 @@ input::placeholder {
     animation-duration: 2s, 5s;
 }
 
-.malicious-nav.speed-burst .malicious-nav-item {
-    animation-duration: 2s;
-}
-
 /* Direction change */
 .malicious-nav.reverse {
     animation-direction: reverse, normal;
@@ -1029,15 +1031,319 @@ input::placeholder {
 /* Mobile responsive */
 @media (max-width: 600px) {
     .malicious-nav {
-        width: 200px;
-        height: 200px;
+        width: 250px;
+        height: 250px;
     }
     .malicious-nav-item {
         width: 60px;
         height: 25px;
         font-size: 9px;
+        margin-left: -30px;
+        margin-top: -12px;
     }
 }
+/* ==========================================
+   ACHIEVEMENTS
+   ========================================== */
+
+.achievement-popup {
+    position: fixed;
+    top: 20px;
+    right: -500px;
+    width: 400px;
+    background: linear-gradient(135deg, #1a1a2e, #16213e);
+    border: 3px solid #feca57;
+    border-radius: 15px;
+    padding: 20px;
+    z-index: 10002;
+    animation: achievementSlide 0.5s ease-out, achievementStay 4s forwards, achievementExit 0.5s ease-in 4.5s forwards;
+    box-shadow:
+        0 0 30px rgba(254, 202, 87, 0.5),
+        0 0 60px rgba(254, 202, 87, 0.3),
+        inset 0 0 30px rgba(254, 202, 87, 0.1);
+}
+
+@keyframes achievementSlide {
+    to { right: 20px; }
+}
+
+@keyframes achievementStay {
+    0%, 90% { right: 20px; }
+    100% { right: 20px; }
+}
+
+@keyframes achievementExit {
+    to { right: -500px; }
+}
+
+.achievement-popup.rare {
+    border-color: #ff0080;
+    box-shadow:
+        0 0 30px rgba(255, 0, 128, 0.5),
+        0 0 60px rgba(255, 0, 128, 0.3);
+    animation: achievementSlide 0.3s ease-out, achievementStay 4s forwards, achievementExit 0.5s ease-in 4.5s forwards, achievementPulse 0.5s infinite;
+}
+
+@keyframes achievementPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.02); }
+}
+
+.achievement-popup.impossible {
+    border-color: #ff0000;
+    background: linear-gradient(135deg, #2a0000, #1a0000);
+    animation: achievementSlide 0.2s ease-out, achievementStay 4s forwards, achievementExit 0.5s ease-in 4.5s forwards, achievementShake 0.1s infinite;
+}
+
+@keyframes achievementShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+.achievement-header {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 10px;
+}
+
+.achievement-icon {
+    font-size: 40px;
+    animation: achievementIconBounce 0.5s ease-in-out infinite;
+}
+
+@keyframes achievementIconBounce {
+    0%, 100% { transform: translateY(0) scale(1); }
+    50% { transform: translateY(-5px) scale(1.1); }
+}
+
+.achievement-title {
+    font-size: 14px;
+    font-weight: bold;
+    color: #feca57;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.rare .achievement-title {
+    color: #ff0080;
+}
+
+.impossible .achievement-title {
+    color: #ff0000;
+}
+
+.achievement-name {
+    font-size: 20px;
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 5px;
+}
+
+.achievement-desc {
+    font-size: 12px;
+    color: #aaa;
+    font-style: italic;
+}
+
+.achievement-xp {
+    position: absolute;
+    top: -10px;
+    right: -10px;
+    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+    color: #fff;
+    padding: 8px 12px;
+    border-radius: 20px;
+    font-weight: bold;
+    font-size: 14px;
+    animation: achievementXPPulse 1s infinite;
+}
+
+@keyframes achievementXPPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.1); }
+}
+
+/* Achievement toast spam */
+.achievement-spam {
+    position: fixed;
+    bottom: 100px;
+    left: 20px;
+    z-index: 10002;
+}
+
+.mini-achievement {
+    background: rgba(26, 26, 46, 0.95);
+    border: 2px solid #ff6b6b;
+    border-radius: 10px;
+    padding: 10px 15px;
+    margin-top: 5px;
+    animation: miniAchievementPop 0.3s ease-out, miniAchievementFade 0.5s ease-in 2.5s forwards;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 12px;
+    color: #fff;
+}
+
+@keyframes miniAchievementPop {
+    from { transform: translateX(-100px); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+@keyframes miniAchievementFade {
+    to { transform: translateX(-100px); opacity: 0; }
+}
+
+/* ==========================================
+   LEADERBOARD
+   ========================================== */
+
+.leaderboard-section {
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 16px;
+    padding: 30px;
+    margin-bottom: 30px;
+    backdrop-filter: blur(10px);
+    border: 2px solid #ff6b6b;
+}
+
+.leaderboard-title {
+    font-size: 24px;
+    font-weight: bold;
+    color: #feca57;
+    text-align: center;
+    margin-bottom: 20px;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+}
+
+.leaderboard-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.leaderboard-table th {
+    background: linear-gradient(135deg, #ff6b6b, #ee5a24);
+    color: #fff;
+    padding: 15px;
+    text-align: left;
+    font-weight: bold;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.leaderboard-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.leaderboard-table tr:hover {
+    background: rgba(255, 107, 107, 0.1);
+    animation: leaderboardRowShake 0.1s infinite;
+}
+
+@keyframes leaderboardRowShake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-2px); }
+    75% { transform: translateX(2px); }
+}
+
+.leaderboard-rank {
+    font-size: 20px;
+    font-weight: bold;
+    text-align: center;
+}
+
+.leaderboard-rank.gold {
+    color: #ffd700;
+    font-size: 24px;
+}
+
+.leaderboard-rank.silver {
+    color: #c0c0c0;
+    font-size: 22px;
+}
+
+.leaderboard-rank.bronze {
+    color: #cd7f32;
+    font-size: 20px;
+}
+
+.leaderboard-rank.you {
+    background: linear-gradient(135deg, #ff0080, #00ffff);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    animation: youRankPulse 0.5s infinite;
+}
+
+@keyframes youRankPulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.2); }
+}
+
+.leaderboard-name {
+    color: #fff;
+    font-weight: 600;
+}
+
+.leaderboard-name.bot {
+    color: #ff6b6b;
+}
+
+.leaderboard-name.impossible {
+    color: #feca57;
+    text-shadow: 0 0 10px rgba(254, 202, 87, 0.5);
+}
+
+.leaderboard-score {
+    text-align: right;
+    font-weight: bold;
+    color: #00ff00;
+    font-family: 'Courier New', monospace;
+}
+
+.leaderboard-score.negative {
+    color: #ff0000;
+}
+
+.leaderboard-score.impossible {
+    color: #ff0080;
+    animation: impossibleScore 0.3s infinite;
+}
+
+@keyframes impossibleScore {
+    0%, 100% { text-shadow: 0 0 10px #ff0080; }
+    50% { text-shadow: 0 0 20px #ff0080, 0 0 30px #ff0080; }
+}
+
+.leaderboard-stats {
+    font-size: 11px;
+    color: #888;
+    font-style: italic;
+}
+
+.you-row {
+    background: rgba(255, 0, 128, 0.2) !important;
+    border: 2px solid #ff0080;
+    animation: youRowPulse 1s infinite;
+}
+
+@keyframes youRowPulse {
+    0%, 100% { background: rgba(255, 0, 128, 0.2); }
+    50% { background: rgba(255, 0, 128, 0.3); }
+}
+
+.leaderboard-disclaimer {
+    text-align: center;
+    font-size: 10px;
+    color: #666;
+    margin-top: 15px;
+    font-style: italic;
+}
+
 
 #curtainDraw {
     position: fixed;
