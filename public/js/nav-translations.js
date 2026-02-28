@@ -8,7 +8,7 @@ const navTranslations = {
         'Home': 'Home',
         'Blog': 'Blog',
         'About': 'About',
-        'Help': 'Help',
+        'Help': 'Sign The In',
         'Contact': 'Contact',
         'Settings': 'Settings',
         'Wrapped': 'Wrapped'
@@ -200,7 +200,7 @@ const navTranslations = {
         'Help': 'Ohje',
         'Contact': 'Yhteystiedot',
         'Settings': 'Asetukset',
-        'Wrapped': 'Vuosit yhteenveto'
+        'Wrapped': 'Vuosi yhteenveto'
     },
     el: {
         'Home': 'Αρχική',
@@ -309,6 +309,69 @@ const navTranslations = {
         'Contact': 'Hubungi',
         'Settings': 'Tetapan',
         'Wrapped': 'Ringkasan Tahun'
+    },
+    sl: {
+        'Home': 'Domov',
+        'Blog': 'Blog',
+        'About': 'O nas',
+        'Help': 'Pomoč',
+        'Contact': 'Kontakt',
+        'Settings': 'Nastavitve',
+        'Wrapped': 'Letno povzetek'
+    },
+    sq: {
+        'Home': 'Ballina',
+        'Blog': 'Blog',
+        'About': 'Rreth nesh',
+        'Help': 'Ndihmë',
+        'Contact': 'Kontakt',
+        'Settings': 'Cilësimet',
+        'Wrapped': 'Përmbledhja vjetore'
+    },
+    bs: {
+        'Home': 'Početna',
+        'Blog': 'Blog',
+        'About': 'O nama',
+        'Help': 'Pomoć',
+        'Contact': 'Kontakt',
+        'Settings': 'Postavke',
+        'Wrapped': 'Godišnji pregled'
+    },
+    me: {
+        'Home': 'Početna',
+        'Blog': 'Blog',
+        'About': 'O nama',
+        'Help': 'Pomoć',
+        'Contact': 'Kontakt',
+        'Settings': 'Postavke',
+        'Wrapped': 'Godišnji pregled'
+    },
+    mt: {
+        'Home': 'Dar',
+        'Blog': 'Blog',
+        'About': 'Dwarna',
+        'Help': 'Għajnuna',
+        'Contact': 'Kuntatt',
+        'Settings': 'Settings',
+        'Wrapped': 'Sommarju annwali'
+    },
+    is: {
+        'Home': 'Heim',
+        'Blog': 'Blogg',
+        'About': 'Um okkur',
+        'Help': 'Hjálp',
+        'Contact': 'Hafa samband',
+        'Settings': 'Stillingar',
+        'Wrapped': 'Árssamantala'
+    },
+    ca: {
+        'Home': 'Inici',
+        'Blog': 'Blog',
+        'About': 'Sobre nosaltres',
+        'Help': 'Ajuda',
+        'Contact': 'Contacte',
+        'Settings': 'Configuració',
+        'Wrapped': 'Resum anual'
     }
 };
 

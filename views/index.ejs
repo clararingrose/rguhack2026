@@ -4,9 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %></title>
-    
-    <link rel="stylesheet" href="/assets/styles.css">
-    <style>
+
+    <link rel="stylesheet" href="/assets/styles.css" id="mainStylesheet">
+    <style id="inlineStyles">
         /* Ouija Board Styles */
         .ouija-modal {
             display: none;
@@ -422,6 +422,7 @@
         <a href="#contact" class="malicious-nav-item" style="transform: rotate(225deg) translateY(-100px) rotate(-225deg);">Contact</a>
         <a href="#settings" class="malicious-nav-item" style="transform: rotate(270deg) translateY(-100px) rotate(-270deg);">Settings</a>
         <a href="/wrapped" class="malicious-nav-item" style="transform: rotate(315deg) translateY(-100px) rotate(-315deg);">Wrapped</a>
+        <button class="malicious-nav-item colorblind-toggle" id="colorblindToggle" style="transform: rotate(340deg) translateY(-100px) rotate(-340deg); background: none; border: none; font: inherit; cursor: pointer;" title="Toggle Color Blind Mode">Disable CSS</button>
         <div class="malicious-nav-center">🌍</div>
     </div>
 </nav>
@@ -442,6 +443,7 @@
                 <div class="form-group">
                     <label for="destinationBoring">Destination</label>
                     <input type="text" id="destinationBoring" class="boring-input" placeholder="Enter destination (e.g., Paris, France)">
+                    <button class="boring-input" id="furthestBtnBoring" style="margin-top: 8px; cursor: pointer;">Let it burn</button>
                 </div>
             </div>
 
@@ -457,6 +459,7 @@
                     <label for="destination">Destination</label>
                     <div class="ddr-display empty" id="destinationDisplay">Dance to input destination...</div>
                     <button class="ddr-start-btn" data-field="destination" id="destinationBtn">DDR Mode</button>
+                    <button class="ddr-start-btn" id="furthestBtn" style="margin-left: 8px;">Let it burn</button>
                     <input type="hidden" id="destination" value="">
                 </div>
             </div>
@@ -615,6 +618,7 @@
     </div>
 
     <!-- Load JavaScript modules -->
+    <script src="/js/colorblind-mode.js"></script>
     <script src="/js/shared-state.js"></script>
     <script src="/js/language-map.js"></script>
     <script src="/js/nav-translations.js"></script>

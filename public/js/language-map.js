@@ -149,8 +149,74 @@ const languageMap = {
     // Bulgarian
     BG: { code: 'bg', name: 'Bulgarian', nativeName: 'Български' },
 
+    // Slovenian
+    SI: { code: 'sl', name: 'Slovenian', nativeName: 'Slovenščina' },
+
     // Croatian
     HR: { code: 'hr', name: 'Croatian', nativeName: 'Hrvatski' },
+
+    // Serbian
+    RS: { code: 'sr', name: 'Serbian', nativeName: 'Српски' },
+
+    // North Macedonia
+    MK: { code: 'mk', name: 'Macedonian', nativeName: 'Македонски' },
+
+    // Albanian
+    AL: { code: 'sq', name: 'Albanian', nativeName: 'Shqip' },
+
+    // Bosnian
+    BA: { code: 'bs', name: 'Bosnian', nativeName: 'Bosanski' },
+
+    // Montenegrin
+    ME: { code: 'me', name: 'Montenegrin', nativeName: 'Crnogorski' },
+
+    // Kosovo
+    XK: { code: 'sq', name: 'Albanian', nativeName: 'Shqip' },
+
+    // Maltese
+    MT: { code: 'mt', name: 'Maltese', nativeName: 'Malti' },
+
+    // Icelandic
+    IS: { code: 'is', name: 'Icelandic', nativeName: 'Íslenska' },
+
+    // Luxembourgish
+    LU: { code: 'lb', name: 'Luxembourgish', nativeName: 'Lëtzebuergesch' },
+
+    // Monégasque (Monaco)
+    MC: { code: 'fr', name: 'French', nativeName: 'Français' },
+
+    // San Marino (uses Italian)
+    SM: { code: 'it', name: 'Italian', nativeName: 'Italiano' },
+
+    // Andorran
+    AD: { code: 'ca', name: 'Catalan', nativeName: 'Català' },
+
+    // Liechtenstein (uses German)
+    LI: { code: 'de', name: 'German', nativeName: 'Deutsch' },
+
+    // Costa Rican
+    CR: { code: 'es', name: 'Spanish', nativeName: 'Español' },
+
+    // Panamanian
+    PA: { code: 'es', name: 'Spanish', nativeName: 'Español' },
+
+    // Surinamese
+    SR: { code: 'nl', name: 'Dutch', nativeName: 'Nederlands' },
+
+    // Guyanese
+    GY: { code: 'en', name: 'English', nativeName: 'English' },
+
+    // Uruguayan
+    UY: { code: 'es', name: 'Spanish', nativeName: 'Español' },
+
+    // Paraguayan
+    PY: { code: 'es', name: 'Spanish', nativeName: 'Español' },
+
+    // Ecuadorian
+    EC: { code: 'es', name: 'Spanish', nativeName: 'Español' },
+
+    // Bolivian
+    BO: { code: 'es', name: 'Spanish', nativeName: 'Español' },
 
     // Serbian
     RS: { code: 'sr', name: 'Serbian', nativeName: 'Српски' },
@@ -189,6 +255,7 @@ const translations = {
         ddrMode: 'DDR Mode',
         ouijaMode: 'Switch to Ouija Mode',
         boringMode: 'Boring Mode',
+        funMode: 'Fun Mode',
         selectDate: 'Select Date',
         results: 'Results',
         // Transport modes
@@ -228,6 +295,7 @@ const translations = {
         ddrMode: 'Mode DDR',
         ouijaMode: 'Passer au Mode Ouija',
         boringMode: 'Mode Ennuyeux',
+        funMode: 'Mode Amusant',
         selectDate: 'Sélectionner la Date',
         results: 'Résultats'
     },
@@ -244,6 +312,7 @@ const translations = {
         ddrMode: 'DDR-Modus',
         ouijaMode: 'Zum Ouija-Modus Wechseln',
         boringMode: 'Langweiliger Modus',
+        funMode: 'Spaßiger Modus',
         selectDate: 'Datum Wählen',
         results: 'Ergebnisse'
     },
@@ -260,6 +329,7 @@ const translations = {
         ddrMode: 'Modo DDR',
         ouijaMode: 'Cambiar a Modo Ouija',
         boringMode: 'Modo Aburrido',
+        funMode: 'Modo Divertido',
         selectDate: 'Seleccionar Fecha',
         results: 'Resultados'
     },
@@ -276,6 +346,7 @@ const translations = {
         ddrMode: 'Modalità DDR',
         ouijaMode: 'Passa alla Modalità Ouija',
         boringMode: 'Modalità Noiosa',
+        funMode: 'Modalità Divertente',
         selectDate: 'Seleziona Data',
         results: 'Risultati'
     },
@@ -292,6 +363,7 @@ const translations = {
         ddrMode: 'Modo DDR',
         ouijaMode: 'Mudar para Modo Ouija',
         boringMode: 'Modo Chato',
+        funMode: 'Modo Divertido',
         selectDate: 'Selecionar Data',
         results: 'Resultados'
     },
@@ -372,6 +444,7 @@ const translations = {
         ddrMode: 'DDR模式',
         ouijaMode: '切换到灵应板模式',
         boringMode: '无聊模式',
+        funMode: '有趣模式',
         selectDate: '选择日期',
         results: '结果'
     },
@@ -388,6 +461,7 @@ const translations = {
         ddrMode: 'DDRモード',
         ouijaMode: 'ウイジャボードモードに切り替え',
         boringMode: '退屈モード',
+        funMode: 'ファンモード',
         selectDate: '日付を選択',
         results: '結果'
     },
@@ -742,6 +816,125 @@ const translations = {
         boringMode: 'Mod Bosan',
         selectDate: 'Pilih Tarikh',
         results: 'Keputusan'
+    },
+    // Slovenian
+    sl: {
+        title: '🌍 Kalkulator Ogljika',
+        subtitle: 'Najdi najbolj razvilen način potovanja! 🔥',
+        origin: 'Izhodišče',
+        destination: 'Cilj',
+        calculate: 'Izračunaj Emisije',
+        calculating: 'Izračunavanje...',
+        journeyDistance: 'Razdalja Potovanja',
+        kilometers: 'kilometrov',
+        mostExciting: '🔥 NAJRAVILENEJŠI!',
+        ddrMode: 'DDR Način',
+        ouijaMode: 'Preklopi na Ouija Način',
+        boringMode: 'Dolgčas Način',
+        selectDate: 'Izberi Datum',
+        results: 'Rezultati'
+    },
+    // Albanian
+    sq: {
+        title: '🌍 Llogaritësi i Karbonit',
+        subtitle: 'Gjeni mënyrin më të ekscituar për të udhëtuar! 🔥',
+        origin: 'Origjina',
+        destination: 'Destinacioni',
+        calculate: 'Llogarit Emisionet',
+        calculating: 'Duke llogaritur...',
+        journeyDistance: 'Distanca e Udhëtimit',
+        kilometers: 'kilometra',
+        mostExciting: '🔥 MË EKSCITUAR!',
+        ddrMode: 'Mënyra DDR',
+        ouijaMode: 'Kallos te Mënyrën Ouija',
+        boringMode: 'Mënyra e Ngopçir',
+        selectDate: 'Zgjidh Datën',
+        results: 'Rezultatet'
+    },
+    // Bosnian
+    bs: {
+        title: '🌍 Kalkulator Ugljika',
+        subtitle: 'Pronađite najuzbudljiviji način putovanja! 🔥',
+        origin: 'Polazak',
+        destination: 'Odredište',
+        calculate: 'Izračunaj Emisije',
+        calculating: 'Izračunavanje...',
+        journeyDistance: 'Udaljenost Putovanja',
+        kilometers: 'kilometara',
+        mostExciting: '🔥 NAJUZBUDLJIVIJI!',
+        ddrMode: 'DDR Način',
+        ouijaMode: 'Prebaci na Ouija Način',
+        boringMode: 'Dosadan Način',
+        selectDate: 'Odaberi Datum',
+        results: 'Rezultati'
+    },
+    // Montenegrin
+    me: {
+        title: '🌍 Kalkulator Ugljenika',
+        subtitle: 'Pronađite najuzbudljiviji način putovanja! 🔥',
+        origin: 'Polazak',
+        destination: 'Odredište',
+        calculate: 'Izračunaj Emisije',
+        calculating: 'Računam...',
+        journeyDistance: 'Rastojanja Putovanja',
+        kilometers: 'kilometara',
+        mostExciting: '🔥 NAJUZBUDLJIVIJI!',
+        ddrMode: 'DDR Mod',
+        ouijaMode: 'Prebaci na Ouija Mod',
+        boringMode: 'Dosadan Mod',
+        selectDate: 'Odaberi Datum',
+        results: 'Rezultati'
+    },
+    // Maltese
+    mt: {
+        title: '🌍 Kalkulatur tal-Karbonju',
+        subtitle: 'Sib mod eċċitativ biex titraviga! 🔥',
+        origin: 'Oriġini',
+        destination: 'Destinazzjoni',
+        calculate: 'Ikkalkula l-Emissjonijiet',
+        calculating: 'Nikkalkula...',
+        journeyDistance: 'Distanza tal-Vjaġġer',
+        kilometers: 'kilometri',
+        mostExciting: '🔥 L-EBIĊCITIVI!',
+        ddrMode: 'Mod DDR',
+        ouijaMode: 'Mur għal mod Ouija',
+        boringMode: 'Modwieti',
+        selectDate: 'Agħżel Data',
+        results: 'Riżultati'
+    },
+    // Icelandic
+    is: {
+        title: '🌍 Kolskandi Kolefnis',
+        subtitle: 'Finndu spennasta leiðin til að ferðast! 🔥',
+        origin: 'Upphafsstaður',
+        destination: 'Áfangastaður',
+        calculate: 'Reikna losun',
+        calculating: 'Reikni...',
+        journeyDistance: 'Fjarlægð Ferðar',
+        kilometers: 'kílómetrar',
+        mostExciting: '🔥 SPENNASTAST!',
+        ddrMode: 'DDR Hamur',
+        ouijaMode: 'Skipta yfir Ouija Ham',
+        boringMode: 'Langlegur Hamur',
+        selectDate: 'Velja Dagsetningu',
+        results: 'Niðurstöður'
+    },
+    // Catalan
+    ca: {
+        title: '🌍 Calculadora de Carboni',
+        subtitle: 'Troba la forma més emocionant de viatjar! 🔥',
+        origin: 'Origen',
+        destination: 'Destinació',
+        calculate: 'Calcular Emissions',
+        calculating: 'Calculant...',
+        journeyDistance: 'Distància del Viatge',
+        kilometers: 'quilòmetres',
+        mostExciting: '🔥 MÉS EMOCIONANT!',
+        ddrMode: 'Mode DDR',
+        ouijaMode: 'Canviar al Mode Ouija',
+        boringMode: 'Mode Avorrit',
+        selectDate: 'Seleccionar Data',
+        results: 'Resultats'
     }
 };
 
@@ -799,12 +992,32 @@ function changeLanguageToCountry(countryCode) {
     const distanceUnit = document.querySelector('.distance-unit');
     if (distanceUnit) distanceUnit.textContent = texts.kilometers;
 
-    // Update mode buttons
+    // Update mode buttons - store original text first
     const modeToggle = document.getElementById('modeToggle');
-    if (modeToggle) modeToggle.textContent = texts.ouijaMode;
+    if (modeToggle) {
+        if (!modeToggle.getAttribute('data-original-text')) {
+            modeToggle.setAttribute('data-original-text', 'Ouija Mode');
+        }
+        modeToggle.textContent = texts.ouijaMode;
+    }
 
     const boringToggle = document.getElementById('boringModeToggle');
-    if (boringToggle) boringToggle.textContent = texts.boringMode;
+    if (boringToggle) {
+        // Store the original English text if not already stored
+        if (!boringToggle.getAttribute('data-original-text')) {
+            boringToggle.setAttribute('data-original-text', boringToggle.textContent.trim());
+        }
+
+        // Get the original English text to determine what to translate
+        const originalText = boringToggle.getAttribute('data-original-text');
+
+        // Translate based on what the button originally said
+        if (originalText === 'Boring Mode') {
+            boringToggle.textContent = texts.boringMode;
+        } else if (originalText === 'Fun Mode') {
+            boringToggle.textContent = texts.funMode || 'Fun Mode';
+        }
+    }
 
     // Show language notification
     showLanguageNotification(lang);
@@ -1066,21 +1279,50 @@ function changeLanguageToCountry(countryCode) {
     const distanceUnit = document.querySelector('.distance-unit');
     if (distanceUnit) distanceUnit.textContent = texts.kilometers;
 
-    // Update mode buttons
+    // Update mode buttons - store original text first
     const modeToggle = document.getElementById('modeToggle');
-    if (modeToggle) modeToggle.textContent = texts.ouijaMode;
+    if (modeToggle) {
+        if (!modeToggle.getAttribute('data-original-text')) {
+            modeToggle.setAttribute('data-original-text', 'Ouija Mode');
+        }
+        modeToggle.textContent = texts.ouijaMode;
+    }
 
     const boringToggle = document.getElementById('boringModeToggle');
-    if (boringToggle) boringToggle.textContent = texts.boringMode;
+    if (boringToggle) {
+        // Store the original English text if not already stored
+        if (!boringToggle.getAttribute('data-original-text')) {
+            boringToggle.setAttribute('data-original-text', boringToggle.textContent.trim());
+        }
+
+        // Get the original English text to determine what to translate
+        const originalText = boringToggle.getAttribute('data-original-text');
+
+        // Translate based on what the button originally said
+        if (originalText === 'Boring Mode') {
+            boringToggle.textContent = texts.boringMode;
+        } else if (originalText === 'Fun Mode') {
+            boringToggle.textContent = texts.funMode || 'Fun Mode';
+        }
+    }
 
     // Update nav items using comprehensive translation mapping
     const navItems = document.querySelectorAll('.malicious-nav-item');
     if (navItems.length > 0) {
         const navTexts = ['Home', 'Blog', 'About', 'Help', 'Contact', 'Settings', 'Wrapped'];
         navItems.forEach(item => {
-            const text = item.textContent.trim();
-            if (navTexts.includes(text) && typeof getTranslatedNavItem === 'function') {
-                item.textContent = getTranslatedNavItem(text, currentLanguageCode);
+            // Store original English text if not already stored
+            if (!item.getAttribute('data-original-text')) {
+                const text = item.textContent.trim();
+                if (navTexts.includes(text)) {
+                    item.setAttribute('data-original-text', text);
+                }
+            }
+
+            // Always translate using the original text
+            const originalText = item.getAttribute('data-original-text');
+            if (originalText && typeof getTranslatedNavItem === 'function') {
+                item.textContent = getTranslatedNavItem(originalText, currentLanguageCode);
             }
         });
     }
