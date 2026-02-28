@@ -1776,16 +1776,14 @@
         }
         evadeCursor();
 
-        // Speed up on nav item hover
+        // Speed up on nav item hover - REMOVED to make items clickable
         const navItems = document.querySelectorAll('.malicious-nav-item');
         navItems.forEach(item => {
             item.addEventListener('mouseenter', () => {
-                maliciousNav.classList.add('speed-burst');
+                // Nav is frozen on hover, no speed burst needed
             });
             item.addEventListener('mouseleave', () => {
-                setTimeout(() => {
-                    maliciousNav.classList.remove('speed-burst');
-                }, 1000);
+                // Nav resumes spinning
             });
 
             // Smooth scroll for anchor links

@@ -927,6 +927,11 @@ input::placeholder {
     will-change: transform, left, top;
 }
 
+/* Freeze on hover */
+.malicious-nav:hover {
+    animation-play-state: paused;
+}
+
 /* Constant rotation */
 @keyframes navSpin {
     0% { transform: translate(-50%, -50%) rotate(0deg); }
@@ -954,10 +959,10 @@ input::placeholder {
     position: absolute;
     top: 50%;
     left: 50%;
-    width: 80px;
-    height: 30px;
-    margin-left: -40px;
-    margin-top: -15px;
+    width: 90px;
+    height: 35px;
+    margin-left: -45px;
+    margin-top: -17px;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -973,21 +978,25 @@ input::placeholder {
     box-shadow:
         0 0 15px rgba(255, 0, 128, 0.5),
         0 0 30px rgba(0, 255, 255, 0.3);
-    transition: all 0.1s ease;
+    transition: background 0.2s, box-shadow 0.2s, filter 0.2s;
     cursor: pointer;
     user-select: none;
 }
 
-/* Hover effect - makes it harder! */
+/* Hover effect - makes it easier to click! */
 .malicious-nav-item:hover {
     background: linear-gradient(135deg, #ffff00, #ff0000);
-    animation: panicShake 0.1s infinite;
+    box-shadow:
+        0 0 25px rgba(255, 255, 0, 1),
+        0 0 50px rgba(255, 0, 0, 0.8);
+    filter: brightness(1.3);
+    z-index: 10000;
 }
 
 @keyframes panicShake {
-    0%, 100% { transform: translateX(0) scale(0.8); }
-    25% { transform: translateX(-3px) scale(0.8); }
-    75% { transform: translateX(3px) scale(0.8); }
+    0%, 100% { margin-left: -40px; }
+    25% { margin-left: -43px; }
+    75% { margin-left: -37px; }
 }
 
 /* Nav center logo */
