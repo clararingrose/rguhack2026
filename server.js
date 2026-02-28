@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const app = express();
 const PORT = process.env.PORT || 3000;
+const fs   = require('fs');
 
 // Set EJS as templating engine
 app.set('view engine', 'ejs');
@@ -28,14 +29,23 @@ app.get('/wrapped', (req, res) => {
 
 app.get('/blog', (req, res) => {
     res.render('blog', {
-        title: 'Evil Blog - Carbon Emissions Calculator'
+        title: 'Evil Blog'
     });
 });
 
 app.get('/signin', (req, res) => {
-    res.render('pages/signin', {
-        title: 'Evil Sign In'
-    });
+    const picsDir = path.join(__dirname, 'public', 'assets', 'profilepics');
+
+    let profilePics = [];
+    try {
+        profilePics = fs.readdirSync(picsDir).filter(f =>
+            /\.(png|jpg|jpeg|gif|webp|svg)$/i.test(f)
+        );
+    } catch (err) {
+        console.warn('Could not read profilepics directory:', err.message);
+    }
+
+    res.render('pages/signin', { profilePics });
 });
 
 // Start server
