@@ -359,22 +359,22 @@ function updateModeButtons() {
     const destinationDisplay = document.getElementById('destinationDisplay');
 
     if (inputMode === 'ddr') {
-        originBtn.textContent = '💃 DDR Mode 💃';
+        originBtn.textContent = 'DDR Mode';
         originBtn.className = 'ddr-start-btn';
-        destinationBtn.textContent = '💃 DDR Mode 💃';
+        destinationBtn.textContent = 'DDR Mode';
         destinationBtn.className = 'ddr-start-btn';
-        modeToggle.textContent = 'Switch to 👻 Ouija Mode';
+        modeToggle.textContent = 'Switch to Ouija Mode';
 
         originDisplay.className = 'ddr-display empty' + (originInput.value ? '' : ' empty');
         destinationDisplay.className = 'ddr-display empty' + (destinationInput.value ? '' : ' empty');
         if (!originInput.value) originDisplay.textContent = 'Dance to input location...';
         if (!destinationInput.value) destinationDisplay.textContent = 'Dance to input destination...';
     } else {
-        originBtn.textContent = '👻 Summon Location 👻';
+        originBtn.textContent = 'Summon Location';
         originBtn.className = 'ouija-start-btn';
-        destinationBtn.textContent = '👻 Summon Location 👻';
+        destinationBtn.textContent = 'Summon Location';
         destinationBtn.className = 'ouija-start-btn';
-        modeToggle.textContent = 'Switch to 💃 DDR Mode';
+        modeToggle.textContent = 'Switch to DDR Mode';
 
         originDisplay.className = 'ouija-display empty' + (originInput.value ? '' : ' empty');
         destinationDisplay.className = 'ouija-display empty' + (destinationInput.value ? '' : ' empty');
@@ -400,7 +400,7 @@ boringModeToggle.addEventListener('click', () => {
         // Switch to boring mode
         boringModeInputs.style.display = 'block';
         funModeInputs.style.display = 'none';
-        boringModeToggle.textContent = '🎮 Fun Mode';
+        boringModeToggle.textContent = 'Fun Mode';
         modeToggle.style.display = 'none';
 
         // Transfer existing values to boring inputs
@@ -414,7 +414,7 @@ boringModeToggle.addEventListener('click', () => {
         // Switch back to fun mode
         boringModeInputs.style.display = 'none';
         funModeInputs.style.display = 'block';
-        boringModeToggle.textContent = '😴 Boring Mode';
+        boringModeToggle.textContent = 'Boring Mode';
         modeToggle.style.display = 'inline-block';
 
         // Transfer boring input values back to hidden inputs
