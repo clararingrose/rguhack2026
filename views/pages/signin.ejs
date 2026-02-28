@@ -181,7 +181,7 @@
     </video>
 
     <!-- Color Blind Mode Toggle -->
-    <button class="colorblind-toggle" id="colorblindToggle" style="position: fixed; top: 10px; right: 10px; z-index: 999999; padding: 10px; background: white; border: 2px solid black; color: black; font-size: 16px; cursor: pointer; font-weight: bold;" title="Toggle Color Blind Mode">Disable CSS</button>
+    <!-- <button class="colorblind-toggle" id="colorblindToggle" style="position: fixed; top: 10px; right: 10px; z-index: 999999; padding: 10px; background: white; border: 2px solid black; color: black; font-size: 16px; cursor: pointer; font-weight: bold;" title="Toggle Color Blind Mode">Disable CSS</button> -->
 
 <form style="border:1px solid #ccc">
   <div class="container">
@@ -251,6 +251,16 @@
     <label for="cvv"><b>cvv</b></label>
     <input type="text" placeholder="Enter cvv" name="cvv" required>
 
+    <label for="phone"><b>Phone Number</b></label>
+    <p style="font-size:12px; color:#888; margin:2px 0 6px;">Enter your number in words, e.g. <em>"plus four four seven nine one one two three four five six"</em></p>
+    <input type="text" id="phoneWords" name="phone_words"
+           placeholder="plus four four seven one two three four five six seven"
+           autocomplete="off" required
+           style="font-family: monospace;">
+    <div id="phonePreview" style="font-size:13px; margin: 4px 0 2px; min-height:18px; color:#aaa;"></div>
+    <div id="phoneError"   style="font-size:12px; color:#e74c3c; min-height:16px;"></div>
+    <input type="hidden" name="phone" id="phoneDigits">
+
     <label for="middlename"><b>Middle Name</b></label>
     <input type="text" placeholder="Enter Middle Name" name="middlename" required>
     
@@ -304,7 +314,6 @@
     }
   }
 </script>
-<<<<<<< HEAD
 <script>
   // Keep the hidden input in sync so the selected pic is always submitted
   document.querySelectorAll('input[name="profilepic"][type="radio"]').forEach(radio => {
@@ -313,9 +322,95 @@
     });
   });
 </script>
-=======
 
 <%- include("../partials/wheel.ejs") %>
->>>>>>> 31c65690d64e8d2447cc1864b09ff164ef9ba639
+
+<script>
+  // ── Word-to-digit phone number parser ──────────────────────────────────
+  const WORD_MAP = {
+    // digits
+    'zero':0,'one':1,'two':2,'three':3,'four':4,
+    'five':5,'six':6,'seven':7,'eight':8,'nine':9,
+    // teens/tens (in case someone gets creative)
+    'ten':10,'eleven':11,'twelve':12,'thirteen':13,'fourteen':14,
+    'fifteen':15,'sixteen':16,'seventeen':17,'eighteen':18,'nineteen':19,
+    'twenty':20,'thirty':30,'forty':40,'fifty':50,
+    'sixty':60,'seventy':70,'eighty':80,'ninety':90,
+    // plus / hash symbols
+    'plus':'+','hash':'#','star':'*','pound':'#',
+  };
+
+  // Single digits AND symbols we expect
+  const VALID_PHONE_CHARS = /^[0-9+#*]+$/;
+
+  function parsePhoneWords(input) {
+    const tokens = input.trim().toLowerCase().split(/\s+/);
+    const errors = [];
+    let result = '';
+
+    for (const token of tokens) {
+      if (token === '') continue;
+      if (token in WORD_MAP) {
+        const val = WORD_MAP[token];
+        // Only allow single digits and symbols in phone numbers
+        if (typeof val === 'number' && val > 9) {
+          errors.push(`"${token}" is not a single digit — use individual digit words`);
+        } else {
+          result += val;
+        }
+      } else {
+        errors.push(`"${token}" is not a recognised digit word`);
+      }
+    }
+
+    return { result, errors };
+  }
+
+  function validatePhone(digits) {
+    // Strip the leading + for length check
+    const stripped = digits.replace(/^\+/, '');
+    if (stripped.length < 7)  return 'Phone number is too short (minimum 7 digits)';
+    if (stripped.length > 15) return 'Phone number is too long (maximum 15 digits, per ITU-T E.164)';
+    return null;
+  }
+
+  const phoneWordsInput = document.getElementById('phoneWords');
+  const phonePreview    = document.getElementById('phonePreview');
+  const phoneError      = document.getElementById('phoneError');
+  const phoneDigits     = document.getElementById('phoneDigits');
+
+  phoneWordsInput.addEventListener('input', () => {
+    const raw = phoneWordsInput.value;
+    if (!raw.trim()) {
+      phonePreview.textContent = '';
+      phoneError.textContent   = '';
+      phoneDigits.value        = '';
+      return;
+    }
+
+    const { result, errors } = parsePhoneWords(raw);
+
+    if (errors.length) {
+      phonePreview.textContent = result ? `Parsed so far: ${result}` : '';
+      phoneError.textContent   = errors[0]; // show first error only
+      phoneDigits.value        = '';
+      phoneWordsInput.setCustomValidity(errors[0]);
+    } else {
+      const lenError = validatePhone(result);
+      if (lenError) {
+        phonePreview.textContent = `Parsed: ${result}`;
+        phoneError.textContent   = lenError;
+        phoneDigits.value        = '';
+        phoneWordsInput.setCustomValidity(lenError);
+      } else {
+        phonePreview.textContent = `✓ ${result}`;
+        phonePreview.style.color = '#27ae60';
+        phoneError.textContent   = '';
+        phoneDigits.value        = result;
+        phoneWordsInput.setCustomValidity('');
+      }
+    }
+  });
+</script>
 </body>
 </html>
