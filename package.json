@@ -1,0 +1,17 @@
+{
+  "name": "rguhack2026-carbon-calculator",
+  "version": "1.0.0",
+  "description": "Carbon Emissions Calculator for RGU Hack 2026",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": ["carbon", "emissions", "calculator", "hackathon"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "express": "^4.18.2",
+    "ejs": "^3.1.9"
+  }
+}
