@@ -105,6 +105,71 @@
       25% { transform: rotate(-1deg); }
       75% { transform: rotate(1deg); }
     }
+
+    /* ── Profile picture picker ── */
+    .profile-pic-picker {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      margin: 8px 0 18px;
+    }
+
+    .profile-pic-option {
+      position: relative;
+      cursor: pointer;
+      border-radius: 50%;
+      display: block;
+    }
+
+    /* hide the actual radio button */
+    .profile-pic-option input[type="radio"] {
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+
+    .profile-pic-option img {
+      width: 72px;
+      height: 72px;
+      border-radius: 50%;
+      object-fit: cover;
+      border: 3px solid transparent;
+      transition: border-color 0.15s, transform 0.15s, box-shadow 0.15s;
+      display: block;
+    }
+
+    .profile-pic-option img:hover {
+      border-color: #aaa;
+      transform: scale(1.07);
+    }
+
+    /* tick overlay — hidden by default */
+    .profile-pic-tick {
+      position: absolute;
+      inset: 0;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 28px;
+      color: #fff;
+      background: rgba(0,0,0,0.45);
+      opacity: 0;
+      transition: opacity 0.15s;
+      pointer-events: none;
+    }
+
+    /* selected state */
+    .profile-pic-option input[type="radio"]:checked ~ img {
+      border-color: #4CAF50;
+      box-shadow: 0 0 0 3px rgba(76,175,80,0.35);
+      transform: scale(1.1);
+    }
+
+    .profile-pic-option input[type="radio"]:checked ~ .profile-pic-tick {
+      opacity: 1;
+    }
   </style>
 </head>
 
@@ -155,6 +220,23 @@
 
     <label for="psw-repeat"><b>Repeat Password</b></label>
     <input type="password" placeholder="Repeat Password" name="psw-repeat" required>
+
+    <label><b>Profile Picture</b></label>
+    <div class="profile-pic-picker">
+      <% if (typeof profilePics !== 'undefined' && profilePics.length > 0) { %>
+        <% profilePics.forEach(pic => { %>
+          <label class="profile-pic-option">
+            <input type="radio" name="profilepic" value="<%= pic %>" required>
+            <img src="/assets/profilepics/<%= pic %>" alt="<%= pic %>" title="<%= pic %>">
+            <span class="profile-pic-tick">✓</span>
+          </label>
+        <% }) %>
+      <% } else { %>
+        <p style="color:#aaa; font-style:italic">No profile pictures found.</p>
+      <% } %>
+    </div>
+    <!-- Hidden fallback so the selected value is always submitted -->
+    <input type="hidden" name="profilepic" id="profilepicHidden">
 
     <label>
       <input type="checkbox" checked="checked" name="remember" style="margin-bottom:15px"> Forget to Not Remember to Forget about Remembering me?
@@ -222,7 +304,18 @@
     }
   }
 </script>
+<<<<<<< HEAD
+<script>
+  // Keep the hidden input in sync so the selected pic is always submitted
+  document.querySelectorAll('input[name="profilepic"][type="radio"]').forEach(radio => {
+    radio.addEventListener('change', () => {
+      document.getElementById('profilepicHidden').value = radio.value;
+    });
+  });
+</script>
+=======
 
 <%- include("../partials/wheel.ejs") %>
+>>>>>>> 31c65690d64e8d2447cc1864b09ff164ef9ba639
 </body>
 </html>
