@@ -417,20 +417,38 @@
         <p class="subtitle">Find the most exciting way to travel! 🔥</p>
 
         <div class="input-section" id="calculator">
-            <div class="form-group">
-                <label for="origin">Origin</label>
-                <div class="ddr-display empty" id="originDisplay">Dance to input location...</div>
-                <button class="ddr-start-btn" data-field="origin" id="originBtn">💃 DDR Mode 💃</button>
-                <input type="hidden" id="origin" value="">
+            <!-- Boring Mode Inputs (hidden by default) -->
+            <div id="boringModeInputs" style="display: none;">
+                <div class="form-group">
+                    <label for="originBoring">Origin</label>
+                    <input type="text" id="originBoring" class="boring-input" placeholder="Enter origin (e.g., London, UK)">
+                </div>
+                <div class="form-group">
+                    <label for="destinationBoring">Destination</label>
+                    <input type="text" id="destinationBoring" class="boring-input" placeholder="Enter destination (e.g., Paris, France)">
+                </div>
             </div>
-            <div class="form-group">
-                <label for="destination">Destination</label>
-                <div class="ddr-display empty" id="destinationDisplay">Dance to input destination...</div>
-                <button class="ddr-start-btn" data-field="destination" id="destinationBtn">💃 DDR Mode 💃</button>
-                <input type="hidden" id="destination" value="">
+
+            <!-- Fun Mode Inputs -->
+            <div id="funModeInputs">
+                <div class="form-group">
+                    <label for="origin">Origin</label>
+                    <div class="ddr-display empty" id="originDisplay">Dance to input location...</div>
+                    <button class="ddr-start-btn" data-field="origin" id="originBtn">💃 DDR Mode 💃</button>
+                    <input type="hidden" id="origin" value="">
+                </div>
+                <div class="form-group">
+                    <label for="destination">Destination</label>
+                    <div class="ddr-display empty" id="destinationDisplay">Dance to input destination...</div>
+                    <button class="ddr-start-btn" data-field="destination" id="destinationBtn">💃 DDR Mode 💃</button>
+                    <input type="hidden" id="destination" value="">
+                </div>
             </div>
+
+            <!-- Mode Toggle Buttons -->
             <div style="text-align: center;">
                 <button class="mode-toggle-btn" id="modeToggle">Switch to 👻 Ouija Mode</button>
+                <button class="boring-mode-btn" id="boringModeToggle">😴 Boring Mode</button>
             </div>
         </div>
             <div class="form-group">
@@ -717,6 +735,16 @@
 
         // Handle calculate button click
         async function handleCalculate() {
+            // Sync boring mode inputs if active
+            if (boringMode) {
+                if (originBoring.value) {
+                    originInput.value = originBoring.value;
+                }
+                if (destinationBoring.value) {
+                    destinationInput.value = destinationBoring.value;
+                }
+            }
+
             const origin = originInput.value.trim();
             const destination = destinationInput.value.trim();
 
@@ -1142,6 +1170,59 @@
         }
 
         modeToggle.addEventListener('click', toggleMode);
+
+        // Boring mode toggle
+        let boringMode = false;
+        const boringModeToggle = document.getElementById('boringModeToggle');
+        const boringModeInputs = document.getElementById('boringModeInputs');
+        const funModeInputs = document.getElementById('funModeInputs');
+        const originBoring = document.getElementById('originBoring');
+        const destinationBoring = document.getElementById('destinationBoring');
+
+        boringModeToggle.addEventListener('click', () => {
+            boringMode = !boringMode;
+
+            if (boringMode) {
+                // Switch to boring mode
+                boringModeInputs.style.display = 'block';
+                funModeInputs.style.display = 'none';
+                boringModeToggle.textContent = '🎮 Fun Mode';
+                modeToggle.style.display = 'none';
+
+                // Transfer existing values to boring inputs
+                if (originInput.value) {
+                    originBoring.value = originInput.value;
+                }
+                if (destinationInput.value) {
+                    destinationBoring.value = destinationInput.value;
+                }
+            } else {
+                // Switch back to fun mode
+                boringModeInputs.style.display = 'none';
+                funModeInputs.style.display = 'block';
+                boringModeToggle.textContent = '😴 Boring Mode';
+                modeToggle.style.display = 'inline-block';
+
+                // Transfer boring input values back to hidden inputs
+                if (originBoring.value) {
+                    originInput.value = originBoring.value;
+                    updateDisplay('origin', originBoring.value);
+                }
+                if (destinationBoring.value) {
+                    destinationInput.value = destinationBoring.value;
+                    updateDisplay('destination', destinationBoring.value);
+                }
+            }
+        });
+
+        // Update display for boring mode inputs
+        originBoring.addEventListener('input', () => {
+            originInput.value = originBoring.value;
+        });
+
+        destinationBoring.addEventListener('input', () => {
+            destinationInput.value = destinationBoring.value;
+        });
 
         // DDR button handlers
         originBtn.addEventListener('click', () => {
