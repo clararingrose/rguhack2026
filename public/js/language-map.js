@@ -149,8 +149,74 @@ const languageMap = {
     // Bulgarian
     BG: { code: 'bg', name: 'Bulgarian', nativeName: 'Български' },
 
+    // Slovenian
+    SI: { code: 'sl', name: 'Slovenian', nativeName: 'Slovenščina' },
+
     // Croatian
     HR: { code: 'hr', name: 'Croatian', nativeName: 'Hrvatski' },
+
+    // Serbian
+    RS: { code: 'sr', name: 'Serbian', nativeName: 'Српски' },
+
+    // North Macedonia
+    MK: { code: 'mk', name: 'Macedonian', nativeName: 'Македонски' },
+
+    // Albanian
+    AL: { code: 'sq', name: 'Albanian', nativeName: 'Shqip' },
+
+    // Bosnian
+    BA: { code: 'bs', name: 'Bosnian', nativeName: 'Bosanski' },
+
+    // Montenegrin
+    ME: { code: 'me', name: 'Montenegrin', nativeName: 'Crnogorski' },
+
+    // Kosovo
+    XK: { code: 'sq', name: 'Albanian', nativeName: 'Shqip' },
+
+    // Maltese
+    MT: { code: 'mt', name: 'Maltese', nativeName: 'Malti' },
+
+    // Icelandic
+    IS: { code: 'is', name: 'Icelandic', nativeName: 'Íslenska' },
+
+    // Luxembourgish
+    LU: { code: 'lb', name: 'Luxembourgish', nativeName: 'Lëtzebuergesch' },
+
+    // Monégasque (Monaco)
+    MC: { code: 'fr', name: 'French', nativeName: 'Français' },
+
+    // San Marino (uses Italian)
+    SM: { code: 'it', name: 'Italian', nativeName: 'Italiano' },
+
+    // Andorran
+    AD: { code: 'ca', name: 'Catalan', nativeName: 'Català' },
+
+    // Liechtenstein (uses German)
+    LI: { code: 'de', name: 'German', nativeName: 'Deutsch' },
+
+    // Costa Rican
+    CR: { code: 'es', name: 'Spanish', nativeName: 'Español' },
+
+    // Panamanian
+    PA: { code: 'es', name: 'Spanish', nativeName: 'Español' },
+
+    // Surinamese
+    SR: { code: 'nl', name: 'Dutch', nativeName: 'Nederlands' },
+
+    // Guyanese
+    GY: { code: 'en', name: 'English', nativeName: 'English' },
+
+    // Uruguayan
+    UY: { code: 'es', name: 'Spanish', nativeName: 'Español' },
+
+    // Paraguayan
+    PY: { code: 'es', name: 'Spanish', nativeName: 'Español' },
+
+    // Ecuadorian
+    EC: { code: 'es', name: 'Spanish', nativeName: 'Español' },
+
+    // Bolivian
+    BO: { code: 'es', name: 'Spanish', nativeName: 'Español' },
 
     // Serbian
     RS: { code: 'sr', name: 'Serbian', nativeName: 'Српски' },
@@ -742,6 +808,125 @@ const translations = {
         boringMode: 'Mod Bosan',
         selectDate: 'Pilih Tarikh',
         results: 'Keputusan'
+    },
+    // Slovenian
+    sl: {
+        title: '🌍 Kalkulator Ogljika',
+        subtitle: 'Najdi najbolj razvilen način potovanja! 🔥',
+        origin: 'Izhodišče',
+        destination: 'Cilj',
+        calculate: 'Izračunaj Emisije',
+        calculating: 'Izračunavanje...',
+        journeyDistance: 'Razdalja Potovanja',
+        kilometers: 'kilometrov',
+        mostExciting: '🔥 NAJRAVILENEJŠI!',
+        ddrMode: 'DDR Način',
+        ouijaMode: 'Preklopi na Ouija Način',
+        boringMode: 'Dolgčas Način',
+        selectDate: 'Izberi Datum',
+        results: 'Rezultati'
+    },
+    // Albanian
+    sq: {
+        title: '🌍 Llogaritësi i Karbonit',
+        subtitle: 'Gjeni mënyrin më të ekscituar për të udhëtuar! 🔥',
+        origin: 'Origjina',
+        destination: 'Destinacioni',
+        calculate: 'Llogarit Emisionet',
+        calculating: 'Duke llogaritur...',
+        journeyDistance: 'Distanca e Udhëtimit',
+        kilometers: 'kilometra',
+        mostExciting: '🔥 MË EKSCITUAR!',
+        ddrMode: 'Mënyra DDR',
+        ouijaMode: 'Kallos te Mënyrën Ouija',
+        boringMode: 'Mënyra e Ngopçir',
+        selectDate: 'Zgjidh Datën',
+        results: 'Rezultatet'
+    },
+    // Bosnian
+    bs: {
+        title: '🌍 Kalkulator Ugljika',
+        subtitle: 'Pronađite najuzbudljiviji način putovanja! 🔥',
+        origin: 'Polazak',
+        destination: 'Odredište',
+        calculate: 'Izračunaj Emisije',
+        calculating: 'Izračunavanje...',
+        journeyDistance: 'Udaljenost Putovanja',
+        kilometers: 'kilometara',
+        mostExciting: '🔥 NAJUZBUDLJIVIJI!',
+        ddrMode: 'DDR Način',
+        ouijaMode: 'Prebaci na Ouija Način',
+        boringMode: 'Dosadan Način',
+        selectDate: 'Odaberi Datum',
+        results: 'Rezultati'
+    },
+    // Montenegrin
+    me: {
+        title: '🌍 Kalkulator Ugljenika',
+        subtitle: 'Pronađite najuzbudljiviji način putovanja! 🔥',
+        origin: 'Polazak',
+        destination: 'Odredište',
+        calculate: 'Izračunaj Emisije',
+        calculating: 'Računam...',
+        journeyDistance: 'Rastojanja Putovanja',
+        kilometers: 'kilometara',
+        mostExciting: '🔥 NAJUZBUDLJIVIJI!',
+        ddrMode: 'DDR Mod',
+        ouijaMode: 'Prebaci na Ouija Mod',
+        boringMode: 'Dosadan Mod',
+        selectDate: 'Odaberi Datum',
+        results: 'Rezultati'
+    },
+    // Maltese
+    mt: {
+        title: '🌍 Kalkulatur tal-Karbonju',
+        subtitle: 'Sib mod eċċitativ biex titraviga! 🔥',
+        origin: 'Oriġini',
+        destination: 'Destinazzjoni',
+        calculate: 'Ikkalkula l-Emissjonijiet',
+        calculating: 'Nikkalkula...',
+        journeyDistance: 'Distanza tal-Vjaġġer',
+        kilometers: 'kilometri',
+        mostExciting: '🔥 L-EBIĊCITIVI!',
+        ddrMode: 'Mod DDR',
+        ouijaMode: 'Mur għal mod Ouija',
+        boringMode: 'Modwieti',
+        selectDate: 'Agħżel Data',
+        results: 'Riżultati'
+    },
+    // Icelandic
+    is: {
+        title: '🌍 Kolskandi Kolefnis',
+        subtitle: 'Finndu spennasta leiðin til að ferðast! 🔥',
+        origin: 'Upphafsstaður',
+        destination: 'Áfangastaður',
+        calculate: 'Reikna losun',
+        calculating: 'Reikni...',
+        journeyDistance: 'Fjarlægð Ferðar',
+        kilometers: 'kílómetrar',
+        mostExciting: '🔥 SPENNASTAST!',
+        ddrMode: 'DDR Hamur',
+        ouijaMode: 'Skipta yfir Ouija Ham',
+        boringMode: 'Langlegur Hamur',
+        selectDate: 'Velja Dagsetningu',
+        results: 'Niðurstöður'
+    },
+    // Catalan
+    ca: {
+        title: '🌍 Calculadora de Carboni',
+        subtitle: 'Troba la forma més emocionant de viatjar! 🔥',
+        origin: 'Origen',
+        destination: 'Destinació',
+        calculate: 'Calcular Emissions',
+        calculating: 'Calculant...',
+        journeyDistance: 'Distància del Viatge',
+        kilometers: 'quilòmetres',
+        mostExciting: '🔥 MÉS EMOCIONANT!',
+        ddrMode: 'Mode DDR',
+        ouijaMode: 'Canviar al Mode Ouija',
+        boringMode: 'Mode Avorrit',
+        selectDate: 'Seleccionar Data',
+        results: 'Resultats'
     }
 };
 
