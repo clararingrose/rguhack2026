@@ -82,6 +82,8 @@
 </head>
 
 <body>
+<%- include('../partials/nav') %>
+
     <!-- <video autoplay muted loop id="myVideo">
         <source src="assets/fire.mp4" type="video/mp4">
     </video> -->
@@ -89,7 +91,7 @@
     <!-- Color Blind Mode Toggle -->
     <button class="colorblind-toggle" id="colorblindToggle" style="position: fixed; top: 10px; right: 10px; z-index: 999999; padding: 10px; background: white; border: 2px solid black; color: black; font-size: 16px; cursor: pointer; font-weight: bold;" title="Toggle Color Blind Mode">Disable CSS</button>
 
-    <form action="action_page.php" style="border:1px solid #ccc">
+<form action="action_page.php" style="border:1px solid #ccc">
   <div class="container">
     <h1>Sign Up</h1>
     <p>Please fill in this form to create an account.</p>
@@ -171,6 +173,7 @@
 </form>
 
 <script src="/js/colorblind-mode.js"></script>
+<<<<<<< HEAD
 <script>
   // Keep the hidden input in sync so the selected pic is always submitted
   document.querySelectorAll('input[name="profilepic"][type="radio"]').forEach(radio => {
@@ -179,5 +182,9 @@
     });
   });
 </script>
+=======
+
+<%- include("../partials/wheel.ejs") %>
+>>>>>>> 31c65690d64e8d2447cc1864b09ff164ef9ba639
 </body>
 </html>

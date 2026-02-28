@@ -1,18 +1,61 @@
-<script>const props = {
-  items: [
-    {
-      label: 'one',
-    },
-    {
-      label: 'two',
-    },
-    {
-      label: 'three',
-    },
-  ]
-}
+<!-- <div id="wheel-container" style="height:400px;width:400px;"></div>
 
-    const container = document.querySelector('.wheel-container');
+<script src="spin-wheel.js"></script>
+<script>
+  const props = {
+    items: [
+      { label: 'one' },
+      { label: 'two' },
+      { label: 'three' },
+    ]
+  };
+
+  const container = document.getElementById('wheel-container');
+  const wheel = new Wheel(container, props);
+
+  wheel.start(); 
+</script> -->
+
+<div id="wheel-wrapper" style="position: relative; width: 400px; height: 400px;">
+  <div id="wheel-container" style="width: 100%; height: 100%;"></div>
+  <img id="wheel-pointer" src="assets/arrows.png" 
+       style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); width: 50px; height: 50px; pointer-events: none;">
+</div>
+
+<script type="module">
+    import {Wheel} from 'https://cdn.jsdelivr.net/npm/spin-wheel@5.0.2/dist/spin-wheel-esm.js';
+  document.addEventListener("DOMContentLoaded", function () {
+
+    //const img = new Image();
+    //img.src = "/assets/sun.png"
+
+    const props = {
+      items: [
+        { label: 'Accept',
+            backgroundColor: 'green',
+            weight: 0.005
+         },
+        { label: 'Reject',
+          backgroundColor: 'red'
+         },
+      ],
+      //overlayImage: img
+      
+    };
+
+    const container = document.getElementById('wheel-container');
 
     const wheel = new Wheel(container, props);
+    wheel.radius = 0.7;
+
+    wheel.spinToItem()
+
+
+    wheel.on('rest', e => {
+      result = wheel.items[wheel.getCurrentIndex()].label
+      console.log('Stopped on:', wheel.items[wheel.getCurrentIndex()].label);
+      alert(result)
+    });
+
+  });
 </script>

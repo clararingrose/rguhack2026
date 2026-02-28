@@ -412,20 +412,7 @@
     <source src="assets/fire.mp4" type="video/mp4">
 </video>
 
-<!-- MALICIOUS SPINNING NAVIGATION -->
-<nav class="malicious-nav" id="maliciousNav">
-    <div class="malicious-nav-items">
-        <a href="/" class="malicious-nav-item" style="transform: rotate(0deg) translateY(-100px) rotate(0deg);">Home</a>
-        <a href="/blog" class="malicious-nav-item" style="transform: rotate(51deg) translateY(-100px) rotate(-51deg);">Blog</a>
-        <a href="#about" class="malicious-nav-item" style="transform: rotate(102deg) translateY(-100px) rotate(-102deg);">About</a>
-        <a href="/signIn" class="malicious-nav-item" style="transform: rotate(180deg) translateY(-100px) rotate(-180deg);">Sign The In</a>
-        <a href="#contact" class="malicious-nav-item" style="transform: rotate(225deg) translateY(-100px) rotate(-225deg);">Contact</a>
-        <a href="#settings" class="malicious-nav-item" style="transform: rotate(270deg) translateY(-100px) rotate(-270deg);">Settings</a>
-        <a href="/wrapped" class="malicious-nav-item" style="transform: rotate(315deg) translateY(-100px) rotate(-315deg);">Wrapped</a>
-        <button class="malicious-nav-item colorblind-toggle" id="colorblindToggle" style="transform: rotate(340deg) translateY(-100px) rotate(-340deg); background: none; border: none; font: inherit; cursor: pointer;" title="Toggle Color Blind Mode">Disable CSS</button>
-        <div class="malicious-nav-center">🌍</div>
-    </div>
-</nav>
+<%- include('../partials/nav') %>
 
 <%- include("partials/themeMusic.ejs") %>
 <%- include("partials/curtains.ejs") %>
