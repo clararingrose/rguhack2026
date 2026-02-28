@@ -423,9 +423,22 @@
       .input-bar { flex-direction: column; gap: 12px; padding: 20px; }
       .input-wrap input[type="number"] { width: 140px; }
     }
+
+    #myVideo {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -1;
+        }
   </style>
 </head>
 <body>
+
+  <video autoplay muted loop id="myVideo">
+    <source src="assets/fire.mp4" type="video/mp4">
+</video>
 
   <a href="/" class="nav-back">← Back</a>
 

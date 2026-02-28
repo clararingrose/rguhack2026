@@ -6,6 +6,15 @@
     <title><%= title %></title>
     <link rel="stylesheet" href="/assets/styles.css">
     <style>
+        #myVideo {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -1;
+        }
+
         body {
             background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
             min-height: 100vh;
@@ -167,6 +176,9 @@
     </style>
 </head>
 <body>
+    <video autoplay muted loop id="myVideo">
+        <source src="assets/fire.mp4" type="video/mp4">
+    </video>
     <!-- Emoji rain background -->
     <div class="emoji-rain" style="left: 10%; animation-delay: 0s;">🌍</div>
     <div class="emoji-rain" style="left: 20%; animation-delay: 1s;">💨</div>
