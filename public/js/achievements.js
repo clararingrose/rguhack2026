@@ -135,24 +135,24 @@ setTimeout(() => {
     showAchievement(achievements[6]); // Slow reader
 }, 30000);
 
-// Random mini achievement spam
-setInterval(() => {
-    if (Math.random() > 0.7) {
-        const spamTexts = [
-            'Still here?',
-            'You\'re doing great!',
-            'Keep clicking!',
-            'Achievement unlocked!',
-            'Just kidding',
-            'Or are we?',
-            'Click more!',
-            'Almost there...',
-            'Not really though',
-            '🎉 Congratulations! 🎉',
-        ];
-        showMiniAchievement(spamTexts[Math.floor(Math.random() * spamTexts.length)]);
-    }
-}, 8000);
+// Random mini achievement spam - DISABLED
+// setInterval(() => {
+//     if (Math.random() > 0.7) {
+//         const spamTexts = [
+//             'Still here?',
+//             'You\'re doing great!',
+//             'Keep clicking!',
+//             'Achievement unlocked!',
+//             'Just kidding',
+//             'Or are we?',
+//             'Click more!',
+//             'Almost there...',
+//             'Not really though',
+//             '🎉 Congratulations! 🎉',
+//         ];
+//         showMiniAchievement(spamTexts[Math.floor(Math.random() * spamTexts.length)]);
+//     }
+// }, 8000);
 
 // Random impossible achievement (0.0001% chance per second)
 setInterval(() => {
@@ -288,17 +288,17 @@ setInterval(() => {
     updateLeaderboard();
 }, 5000);
 
-// Show leaderboard taunts
-setInterval(() => {
-    if (Math.random() > 0.85) {
-        const taunts = [
-            'xX_CarbonKing_Xx just calculated 50 routes!',
-            'ClimateQueen2007 is still ahead of you...',
-            'You\'re ranked #14,293 globally!',
-            'Hint: calculate more routes!',
-            '⚠️ You\'re falling behind! ⚠️',
-            '15 players just passed you!',
-        ];
-        showMiniAchievement(taunts[Math.floor(Math.random() * taunts.length)]);
-    }
-}, 12000);
+// Show leaderboard taunts - DISABLED
+// setInterval(() => {
+//     if (Math.random() > 0.85) {
+//         const taunts = [
+//             'xX_CarbonKing_Xx just calculated 50 routes!',
+//             'ClimateQueen2007 is still ahead of you...',
+//             'You\'re ranked #14,293 globally!',
+//             'Hint: calculate more routes!',
+//             '⚠️ You\'re falling behind! ⚠️',
+//             '15 players just passed you!',
+//         ];
+//         showMiniAchievement(taunts[Math.floor(Math.random() * taunts.length)]);
+//     }
+// }, 12000);

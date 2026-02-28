@@ -358,28 +358,40 @@ function updateModeButtons() {
     const originDisplay = document.getElementById('originDisplay');
     const destinationDisplay = document.getElementById('destinationDisplay');
 
+    // Get translations from window.currentTranslations, falling back to English defaults
+    const t = window.currentTranslations || {
+        ddrModeBtn: 'DDR Mode',
+        summonLocation: 'Summon Location',
+        switchToOuija: 'Switch to Ouija Mode',
+        switchToDdr: 'Switch to DDR Mode',
+        danceToInput: 'Dance to input location...',
+        danceToDestination: 'Dance to input destination...',
+        summonFromBeyond: 'Summon location from beyond...',
+        summonDestinationFromBeyond: 'Summon destination from beyond...'
+    };
+
     if (inputMode === 'ddr') {
-        originBtn.textContent = 'DDR Mode';
+        originBtn.textContent = t.ddrModeBtn;
         originBtn.className = 'ddr-start-btn';
-        destinationBtn.textContent = 'DDR Mode';
+        destinationBtn.textContent = t.ddrModeBtn;
         destinationBtn.className = 'ddr-start-btn';
-        modeToggle.textContent = 'Switch to Ouija Mode';
+        modeToggle.textContent = t.switchToOuija;
 
         originDisplay.className = 'ddr-display empty' + (originInput.value ? '' : ' empty');
         destinationDisplay.className = 'ddr-display empty' + (destinationInput.value ? '' : ' empty');
-        if (!originInput.value) originDisplay.textContent = 'Dance to input location...';
-        if (!destinationInput.value) destinationDisplay.textContent = 'Dance to input destination...';
+        if (!originInput.value) originDisplay.textContent = t.danceToInput;
+        if (!destinationInput.value) destinationDisplay.textContent = t.danceToDestination;
     } else {
-        originBtn.textContent = 'Summon Location';
+        originBtn.textContent = t.summonLocation;
         originBtn.className = 'ouija-start-btn';
-        destinationBtn.textContent = 'Summon Location';
+        destinationBtn.textContent = t.summonLocation;
         destinationBtn.className = 'ouija-start-btn';
-        modeToggle.textContent = 'Switch to DDR Mode';
+        modeToggle.textContent = t.switchToDdr;
 
         originDisplay.className = 'ouija-display empty' + (originInput.value ? '' : ' empty');
         destinationDisplay.className = 'ouija-display empty' + (destinationInput.value ? '' : ' empty');
-        if (!originInput.value) originDisplay.textContent = 'Summon location from beyond...';
-        if (!destinationInput.value) destinationDisplay.textContent = 'Summon destination from beyond...';
+        if (!originInput.value) originDisplay.textContent = t.summonFromBeyond;
+        if (!destinationInput.value) destinationDisplay.textContent = t.summonDestinationFromBeyond;
     }
 }
 

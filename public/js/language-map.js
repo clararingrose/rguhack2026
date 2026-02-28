@@ -243,7 +243,7 @@ const languageMap = {
  */
 const translations = {
     en: {
-        title: '🌍 Carbon Calculator',
+        title: '🌍 Evil Carbon Calculator',
         subtitle: 'Find the most exciting way to travel! 🔥',
         origin: 'Origin',
         destination: 'Destination',
@@ -258,6 +258,15 @@ const translations = {
         funMode: 'Fun Mode',
         selectDate: 'Select Date',
         results: 'Results',
+        // Input mode buttons
+        ddrModeBtn: 'DDR Mode',
+        summonLocation: 'Summon Location',
+        switchToOuija: 'Switch to Ouija Mode',
+        switchToDdr: 'Switch to DDR Mode',
+        danceToInput: 'Dance to input location...',
+        danceToDestination: 'Dance to input destination...',
+        summonFromBeyond: 'Summon location from beyond...',
+        summonDestinationFromBeyond: 'Summon destination from beyond...',
         // Transport modes
         transportWalking: 'Walking',
         transportCycling: 'Cycling',
@@ -283,7 +292,7 @@ const translations = {
         navWrapped: 'Wrapped'
     },
     fr: {
-        title: '🌍 Calculateur de Carbone',
+        title: '🌍 Calculateur de Carbone Malveillant',
         subtitle: 'Trouvez le moyen le plus excitant de voyager ! 🔥',
         origin: 'Origine',
         destination: 'Destination',
@@ -297,10 +306,19 @@ const translations = {
         boringMode: 'Mode Ennuyeux',
         funMode: 'Mode Amusant',
         selectDate: 'Sélectionner la Date',
-        results: 'Résultats'
+        results: 'Résultats',
+        // Input mode buttons
+        ddrModeBtn: 'Mode DDR',
+        summonLocation: 'Invoquer un Lieu',
+        switchToOuija: 'Passer au Mode Ouija',
+        switchToDdr: 'Passer au Mode DDR',
+        danceToInput: 'Dansez pour entrer le lieu...',
+        danceToDestination: 'Dansez pour entrer la destination...',
+        summonFromBeyond: 'Invoquer un lieu d\'au-delà...',
+        summonDestinationFromBeyond: 'Invoquer une destination d\'au-delà...'
     },
     de: {
-        title: '🌍 Kohlenstoffrechner',
+        title: '🌍 Böser Kohlenstoffrechner',
         subtitle: 'Finden Sie die aufregendste Art zu reisen! 🔥',
         origin: 'Ursprung',
         destination: 'Ziel',
@@ -314,10 +332,19 @@ const translations = {
         boringMode: 'Langweiliger Modus',
         funMode: 'Spaßiger Modus',
         selectDate: 'Datum Wählen',
-        results: 'Ergebnisse'
+        results: 'Ergebnisse',
+        // Input mode buttons
+        ddrModeBtn: 'DDR-Modus',
+        summonLocation: 'Ort beschwören',
+        switchToOuija: 'Zum Ouija-Modus Wechseln',
+        switchToDdr: 'Zum DDR-Modus Wechseln',
+        danceToInput: 'Tanze, um Ort einzugeben...',
+        danceToDestination: 'Tanze, um Ziel einzugeben...',
+        summonFromBeyond: 'Ort von jenseits beschwören...',
+        summonDestinationFromBeyond: 'Ziel von jenseits beschwören...'
     },
     es: {
-        title: '🌍 Calculadora de Carbono',
+        title: '🌍 Calculadora de Carbono Malvada',
         subtitle: '¡Encuentra la forma más emocionante de viajar! 🔥',
         origin: 'Origen',
         destination: 'Destino',
@@ -331,10 +358,19 @@ const translations = {
         boringMode: 'Modo Aburrido',
         funMode: 'Modo Divertido',
         selectDate: 'Seleccionar Fecha',
-        results: 'Resultados'
+        results: 'Resultados',
+        // Input mode buttons
+        ddrModeBtn: 'Modo DDR',
+        summonLocation: 'Invocar Ubicación',
+        switchToOuija: 'Cambiar a Modo Ouija',
+        switchToDdr: 'Cambiar a Modo DDR',
+        danceToInput: 'Baila para ingresar ubicación...',
+        danceToDestination: 'Baila para ingresar destino...',
+        summonFromBeyond: 'Invocar ubicación desde el más allá...',
+        summonDestinationFromBeyond: 'Invocar destino desde el más allá...'
     },
     it: {
-        title: '🌍 Calcolatore di Carbonio',
+        title: '🌍 Calcolatore di Carbonio Malvagio',
         subtitle: 'Trova il modo più eccitante per viaggiare! 🔥',
         origin: 'Origine',
         destination: 'Destinazione',
@@ -348,10 +384,19 @@ const translations = {
         boringMode: 'Modalità Noiosa',
         funMode: 'Modalità Divertente',
         selectDate: 'Seleziona Data',
-        results: 'Risultati'
+        results: 'Risultati',
+        // Input mode buttons
+        ddrModeBtn: 'Modalità DDR',
+        summonLocation: 'Evoca Luogo',
+        switchToOuija: 'Passa alla Modalità Ouija',
+        switchToDdr: 'Passa alla Modalità DDR',
+        danceToInput: 'Balla per inserire il luogo...',
+        danceToDestination: 'Balla per inserire la destinazione...',
+        summonFromBeyond: 'Evoca un luogo dall\'aldilà...',
+        summonDestinationFromBeyond: 'Evoca una destinazione dall\'aldilà...'
     },
     pt: {
-        title: '🌍 Calculadora de Carbono',
+        title: '🌍 Calculadora de Carbono Malígna',
         subtitle: 'Encontre a forma mais emocionante de viajar! 🔥',
         origin: 'Origem',
         destination: 'Destino',
@@ -365,10 +410,19 @@ const translations = {
         boringMode: 'Modo Chato',
         funMode: 'Modo Divertido',
         selectDate: 'Selecionar Data',
-        results: 'Resultados'
+        results: 'Resultados',
+        // Input mode buttons
+        ddrModeBtn: 'Modo DDR',
+        summonLocation: 'Invocar Local',
+        switchToOuija: 'Mudar para Modo Ouija',
+        switchToDdr: 'Mudar para Modo DDR',
+        danceToInput: 'Dance para inserir local...',
+        danceToDestination: 'Dance para inserir destino...',
+        summonFromBeyond: 'Invocar local de além...',
+        summonDestinationFromBeyond: 'Invocar destino de além...'
     },
     nl: {
-        title: '🌍 Koolstofcalculator',
+        title: '🌍 Kwaadaardige Koolstofcalculator',
         subtitle: 'Vind de meest opwindende manier om te reizen! 🔥',
         origin: 'Oorsprong',
         destination: 'Bestemming',
@@ -381,10 +435,19 @@ const translations = {
         ouijaMode: 'Schakel naar Ouija Modus',
         boringMode: 'Saaie Modus',
         selectDate: 'Selecteer Datum',
-        results: 'Resultaten'
+        results: 'Resultaten',
+        // Input mode buttons
+        ddrModeBtn: 'DDR Modus',
+        summonLocation: 'Locatie Oproepen',
+        switchToOuija: 'Schakel naar Ouija Modus',
+        switchToDdr: 'Schakel naar DDR Modus',
+        danceToInput: 'Dans om locatie in te voeren...',
+        danceToDestination: 'Dans om bestemming in te voeren...',
+        summonFromBeyond: 'Locatie van hiernamaals oproepen...',
+        summonDestinationFromBeyond: 'Bestemming van hiernamaals oproepen...'
     },
     pl: {
-        title: '🌍 Kalkulator Węgla',
+        title: '🌍 Zły Kalkulator Węgla',
         subtitle: 'Znajdź najbardziej ekscytujący sposób podróży! 🔥',
         origin: 'Początek',
         destination: 'Cel',
@@ -397,10 +460,19 @@ const translations = {
         ouijaMode: 'Przełącz na Tryb Ouija',
         boringMode: 'Nudny Tryb',
         selectDate: 'Wybierz Datę',
-        results: 'Wyniki'
+        results: 'Wyniki',
+        // Input mode buttons
+        ddrModeBtn: 'Tryb DDR',
+        summonLocation: 'Przyzwołaj Lokalizację',
+        switchToOuija: 'Przełącz na Tryb Ouija',
+        switchToDdr: 'Przełącz na Tryb DDR',
+        danceToInput: 'Zatańcz, aby wpisać lokalizację...',
+        danceToDestination: 'Zatańcz, aby wpisać cel...',
+        summonFromBeyond: 'Przyzwołaj lokalizację z zaświatów...',
+        summonDestinationFromBeyond: 'Przyzwołaj cel z zaświatów...'
     },
     tr: {
-        title: '🌍 Karbon Hesaplayıcı',
+        title: '🌍 Kötü Karbon Hesaplayıcı',
         subtitle: 'Yolculuk için en heyecan verici yolu bulun! 🔥',
         origin: 'Başlangıç',
         destination: 'Varış',
@@ -413,10 +485,19 @@ const translations = {
         ouijaMode: 'Ouija Moduna Geç',
         boringMode: 'Sıkıcı Mod',
         selectDate: 'Tarih Seç',
-        results: 'Sonuçlar'
+        results: 'Sonuçlar',
+        // Input mode buttons
+        ddrModeBtn: 'DDR Modu',
+        summonLocation: 'Konum Çağır',
+        switchToOuija: 'Ouija Moduna Geç',
+        switchToDdr: 'DDR Moduna Geç',
+        danceToInput: 'Konum girmek için dans et...',
+        danceToDestination: 'Hedef girmek için dans et...',
+        summonFromBeyond: 'Konumu öbür dünyadan çağır...',
+        summonDestinationFromBeyond: 'Hedefi öbür dünyadan çağır...'
     },
     ru: {
-        title: '🌍 Калькулятор Углерода',
+        title: '🌍 Злой Калькулятор Углерода',
         subtitle: 'Найдите самый захватывающий способ путешествовать! 🔥',
         origin: 'Отправление',
         destination: 'Назначение',
@@ -429,10 +510,19 @@ const translations = {
         ouijaMode: 'Переключить на Ouija',
         boringMode: 'Скучный Режим',
         selectDate: 'Выбрать Дату',
-        results: 'Результаты'
+        results: 'Результаты',
+        // Input mode buttons
+        ddrModeBtn: 'DDR Режим',
+        summonLocation: 'Призвать Местоположение',
+        switchToOuija: 'Переключить на Ouija',
+        switchToDdr: 'Переключить на DDR',
+        danceToInput: 'Танцуйте, чтобы ввести место...',
+        danceToDestination: 'Танцуйте, чтобы ввести цель...',
+        summonFromBeyond: 'Призвать место из загробного мира...',
+        summonDestinationFromBeyond: 'Призвать цель из загробного мира...'
     },
     zh: {
-        title: '🌍 碳排放计算器',
+        title: '🌍 邪恶碳排放计算器',
         subtitle: '找到最令人兴奋的旅行方式！🔥',
         origin: '出发地',
         destination: '目的地',
@@ -446,10 +536,19 @@ const translations = {
         boringMode: '无聊模式',
         funMode: '有趣模式',
         selectDate: '选择日期',
-        results: '结果'
+        results: '结果',
+        // Input mode buttons
+        ddrModeBtn: 'DDR模式',
+        summonLocation: '召唤位置',
+        switchToOuija: '切换到灵应板模式',
+        switchToDdr: '切换到DDR模式',
+        danceToInput: '跳舞输入位置...',
+        danceToDestination: '跳舞输入目的地...',
+        summonFromBeyond: '从冥界召唤位置...',
+        summonDestinationFromBeyond: '从冥界召唤目的地...'
     },
     ja: {
-        title: '🌍 炭素排出量計算機',
+        title: '🌍 邪悪な炭素排出量計算機',
         subtitle: '最もエキサイティングな旅行の方法を見つけよう！🔥',
         origin: '出発地',
         destination: '目的地',
@@ -463,10 +562,19 @@ const translations = {
         boringMode: '退屈モード',
         funMode: 'ファンモード',
         selectDate: '日付を選択',
-        results: '結果'
+        results: '結果',
+        // Input mode buttons
+        ddrModeBtn: 'DDRモード',
+        summonLocation: '場所を召喚',
+        switchToOuija: 'ウイジャボードモードに切り替え',
+        switchToDdr: 'DDRモードに切り替え',
+        danceToInput: 'ダンスで場所を入力...',
+        danceToDestination: 'ダンスで目的地を入力...',
+        summonFromBeyond: 'あの世から場所を召喚...',
+        summonDestinationFromBeyond: 'あの世から目的地を召喚...'
     },
     ko: {
-        title: '🌍 탄소 계산기',
+        title: '🌍 사악한 탄소 계산기',
         subtitle: '가장 흥미로운 여행 방법을 찾으세요! 🔥',
         origin: '출발지',
         destination: '목적지',
@@ -479,10 +587,19 @@ const translations = {
         ouijaMode: '위저 보드 모드로 전환',
         boringMode: '지루한 모드',
         selectDate: '날짜 선택',
-        results: '결과'
+        results: '결과',
+        // Input mode buttons
+        ddrModeBtn: 'DDR 모드',
+        summonLocation: '위치 소환',
+        switchToOuija: '위저 보드 모드로 전환',
+        switchToDdr: 'DDR 모드로 전환',
+        danceToInput: '춤으로 위치 입력...',
+        danceToDestination: '춤으로 목적지 입력...',
+        summonFromBeyond: '저세상에서 위치 소환...',
+        summonDestinationFromBeyond: '저세상에서 목적지 소환...'
     },
     ar: {
-        title: '🌍 حاسبة الكربون',
+        title: '🌍 حاسبة الكربون الخبيثة',
         subtitle: 'ابحث عن أكثر طرق السفر إثارة! 🔥',
         origin: 'الأصل',
         destination: 'الوجهة',
@@ -495,10 +612,19 @@ const translations = {
         ouijaMode: 'التبديل إلى وضع Ouija',
         boringMode: 'وضع ممل',
         selectDate: 'اختر التاريخ',
-        results: 'النتائج'
+        results: 'النتائج',
+        // Input mode buttons
+        ddrModeBtn: 'وضع DDR',
+        summonLocation: 'استدعاء الموقع',
+        switchToOuija: 'التبديل إلى وضع Ouija',
+        switchToDdr: 'التبديل إلى وضع DDR',
+        danceToInput: 'رقص لإدخال الموقع...',
+        danceToDestination: 'رقص لإدخال الوجهة...',
+        summonFromBeyond: 'استدعاء الموقع من ما وراء الطبيعة...',
+        summonDestinationFromBeyond: 'استدعاء الوجهة من ما وراء الطبيعة...'
     },
     hi: {
-        title: '🌍 कार्बन कैलकुलेटर',
+        title: '🌍 दुष्ट कार्बन कैलकुलेटर',
         subtitle: 'सबसे रोमांचक यात्रा का तरीका खोजें! 🔥',
         origin: 'मूल',
         destination: 'गंतव्य',
@@ -511,10 +637,19 @@ const translations = {
         ouijaMode: 'Ouija मोड में स्विच करें',
         boringMode: 'उबाऊ मोड',
         selectDate: 'तारीख चुनें',
-        results: 'परिणाम'
+        results: 'परिणाम',
+        // Input mode buttons
+        ddrModeBtn: 'DDR मोड',
+        summonLocation: 'स्थान बुलाएं',
+        switchToOuija: 'Ouija मोड में स्विच करें',
+        switchToDdr: 'DDR मोड में स्विच करें',
+        danceToInput: 'स्थान इनपुट करने के लिए नाचें...',
+        danceToDestination: 'गंतव्य इनपुट करने के लिए नाचें...',
+        summonFromBeyond: 'परलोक से स्थान बुलाएं...',
+        summonDestinationFromBeyond: 'परलोक से गंतव्य बुलाएं...'
     },
     th: {
-        title: '🌍 เครื่องคำนวณคาร์บอน',
+        title: '🌍 เครื่องคำนวณคาร์บอนชั่วร้าย',
         subtitle: 'ค้นหาวิธีการเดินทางที่น่าตื่นเต้นที่สุด! 🔥',
         origin: 'จุดเริ่มต้น',
         destination: 'ปลายทาง',
@@ -527,10 +662,19 @@ const translations = {
         ouijaMode: 'สลับไปโหมด Ouija',
         boringMode: 'โหมดน่าเบื่อ',
         selectDate: 'เลือกวันที่',
-        results: 'ผลลัพธ์'
+        results: 'ผลลัพธ์',
+        // Input mode buttons
+        ddrModeBtn: 'โหมด DDR',
+        summonLocation: 'เรียกสถานที่',
+        switchToOuija: 'สลับไปโหมด Ouija',
+        switchToDdr: 'สลับไปโหมด DDR',
+        danceToInput: 'เต้นเพื่อป้อนสถานที่...',
+        danceToDestination: 'เต้นเพื่อป้อนปลายทาง...',
+        summonFromBeyond: 'เรียกสถานที่จากโลกหน้า...',
+        summonDestinationFromBeyond: 'เรียกปลายทางจากโลกหน้า...'
     },
     vi: {
-        title: '🌍 Máy tính Carbon',
+        title: '🌍 Máy Tính Carbon Ác',
         subtitle: 'Tìm cách du lịch thú vị nhất! 🔥',
         origin: 'Xuất phát',
         destination: 'Điểm đến',
@@ -543,10 +687,19 @@ const translations = {
         ouijaMode: 'Chuyển sang Chế độ Ouija',
         boringMode: 'Chế độ Chán',
         selectDate: 'Chọn Ngày',
-        results: 'Kết quả'
+        results: 'Kết quả',
+        // Input mode buttons
+        ddrModeBtn: 'Chế độ DDR',
+        summonLocation: 'Triệu Hồi Địa Điểm',
+        switchToOuija: 'Chuyển sang Chế độ Ouija',
+        switchToDdr: 'Chuyển sang Chế độ DDR',
+        danceToInput: 'Nhảy để nhập địa điểm...',
+        danceToDestination: 'Nhảy để nhập điểm đến...',
+        summonFromBeyond: 'Triệu hồi địa điểm từ thế giới bên kia...',
+        summonDestinationFromBeyond: 'Triệu hồi điểm đến từ thế giới bên kia...'
     },
     id: {
-        title: '🌍 Kalkulator Karbon',
+        title: '🌍 Kalkulator Karbon Jahat',
         subtitle: 'Temukan cara perjalanan paling menarik! 🔥',
         origin: 'Asal',
         destination: 'Tujuan',
@@ -559,10 +712,19 @@ const translations = {
         ouijaMode: 'Beralih ke Mode Ouija',
         boringMode: 'Mode Membosankan',
         selectDate: 'Pilih Tanggal',
-        results: 'Hasil'
+        results: 'Hasil',
+        // Input mode buttons
+        ddrModeBtn: 'Mode DDR',
+        summonLocation: 'Panggil Lokasi',
+        switchToOuija: 'Beralih ke Mode Ouija',
+        switchToDdr: 'Beralih ke Mode DDR',
+        danceToInput: 'Menari untuk memasukkan lokasi...',
+        danceToDestination: 'Menari untuk memasukkan tujuan...',
+        summonFromBeyond: 'Panggil lokasi dari dunia lain...',
+        summonDestinationFromBeyond: 'Panggil tujuan dari dunia lain...'
     },
     sv: {
-        title: '🌍 Koldioxidkalkylator',
+        title: '🌍 Ond Koldioxidkalkylator',
         subtitle: 'Hitta det mest spännande sättet att resa! 🔥',
         origin: 'Ursprung',
         destination: 'Destination',
@@ -575,10 +737,19 @@ const translations = {
         ouijaMode: 'Byt till Ouija-läge',
         boringMode: 'Tråkigt Läge',
         selectDate: 'Välj Datum',
-        results: 'Resultat'
+        results: 'Resultat',
+        // Input mode buttons
+        ddrModeBtn: 'DDR-läge',
+        summonLocation: 'Kalla Fram Plats',
+        switchToOuija: 'Byt till Ouija-läge',
+        switchToDdr: 'Byt till DDR-läge',
+        danceToInput: 'Dansa för att mata in plats...',
+        danceToDestination: 'Dansa för att mata in destination...',
+        summonFromBeyond: 'Kalla fram plats från bortom...',
+        summonDestinationFromBeyond: 'Kalla fram destination från bortom...'
     },
     no: {
-        title: '🌍 Karbonkalkulator',
+        title: '🌍 Ond Karbonkalkulator',
         subtitle: 'Finn den mest spennende måten å reise på! 🔥',
         origin: 'Opprinnelse',
         destination: 'Bestemmelse',
@@ -591,10 +762,19 @@ const translations = {
         ouijaMode: 'Bytt til Ouija-modus',
         boringMode: 'Kjedelig Modus',
         selectDate: 'Velg Dato',
-        results: 'Resultater'
+        results: 'Resultater',
+        // Input mode buttons
+        ddrModeBtn: 'DDR-modus',
+        summonLocation: 'Kallelse Sted',
+        switchToOuija: 'Bytt til Ouija-modus',
+        switchToDdr: 'Bytt til DDR-modus',
+        danceToInput: 'Dans for å skrive inn sted...',
+        danceToDestination: 'Dans for å skrive inn destinasjon...',
+        summonFromBeyond: 'Kallelse sted fra den andre siden...',
+        summonDestinationFromBeyond: 'Kallelse destinasjon fra den andre siden...'
     },
     da: {
-        title: '🌍 Kulstofkalkulator',
+        title: '🌍 Ond Kulstofkalkulator',
         subtitle: 'Find den mest spændende måde at rejse på! 🔥',
         origin: 'Oprindelse',
         destination: 'Destination',
@@ -607,10 +787,19 @@ const translations = {
         ouijaMode: 'Skift til Ouija-tilstand',
         boringMode: 'Kedelig Tilstand',
         selectDate: 'Vælg Dato',
-        results: 'Resultater'
+        results: 'Resultater',
+        // Input mode buttons
+        ddrModeBtn: 'DDR-tilstand',
+        summonLocation: 'Kald Sted',
+        switchToOuija: 'Skift til Ouija-tilstand',
+        switchToDdr: 'Skift til DDR-tilstand',
+        danceToInput: 'Dans for at indtaste sted...',
+        danceToDestination: 'Dans for at indtaste destination...',
+        summonFromBeyond: 'Kald sted fra den anden side...',
+        summonDestinationFromBeyond: 'Kald destination fra den anden side...'
     },
     fi: {
-        title: '🌍 Hiililaskuri',
+        title: '🌍 Paha Hiililaskuri',
         subtitle: 'Löydä jännittävin tapa matkustaa! 🔥',
         origin: 'Alku',
         destination: 'Määränpää',
@@ -623,10 +812,19 @@ const translations = {
         ouijaMode: 'Vaihda Ouija-tilaan',
         boringMode: 'Tylylä Tila',
         selectDate: 'Valitse Päivämäärä',
-        results: 'Tulokset'
+        results: 'Tulokset',
+        // Input mode buttons
+        ddrModeBtn: 'DDR-tila',
+        summonLocation: 'Kutsu Paikka',
+        switchToOuija: 'Vaihda Ouija-tilaan',
+        switchToDdr: 'Vaihda DDR-tilaan',
+        danceToInput: 'Tanssi paikan syöttämiseksi...',
+        danceToDestination: 'Tanssi kohteen syöttämiseksi...',
+        summonFromBeyond: 'Kutsu paikka tuonpuoleisesta...',
+        summonDestinationFromBeyond: 'Kutsu kohde tuonpuoleisesta...'
     },
     el: {
-        title: '🌍 Υπολογισμός Άνθρακα',
+        title: '🌍 Κακός Υπολογισμός Άνθρακα',
         subtitle: 'Βρείτε τον πιο συναρπαστικό τρόπο ταξιδιού! 🔥',
         origin: 'Αφετηρία',
         destination: 'Προορισμός',
@@ -639,10 +837,19 @@ const translations = {
         ouijaMode: 'Αλλαγή σε Λειτουργία Ouija',
         boringMode: 'Ανιατή Λειτουργία',
         selectDate: 'Επιλογή Ημερομηνίας',
-        results: 'Αποτελέσματα'
+        results: 'Αποτελέσματα',
+        // Input mode buttons
+        ddrModeBtn: 'Λειτουργία DDR',
+        summonLocation: 'Κλήση Τοποθεσίας',
+        switchToOuija: 'Αλλαγή σε Λειτουργία Ouija',
+        switchToDdr: 'Αλλαγή σε Λειτουργία DDR',
+        danceToInput: 'Χορέψτε για να εισάγετε την τοποθεσία...',
+        danceToDestination: 'Χορέψτε για να εισάγετε τον προορισμό...',
+        summonFromBeyond: 'Κλήση τοποθεσίας από τον άλλο κόσμο...',
+        summonDestinationFromBeyond: 'Κλήση προορισμού από τον άλλο κόσμο...'
     },
     cs: {
-        title: '🌍 Kalkulátor Uhlíku',
+        title: '🌍 Zlý Kalkulátor Uhlíku',
         subtitle: 'Najděte nejzábavnější způsob cestování! 🔥',
         origin: 'Původ',
         destination: 'Cíl',
@@ -655,10 +862,19 @@ const translations = {
         ouijaMode: 'Přepnout na Režim Ouija',
         boringMode: 'Nudný Režim',
         selectDate: 'Vybrat Datum',
-        results: 'Výsledky'
+        results: 'Výsledky',
+        // Input mode buttons
+        ddrModeBtn: 'Režim DDR',
+        summonLocation: 'Vyvolat Místo',
+        switchToOuija: 'Přepnout na Režim Ouija',
+        switchToDdr: 'Přepnout na Režim DDR',
+        danceToInput: 'Tančete pro zadání místa...',
+        danceToDestination: 'Tančete pro zadání cíle...',
+        summonFromBeyond: 'Vyvolat místo ze záhrobí...',
+        summonDestinationFromBeyond: 'Vyvolat cíl ze záhrobí...'
     },
     hu: {
-        title: '🌍 Szénláb Kalkulátor',
+        title: '🌍 Gonosz Szénláb Kalkulátor',
         subtitle: 'Találd meg a legizgalmasabb utazási módot! 🔥',
         origin: 'Kiindulás',
         destination: 'Célállomás',
@@ -671,10 +887,19 @@ const translations = {
         ouijaMode: 'Váltás Ouija Módra',
         boringMode: 'Unalmas Mód',
         selectDate: 'Dátum Kiválasztása',
-        results: 'Eredmények'
+        results: 'Eredmények',
+        // Input mode buttons
+        ddrModeBtn: 'DDR Mód',
+        summonLocation: 'Hely Meghívása',
+        switchToOuija: 'Váltás Ouija Módra',
+        switchToDdr: 'Váltás DDR Módra',
+        danceToInput: 'Táncoljon a hely megadásához...',
+        danceToDestination: 'Táncoljon a cél megadásához...',
+        summonFromBeyond: 'Hely meghívása a túlvilágból...',
+        summonDestinationFromBeyond: 'Cél meghívása a túlvilágból...'
     },
     ro: {
-        title: '🌍 Calculator de Carbon',
+        title: '🌍 Calculator de Carbon Rău',
         subtitle: 'Găsiți cea mai palpitantă modalitate de a călători! 🔥',
         origin: 'Origine',
         destination: 'Destinație',
@@ -687,10 +912,19 @@ const translations = {
         ouijaMode: 'Treci la Modul Ouija',
         boringMode: 'Modul Plictisitor',
         selectDate: 'Selectați Data',
-        results: 'Rezultate'
+        results: 'Rezultate',
+        // Input mode buttons
+        ddrModeBtn: 'Modul DDR',
+        summonLocation: 'Invocă Locația',
+        switchToOuija: 'Treci la Modul Ouija',
+        switchToDdr: 'Treci la Modul DDR',
+        danceToInput: 'Dansează pentru a introduce locația...',
+        danceToDestination: 'Dansează pentru a introduce destinația...',
+        summonFromBeyond: 'Invocă locația din lumea de dincolo...',
+        summonDestinationFromBeyond: 'Invocă destinația din lumea de dincolo...'
     },
     bg: {
-        title: '🌍 Калкулатор на Въглерод',
+        title: '🌍 Злонамерен Калкулатор на Въглерод',
         subtitle: 'Намерете най-вълнуващия начин за пътуване! 🔥',
         origin: 'Произход',
         destination: 'Дестинация',
@@ -703,10 +937,19 @@ const translations = {
         ouijaMode: 'Превключи към Ouija Режим',
         boringMode: 'Скучен Режим',
         selectDate: 'Избери Дата',
-        results: 'Резултати'
+        results: 'Резултати',
+        // Input mode buttons
+        ddrModeBtn: 'DDR Режим',
+        summonLocation: 'Призови Място',
+        switchToOuija: 'Превключи към Ouija Режим',
+        switchToDdr: 'Превключи към DDR Режим',
+        danceToInput: 'Танцувайте, за да въведете място...',
+        danceToDestination: 'Танцувайте, за да въведете дестинация...',
+        summonFromBeyond: 'Призови място от отвъдното...',
+        summonDestinationFromBeyond: 'Призови дестинация от отвъдното...'
     },
     hr: {
-        title: '🌍 Kalkulator Uglika',
+        title: '🌍 Zao Kalkulator Uglika',
         subtitle: 'Pronađite najuzbudljiviji način putovanja! 🔥',
         origin: 'Polazak',
         destination: 'Odredište',
@@ -719,10 +962,19 @@ const translations = {
         ouijaMode: 'Prebaci na Ouija Način',
         boringMode: 'Dosadan Način',
         selectDate: 'Odaberi Datum',
-        results: 'Rezultati'
+        results: 'Rezultati',
+        // Input mode buttons
+        ddrModeBtn: 'DDR Način',
+        summonLocation: 'Prizovi Mjesto',
+        switchToOuija: 'Prebaci na Ouija Način',
+        switchToDdr: 'Prebaci na DDR Način',
+        danceToInput: 'Plesaj za unos mjesta...',
+        danceToDestination: 'Plesaj za unos odredišta...',
+        summonFromBeyond: 'Prizovi mjesto s onog svijeta...',
+        summonDestinationFromBeyond: 'Prizovi odredište s onog svijeta...'
     },
     sr: {
-        title: '🌍 Калкулатор Угљеника',
+        title: '🌍 Злокобан Калкулатор Угљеника',
         subtitle: 'Пронађите најузbudujућији начин путовања! 🔥',
         origin: 'Полазак',
         destination: 'Одредиште',
@@ -735,10 +987,19 @@ const translations = {
         ouijaMode: 'Пребаци на Оуиџа Режим',
         boringMode: 'Досадан Режим',
         selectDate: 'Одабери Датум',
-        results: 'Резултати'
+        results: 'Резултати',
+        // Input mode buttons
+        ddrModeBtn: 'ДДР Режим',
+        summonLocation: 'Призиви Место',
+        switchToOuija: 'Пребаци на Оуиџа Режим',
+        switchToDdr: 'Пребаци на ДДР Режим',
+        danceToInput: 'плесати за унос места...',
+        danceToDestination: 'плесати за унос одредишта...',
+        summonFromBeyond: 'Призиви место са оностраног света...',
+        summonDestinationFromBeyond: 'Призиви одредиште са оностраног света...'
     },
     uk: {
-        title: '🌍 Калькулятор Вуглецю',
+        title: '🌍 Злий Калькулятор Вуглецю',
         subtitle: 'Знайдіть найбільш захоплюючий спосіб подорожі! 🔥',
         origin: 'Відправлення',
         destination: 'Призначення',
@@ -751,10 +1012,19 @@ const translations = {
         ouijaMode: 'Перемкнути на Ouija',
         boringMode: 'Нудний Режим',
         selectDate: 'Вибрати Дату',
-        results: 'Результати'
+        results: 'Результати',
+        // Input mode buttons
+        ddrModeBtn: 'DDR Режим',
+        summonLocation: 'Закликати Місце',
+        switchToOuija: 'Перемкнути на Ouija',
+        switchToDdr: 'Перемкнути на DDR',
+        danceToInput: 'Танцюйте, щоб ввести місце...',
+        danceToDestination: 'Танцюйте, щоб ввести пункт призначення...',
+        summonFromBeyond: 'Закликати місце з потойбіччя...',
+        summonDestinationFromBeyond: 'Закликати пункт призначення з потойбіччя...'
     },
     he: {
-        title: '🌍 מחשבון פחמן',
+        title: '🌍 מחשבון פחמן מרושע',
         subtitle: 'מצא את הדרך המרגשת ביותר לנסוע! 🔥',
         origin: 'מוצא',
         destination: 'יעד',
@@ -767,10 +1037,19 @@ const translations = {
         ouijaMode: 'עבור למצב Ouija',
         boringMode: 'מצב משעמם',
         selectDate: 'בחר תאריך',
-        results: 'תוצאות'
+        results: 'תוצאות',
+        // Input mode buttons
+        ddrModeBtn: 'מצב DDR',
+        summonLocation: 'זימון מיקום',
+        switchToOuija: 'עבור למצב Ouija',
+        switchToDdr: 'עבור למצב DDR',
+        danceToInput: 'רקוד כדי להזין מיקום...',
+        danceToDestination: 'רקוד כדי להזין יעד...',
+        summonFromBeyond: 'זימון מיקום מהעולם הבא...',
+        summonDestinationFromBeyond: 'זימון יעד מהעולם הבא...'
     },
     tl: {
-        title: '🌍 Kalkulator ng Carbon',
+        title: '🌍 Masamang Kalkulator ng Carbon',
         subtitle: 'Hanapin ang pinakakaexciting na paraan ng paglalakbay! 🔥',
         origin: 'Pinanggalingan',
         destination: 'Destinasyon',
@@ -786,7 +1065,7 @@ const translations = {
         results: 'Mga Resulta'
     },
     sw: {
-        title: '🌍 Kikokotoa kaboni',
+        title: '🌍 Kikokotoa cha Kaboni cha Wabaya',
         subtitle: 'Tafuta njia ya kusisimua zaidi ya kusafiri! 🔥',
         origin: 'Asili',
         destination: 'Destinasyon',
@@ -802,7 +1081,7 @@ const translations = {
         results: 'Matokeo'
     },
     ms: {
-        title: '🌍 Kalkulator Karbon',
+        title: '🌍 Kalkulator Karbon Jahat',
         subtitle: 'Cara perjalanan paling menarik! 🔥',
         origin: 'Asal',
         destination: 'Destinasi',
@@ -819,7 +1098,7 @@ const translations = {
     },
     // Slovenian
     sl: {
-        title: '🌍 Kalkulator Ogljika',
+        title: '🌍 Zloben Kalkulator Ogljika',
         subtitle: 'Najdi najbolj razvilen način potovanja! 🔥',
         origin: 'Izhodišče',
         destination: 'Cilj',
@@ -836,7 +1115,7 @@ const translations = {
     },
     // Albanian
     sq: {
-        title: '🌍 Llogaritësi i Karbonit',
+        title: '🌍 Llogaritësi i Karbonit i Keq',
         subtitle: 'Gjeni mënyrin më të ekscituar për të udhëtuar! 🔥',
         origin: 'Origjina',
         destination: 'Destinacioni',
@@ -853,7 +1132,7 @@ const translations = {
     },
     // Bosnian
     bs: {
-        title: '🌍 Kalkulator Ugljika',
+        title: '🌍 Zao Kalkulator Ugljika',
         subtitle: 'Pronađite najuzbudljiviji način putovanja! 🔥',
         origin: 'Polazak',
         destination: 'Odredište',
@@ -870,7 +1149,7 @@ const translations = {
     },
     // Montenegrin
     me: {
-        title: '🌍 Kalkulator Ugljenika',
+        title: '🌍 Zao Kalkulator Ugljenika',
         subtitle: 'Pronađite najuzbudljiviji način putovanja! 🔥',
         origin: 'Polazak',
         destination: 'Odredište',
@@ -887,7 +1166,7 @@ const translations = {
     },
     // Maltese
     mt: {
-        title: '🌍 Kalkulatur tal-Karbonju',
+        title: '🌍 Kalkulatur tal-Karbonju Ħażin',
         subtitle: 'Sib mod eċċitativ biex titraviga! 🔥',
         origin: 'Oriġini',
         destination: 'Destinazzjoni',
@@ -904,7 +1183,7 @@ const translations = {
     },
     // Icelandic
     is: {
-        title: '🌍 Kolskandi Kolefnis',
+        title: '🌍 Illur Kolskandi Kolefnis',
         subtitle: 'Finndu spennasta leiðin til að ferðast! 🔥',
         origin: 'Upphafsstaður',
         destination: 'Áfangastaður',
@@ -921,7 +1200,7 @@ const translations = {
     },
     // Catalan
     ca: {
-        title: '🌍 Calculadora de Carboni',
+        title: '🌍 Calculadora de Carboni Dolenta',
         subtitle: 'Troba la forma més emocionant de viatjar! 🔥',
         origin: 'Origen',
         destination: 'Destinació',
@@ -964,7 +1243,7 @@ function changeLanguageToCountry(countryCode) {
     console.log('Language:', lang, 'Translations:', texts);
 
     // Update all translatable elements
-    document.title = texts.title.replace('🌍 ', '').trim() + ' - Evil Carbon Calculator';
+    document.title = texts.title.replace('🌍 ', '').trim();
 
     const titleEl = document.querySelector('h1');
     if (titleEl) titleEl.textContent = texts.title;
@@ -996,7 +1275,7 @@ function changeLanguageToCountry(countryCode) {
     const modeToggle = document.getElementById('modeToggle');
     if (modeToggle) {
         if (!modeToggle.getAttribute('data-original-text')) {
-            modeToggle.setAttribute('data-original-text', 'Ouija Mode');
+            modeToggle.setAttribute('data-original-text', modeToggle.textContent.trim());
         }
         modeToggle.textContent = texts.ouijaMode;
     }
@@ -1017,6 +1296,11 @@ function changeLanguageToCountry(countryCode) {
         } else if (originalText === 'Fun Mode') {
             boringToggle.textContent = texts.funMode || 'Fun Mode';
         }
+    }
+
+    // Update input mode buttons if the function exists
+    if (typeof updateModeButtons === 'function') {
+        updateModeButtons();
     }
 
     // Show language notification
@@ -1244,7 +1528,7 @@ function changeLanguageToCountry(countryCode) {
     console.log('Language:', lang, 'Translations:', texts);
 
     // Update all translatable elements
-    document.title = texts.title.replace('🌍 ', '').trim() + ' - Evil Carbon Calculator';
+    document.title = texts.title.replace('🌍 ', '').trim();
 
     const titleEl = document.querySelector('h1');
     if (titleEl) titleEl.textContent = texts.title;
@@ -1283,7 +1567,7 @@ function changeLanguageToCountry(countryCode) {
     const modeToggle = document.getElementById('modeToggle');
     if (modeToggle) {
         if (!modeToggle.getAttribute('data-original-text')) {
-            modeToggle.setAttribute('data-original-text', 'Ouija Mode');
+            modeToggle.setAttribute('data-original-text', modeToggle.textContent.trim());
         }
         modeToggle.textContent = texts.ouijaMode;
     }
@@ -1341,6 +1625,11 @@ function changeLanguageToCountry(countryCode) {
     const badge = document.querySelector('.recommendation-badge');
     if (badge) {
         badge.innerHTML = `<span class="fire-emoji">🔥</span> ${texts.mostExciting.replace('🔥 ', '')}`;
+    }
+
+    // Update input mode buttons if the function exists
+    if (typeof updateModeButtons === 'function') {
+        updateModeButtons();
     }
 
     // Show language notification
