@@ -101,3 +101,144 @@ setInterval(() => {
     }
 }, 1000);
 
+// ==========================================
+// RANDOM LOCATION PICKER (Earth emoji in nav center)
+// ==========================================
+
+const navCenter = document.querySelector('.malicious-nav-center');
+const randomLocations = [
+    'Tokyo, Japan',
+    'Paris, France',
+    'New York, USA',
+    'London, UK',
+    'Sydney, Australia',
+    'Dubai, UAE',
+    'Singapore',
+    'Barcelona, Spain',
+    'Rome, Italy',
+    'Bangkok, Thailand',
+    'Istanbul, Turkey',
+    'Cairo, Egypt',
+    'Rio de Janeiro, Brazil',
+    'Toronto, Canada',
+    'Amsterdam, Netherlands',
+    'Berlin, Germany',
+    'Seoul, South Korea',
+    'Mexico City, Mexico',
+    'Mumbai, India',
+    'Cape Town, South Africa',
+    'Moscow, Russia',
+    'Buenos Aires, Argentina',
+    'Madrid, Spain',
+    'Beijing, China',
+    'San Francisco, USA',
+    'Reykjavik, Iceland',
+    'Queenstown, New Zealand',
+    'Vancouver, Canada',
+    'Lisbon, Portugal',
+    'Prague, Czech Republic',
+    'Marrakech, Morocco',
+    'Kyoto, Japan',
+    'Edinburgh, Scotland',
+    'Vienna, Austria',
+    'Athens, Greece',
+    'Bali, Indonesia',
+    'Dublin, Ireland',
+    'Stockholm, Sweden',
+    'Vancouver, Canada',
+    'Zurich, Switzerland',
+    'Hong Kong',
+    'Melbourne, Australia',
+    'Chiang Mai, Thailand',
+    'Budapest, Hungary',
+    'Warsaw, Poland',
+    'Copenhagen, Denmark',
+    'Helsinki, Finland',
+    'Lagos, Nigeria',
+    'Santiago, Chile',
+    'Lima, Peru',
+    'Bogotá, Colombia',
+    'Jakarta, Indonesia',
+    'Manila, Philippines',
+    'Ho Chi Minh City, Vietnam',
+    'Shanghai, China',
+    'Oslo, Norway',
+    'Wellington, New Zealand',
+    'Florence, Italy',
+    'Venice, Italy',
+    'Bruges, Belgium',
+    'Edinburgh, Scotland'
+];
+
+if (navCenter) {
+    navCenter.style.cursor = 'pointer';
+    navCenter.style.pointerEvents = 'auto';
+
+    navCenter.addEventListener('click', () => {
+        // Pick a random location
+        const randomLocation = randomLocations[Math.floor(Math.random() * randomLocations.length)];
+
+        // Always update destination
+        const destinationInput = document.getElementById('destination');
+        const destinationBoring = document.getElementById('destinationBoring');
+        const destinationDisplay = document.getElementById('destinationDisplay');
+
+        // Set the value
+        destinationInput.value = randomLocation;
+
+        // Update display if in boring mode
+        if (destinationBoring) {
+            destinationBoring.value = randomLocation;
+        }
+
+        // Update the display for DDR/Ouija modes
+        if (destinationDisplay) {
+            destinationDisplay.textContent = randomLocation;
+            destinationDisplay.classList.remove('empty');
+        }
+
+        // Fun visual feedback - make the earth spin
+        navCenter.style.animation = 'none';
+        setTimeout(() => {
+            navCenter.style.animation = 'pulse 1s ease-in-out infinite';
+        }, 10);
+
+        // Show a mini toast
+        const toast = document.createElement('div');
+        toast.textContent = `🌍 Random: ${randomLocation}`;
+        toast.style.cssText = `
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: rgba(0, 0, 0, 0.9);
+            color: #fff;
+            padding: 15px 25px;
+            border-radius: 10px;
+            z-index: 10001;
+            font-size: 18px;
+            animation: fadeInOut 2s ease-in-out forwards;
+        `;
+        document.body.appendChild(toast);
+
+        setTimeout(() => toast.remove(), 2000);
+
+        // Also make the nav jump away chaotically
+        setTimeout(() => {
+            maliciousNav.style.left = Math.random() * (window.innerWidth - 200) + 'px';
+            maliciousNav.style.top = Math.random() * (window.innerHeight - 200) + 'px';
+        }, 100);
+    });
+
+    // Add CSS for toast animation
+    const style = document.createElement('style');
+    style.textContent = `
+        @keyframes fadeInOut {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.5); }
+            20% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            80% { opacity: 1; transform: translate(-50%, -50%) scale(1); }
+            100% { opacity: 0; transform: translate(-50%, -50%) scale(0.8); }
+        }
+    `;
+    document.head.appendChild(style);
+}
