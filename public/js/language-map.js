@@ -1263,9 +1263,18 @@ function changeLanguageToCountry(countryCode) {
     if (navItems.length > 0) {
         const navTexts = ['Home', 'Blog', 'About', 'Help', 'Contact', 'Settings', 'Wrapped'];
         navItems.forEach(item => {
-            const text = item.textContent.trim();
-            if (navTexts.includes(text) && typeof getTranslatedNavItem === 'function') {
-                item.textContent = getTranslatedNavItem(text, currentLanguageCode);
+            // Store original English text if not already stored
+            if (!item.getAttribute('data-original-text')) {
+                const text = item.textContent.trim();
+                if (navTexts.includes(text)) {
+                    item.setAttribute('data-original-text', text);
+                }
+            }
+
+            // Always translate using the original text
+            const originalText = item.getAttribute('data-original-text');
+            if (originalText && typeof getTranslatedNavItem === 'function') {
+                item.textContent = getTranslatedNavItem(originalText, currentLanguageCode);
             }
         });
     }
