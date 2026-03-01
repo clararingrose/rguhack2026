@@ -7,11 +7,12 @@
   <link rel="stylesheet" href="/assets/wheelygood.css">
 </head>
 
-<body>
-    <div>
-        <h1 style="font-family: deathZombie">Evil Daily Calorie Calculator</h1>
-        <p id="robuxTracker">Your Robux: </p>
-        <img id="robuxImage" src="/assets/normalBux.png" onclick="clickTheBux()">
+<body style="background-image: url(/assets/giphy.gif);">
+    <%- include('../partials/nav') %> 
+    <div id="neatItGlows">
+        <h1 style="font-family: deathZombie">This is awesome</h1>
+        <h2 id="robuxTracker" style="font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif">Your Robux: </h2>
+        <img id="robuxImage" class="glow" src="/assets/normalBux.png" onclick="clickTheBux()">
     </div>
 </body>
 </html>
@@ -22,9 +23,83 @@
     function clickTheBux() {
         totalRobux++;
 
-        if (totalRobux >=100){
-            console.log("change")
+        let image = document.getElementById("robuxImage");
+
+        image.classList.add("shake");
+
+        setTimeout(() => {
+            image.classList.remove("shake");
+        }, 300);
+
+        if (totalRobux >= 100){
+            image.src = "/assets/sun.png";
         }
-        document.getElementById("robuxTracker").innerHTML = "Your Robux: " + totalRobux
+
+        document.getElementById("robuxTracker").innerHTML = "Your Robux: " + totalRobux;
     }
 </script>
+
+<style>
+    body {
+    display: flex;
+    justify-content: center; 
+    align-items: center;      
+    height: 100vh;            
+    margin: 0;
+
+}
+
+.shake {
+  animation: glowing 1500ms infinite, shake 0.3s;
+}
+
+.glow {
+    animation: glowing 1500ms infinite;
+}
+
+/* #neatItGlows img{
+    -webkit-animation: glowing 1500ms infinite;
+    -moz-animation: glowing 1500ms infinite;
+    -o-animation: glowing 1500ms infinite;
+    animation: glowing 1500ms infinite;
+} */
+
+@keyframes shake {
+  0% { transform: translate(0px, 0px) rotate(0deg); }
+  20% { transform: translate(-5px, 0px) rotate(-5deg); }
+  40% { transform: translate(5px, 0px) rotate(5deg); }
+  60% { transform: translate(-5px, 0px) rotate(-5deg); }
+  80% { transform: translate(5px, 0px) rotate(5deg); }
+  100% { transform: translate(0px, 0px) rotate(0deg); }
+}
+
+.shake {
+  animation: shake 0.3s;
+}
+
+@-webkit-keyframes glowing {
+  0% { background-color: #B20000; -webkit-box-shadow: 0 0 3px #B20000; }
+  50% { background-color: #FF0000; -webkit-box-shadow: 0 0 40px #FF0000; }
+  100% { background-color: #B20000; -webkit-box-shadow: 0 0 3px #B20000; }
+}
+
+@-moz-keyframes glowing {
+  0% { background-color: #B20000; -moz-box-shadow: 0 0 3px #B20000; }
+  50% { background-color: #FF0000; -moz-box-shadow: 0 0 40px #FF0000; }
+  100% { background-color: #B20000; -moz-box-shadow: 0 0 3px #B20000; }
+}
+
+@-o-keyframes glowing {
+  0% { background-color: #B20000; box-shadow: 0 0 3px #B20000; }
+  50% { background-color: #FF0000; box-shadow: 0 0 40px #FF0000; }
+  100% { background-color: #B20000; box-shadow: 0 0 3px #B20000; }
+}
+
+@keyframes glowing {
+  0% { background-color: #B20000; box-shadow: 0 0 3px #B20000; }
+  50% { background-color: #FF0000; box-shadow: 0 0 40px #FF0000; }
+  100% { background-color: #B20000; box-shadow: 0 0 3px #B20000; }
+}
+
+
+</style>
