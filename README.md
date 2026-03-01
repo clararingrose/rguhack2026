@@ -57,3 +57,36 @@ A web-based carbon emissions calculator that helps users find the most environme
 - Carbon emission factors sourced from UK government and UN climate data
 
 # Good Luck! 🎉
+
+
+
+Curtains
+decline coodies
+DDR
+Ouija
+achievements
+boring
+Let it burn
+Date picker
+Calculate emissions - virus
+most emissions 
+double or nothing
+quickest - break speed limit
+calories
+Earth emoji sets destination
+languages
+moving nav bar
+blogs
+wrapped - dashboard
+leaderboard
+calorie
+adverts
+sign up page 
+5 passwords 
+zodiac dice
+profile pictures
+phone number
+birthday darts
+binary phone number
+Ts&Cs
+password warning
