@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Carbon Crimes Leaderboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="stylesheet" href="/assets/styles.css" id="mainStylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Space+Mono:wght@400;700&family=DM+Sans:wght@300;400;600&display=swap" rel="stylesheet" />
+  <style id="inlineStyles">
+    :root {
+      --black: #0a0a0a;
+      --offwhite: #f0ede6;
+      --red: #e63946;
+      --amber: #f4a261;
+      --green: #2a9d8f;
+      --faint: rgba(240,237,230,0.06);
+      --card-border: rgba(240,237,230,0.12);
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      background-color: var(--black);
+      color: var(--offwhite);
+      font-family: 'DM Sans', sans-serif;
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* ── noise overlay ── */
+    body::before {
+      content: '';
+      position: fixed; inset: 0; z-index: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
+      background-size: 150px 150px;
+      pointer-events: none;
+      opacity: 0.5;
+    }
+
+    /* ── hero ── */
+    .hero {
+      position: relative; z-index: 1;
+      padding: 80px 40px 40px;
+      text-align: center;
+      border-bottom: 1px solid var(--card-border);
+    }
+
+    .hero h1 {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: clamp(42px, 8vw, 100px);
+      line-height: 0.95;
+      letter-spacing: 0.02em;
+      background: linear-gradient(135deg, var(--offwhite) 40%, var(--red) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-sub {
+      margin-top: 16px;
+      font-size: 15px;
+      font-weight: 300;
+      color: rgba(240,237,230,0.55);
+      max-width: 500px;
+      margin-left: auto; margin-right: auto;
+    }
+
+    /* ── population counter section ── */
+    .population-section {
+      position: relative; z-index: 1;
+      padding: 30px 40px;
+      background: linear-gradient(90deg, rgba(230,57,70,0.1), rgba(244,162,97,0.1));
+      border-bottom: 1px solid var(--card-border);
+      text-align: center;
+    }
+
+    .population-label {
+      font-family: 'Space Mono', monospace;
+      font-size: 10px;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: rgba(240,237,230,0.5);
+      margin-bottom: 12px;
+    }
+
+    .population-counter {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 48px;
+      color: var(--red);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+
+    .population-note {
+      font-size: 12px;
+      color: rgba(240,237,230,0.4);
+      font-style: italic;
+    }
+
+    /* ── leaderboard table ── */
+    .leaderboard-section {
+      position: relative; z-index: 10;
+      padding: 40px 20px;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    .leaderboard-table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #0a0a0a;
+      border: 2px solid #333;
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .leaderboard-table thead {
+      background: #1a1a1a;
+      border-bottom: 2px solid #e63946;
+    }
+
+    .leaderboard-table th {
+      font-family: 'Space Mono', monospace;
+      font-size: 13px;
+      letter-spacing: 0.15em;
+      text-transform: uppercase;
+      color: #f0ede6;
+      padding: 18px 16px;
+      text-align: left;
+      font-weight: 700;
+    }
+
+    .leaderboard-table th:last-child {
+      text-align: right;
+    }
+
+    .leaderboard-table tbody tr {
+      border-bottom: 1px solid #333;
+      transition: all 0.2s;
+    }
+
+    .leaderboard-table tbody tr:last-child {
+      border-bottom: none;
+    }
+
+    .leaderboard-table tbody tr:hover {
+      background: #1a1a1a;
+    }
+
+    .leaderboard-table tbody tr.user-row {
+      background: rgba(42, 157, 143, 0.15);
+      border-left: 4px solid #2a9d8f;
+    }
+
+    .leaderboard-table tbody tr.user-row:hover {
+      background: rgba(42, 157, 143, 0.25);
+    }
+
+    .leaderboard-table tbody tr.taylor-row {
+      background: rgba(230, 57, 70, 0.15);
+      border-left: 4px solid #e63946;
+    }
+
+    .leaderboard-table tbody tr.taylor-row:hover {
+      background: rgba(230, 57, 70, 0.25);
+    }
+
+    .leaderboard-table td {
+      padding: 16px;
+      font-size: 15px;
+      color: #f0ede6;
+      border-right: 1px solid #222;
+    }
+
+    .leaderboard-table td:last-child {
+      border-right: none;
+    }
+
+    .rank-cell {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 24px;
+      color: #f4a261;
+      width: 100px;
+      text-align: center;
+    }
+
+    .rank-cell.rank-1 { color: #ffd700; font-size: 28px; }
+    .rank-cell.rank-2 { color: #c0c0c0; font-size: 26px; }
+    .rank-cell.rank-3 { color: #cd7f32; font-size: 26px; }
+
+    .name-cell {
+      font-weight: 600;
+      color: #f0ede6;
+      font-size: 16px;
+    }
+
+    .emissions-cell {
+      font-family: 'Space Mono', monospace;
+      color: #2a9d8f;
+      font-size: 15px;
+      font-weight: 600;
+      text-align: center;
+    }
+
+    .emissions-cell.high {
+      color: #e63946;
+    }
+
+    .stats-cell {
+      font-size: 13px;
+      color: #999;
+      text-align: right;
+      font-style: italic;
+    }
+
+    .bot-badge {
+      display: inline-block;
+      font-size: 10px;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      padding: 4px 8px;
+      border-radius: 4px;
+      background: #333;
+      color: #ccc;
+      margin-left: 10px;
+      border: 1px solid #555;
+    }
+
+    /* ── user emissions display ── */
+    .user-banner {
+      position: relative; z-index: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      padding: 20px 40px;
+      background: linear-gradient(90deg, rgba(42,157,143,0.15), rgba(42,157,143,0.05));
+      border-bottom: 1px solid var(--card-border);
+      margin-bottom: 30px;
+      border-radius: 8px;
+    }
+
+    .user-banner .label {
+      font-family: 'Space Mono', monospace;
+      font-size: 11px;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      color: rgba(240,237,230,0.5);
+    }
+
+    .user-banner .value {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 32px;
+      color: var(--green);
+      line-height: 1;
+    }
+
+    .user-banner .unit {
+      font-family: 'Space Mono', monospace;
+      font-size: 12px;
+      color: rgba(240,237,230,0.4);
+    }
+
+    .user-banner .rank {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 28px;
+      color: var(--amber);
+    }
+
+    .calculate-btn {
+      padding: 10px 24px;
+      background: var(--amber);
+      color: var(--black);
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 16px;
+      letter-spacing: 0.08em;
+      border: none;
+      border-radius: 3px;
+      cursor: pointer;
+      transition: background 0.2s, transform 0.15s;
+      text-decoration: none;
+      display: inline-block;
+    }
+
+    .calculate-btn:hover { background: #ffd166; transform: scale(1.03); }
+
+    /* ── responsive ── */
+    @media (max-width: 700px) {
+      .hero { padding: 70px 20px 30px; }
+      .leaderboard-section { padding: 20px 8px; }
+      .leaderboard-table {
+        font-size: 13px;
+        border-width: 1px;
+      }
+      .leaderboard-table th {
+        padding: 12px 8px;
+        font-size: 10px;
+      }
+      .leaderboard-table td {
+        padding: 10px 8px;
+        font-size: 13px;
+      }
+      .rank-cell {
+        width: 50px;
+        font-size: 18px;
+      }
+      .rank-cell.rank-1 { font-size: 20px; }
+      .rank-cell.rank-2 { font-size: 20px; }
+      .rank-cell.rank-3 { font-size: 20px; }
+      .name-cell {
+        font-size: 14px;
+      }
+      .stats-cell {
+        font-size: 11px;
+        padding: 10px 6px;
+      }
+      .bot-badge {
+        font-size: 9px;
+        padding: 2px 5px;
+        margin-left: 6px;
+      }
+      .population-counter { font-size: 32px; }
+      .user-banner {
+        flex-wrap: wrap;
+        padding: 16px 20px;
+      }
+    }
+
+    #myVideo {
+      position: fixed;
+      right: 0;
+      bottom: 0;
+      min-width: 100%;
+      min-height: 100%;
+      z-index: -1;
+    }
+  </style>
+</head>
+<body>
+<%- include('../partials/nav') %>
+
+  <video autoplay muted loop id="myVideo">
+    <source src="assets/fire.mp4" type="video/mp4">
+  </video>
+
+  <!-- Color Blind Mode Toggle -->
+  <button class="colorblind-toggle" id="colorblindToggle" style="position: fixed; top: 10px; right: 10px; z-index: 999999; padding: 10px; background: white; border: 2px solid black; color: black; font-size: 16px; cursor: pointer; font-weight: bold;" title="Toggle Color Blind Mode">Disable CSS</button>
+
+  <!-- HERO -->
+  <section class="hero">
+    <h1 style="font-family:deathZombie">Carbon Crimes<br>Leaderboard</h1>
+  </section>
+
+  <!-- USER BANNER -->
+  <div class="leaderboard-section">
+    <div class="user-banner" id="userBanner">
+      <span class="label">Your emissions</span>
+      <span class="value">2015.5</span>
+      <span class="unit">g CO₂</span>
+      <span class="label" style="margin-left: 20px;">Your rank</span>
+      <span class="rank">6</span>
+      <a href="/" class="calculate-btn">Calculate Routes</a>
+    </div>
+
+    <!-- LEADERBOARD TABLE -->
+    <table class="leaderboard-table">
+      <thead>
+        <tr>
+          <th>Rank</th>
+          <th>Name</th>
+          <th>Emissions</th>
+          <th>Stats</th>
+        </tr>
+      </thead>
+      <tbody id="leaderboardBody">
+        <tr>
+          <td class="rank-cell rank-1">1</td>
+          <td class="name-cell">John Smith</td>
+          <td class="emissions-cell">0.5 g</td>
+          <td class="stats-cell">1 calculation</td>
+        </tr>
+        <tr>
+          <td class="rank-cell rank-2">2</td>
+          <td class="name-cell">Emma Johnson</td>
+          <td class="emissions-cell">2.3 g</td>
+          <td class="stats-cell">12 calculations</td>
+        </tr>
+        <tr>
+          <td class="rank-cell rank-3">3</td>
+          <td class="name-cell">Michael Williams</td>
+          <td class="emissions-cell">5.7 g</td>
+          <td class="stats-cell">8 calculations</td>
+        </tr>
+        <tr>
+          <td class="rank-cell">4</td>
+          <td class="name-cell">Sarah Brown</td>
+          <td class="emissions-cell">12.4 g</td>
+          <td class="stats-cell">15 calculations</td>
+        </tr>
+        <tr>
+          <td class="rank-cell">5</td>
+          <td class="name-cell">David Jones</td>
+          <td class="emissions-cell">23.1 g</td>
+          <td class="stats-cell">22 calculations</td>
+        </tr>
+        <tr class="user-row">
+          <td class="rank-cell">6</td>
+          <td class="name-cell">You</td>
+          <td class="emissions-cell">2015.5 g</td>
+          <td class="stats-cell">Your total emissions</td>
+        </tr>
+        <tr class="taylor-row">
+          <td class="rank-cell" id="taylorRankCell">8,006,215,112</td>
+          <td class="name-cell">Taylor Swift ✈️</td>
+          <td class="emissions-cell high">75000 kg</td>
+          <td class="stats-cell">Private jet enthusiast</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <script src="/js/colorblind-mode.js"></script>
+  <script src="/js/leaderboard.js"></script>
+</body>
+</html>

@@ -39,6 +39,12 @@ app.get('/calorieTime', (req, res) => {
     });
 });
 
+app.get('/leaderboard', (req, res) => {
+    res.render('pages/leaderboard', {
+        title: 'Carbon Crimes Leaderboard'
+    });
+});
+
 app.get('/signin', (req, res) => {
     const picsDir = path.join(__dirname, 'public', 'assets', 'profilepics');
 
