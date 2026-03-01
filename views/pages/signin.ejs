@@ -173,25 +173,6 @@
     }
 
     /* ── Birthday Dartboard ── */
-    .dartboard-section {
-      margin: 20px 0;
-      padding: 15px;
-      background: linear-gradient(135deg, #1a1a1a 0%, #2d2d2d 100%);
-      border-radius: 12px;
-      border: 2px solid #444;
-    }
-
-    .dartboard-section label {
-      display: block;
-      margin-bottom: 10px;
-      color: #fff;
-      font-weight: bold;
-    }
-
-    .dartboard-section label b {
-      color: #4CAF50;
-    }
-
     .dart-score-display {
       display: flex;
       justify-content: space-between;
@@ -347,14 +328,6 @@
       color: #2ecc71;
       font-size: 18px;
     }
-
-    .dartboard-section .hint {
-      font-size: 11px;
-      color: #666;
-      text-align: center;
-      margin-top: 10px;
-      font-style: italic;
-    }
   </style>
 </head>
 
@@ -449,37 +422,35 @@
     <input type="hidden" name="phone" id="phoneDigits">
 
     <!-- Birthday Dartboard Section -->
-    <div class="dartboard-section">
-      <label for="birthday"><b>🎯 Birthday (Throw Darts!)</b></label>
+    <label for="birthday"><b>Birthday</b></label>
 
-      <div class="dart-score-display">
-        <div>Total Score: <span class="score-value" id="dartTotalScore">0</span></div>
-        <div>Darts Thrown: <span class="score-value" id="dartCount">0</span></div>
-      </div>
-
-      <div class="dartboard-container" id="dartboardContainer">
-        <svg id="dartboard" viewBox="0 0 400 400">
-          <!-- Dartboard will be rendered here by JavaScript -->
-        </svg>
-      </div>
-
-      <div class="dart-controls">
-        <button type="button" class="clear-btn" id="clearDartsBtn">Clear Darts</button>
-        <button type="button" class="year-btn" id="randomYearBtn">Random Year</button>
-      </div>
-
-      <div class="birthday-result">
-        <div>Day of Year: <span class="result-value" id="dayOfYear">-</span></div>
-        <div>Calculated Birthday: <span class="result-value complete" id="calculatedBirthday">Throw darts & pick a year!</span></div>
-      </div>
-
-      <p class="hint">Click anywhere on the dartboard to throw! Your total score determines your birthday.</p>
-
-      <!-- Hidden inputs for form submission -->
-      <input type="hidden" name="birthday" id="birthdayHidden">
-      <input type="hidden" name="birth_year" id="birthYearHidden">
-      <input type="hidden" name="dart_score" id="dartScoreHidden">
+    <div class="dart-score-display">
+      <div>Total Score: <span class="score-value" id="dartTotalScore">0</span></div>
+      <div>Darts Thrown: <span class="score-value" id="dartCount">0</span></div>
     </div>
+
+    <div class="dartboard-container" id="dartboardContainer">
+      <svg id="dartboard" viewBox="0 0 400 400">
+        <!-- Dartboard will be rendered here by JavaScript -->
+      </svg>
+    </div>
+
+    <div class="dart-controls">
+      <button type="button" class="clear-btn" id="clearDartsBtn">Clear Darts</button>
+      <button type="button" class="year-btn" id="randomYearBtn">Random Year</button>
+    </div>
+
+    <div class="birthday-result">
+      <div>Day of Year: <span class="result-value" id="dayOfYear">-</span></div>
+      <div>Calculated Birthday: <span class="result-value complete" id="calculatedBirthday">Throw darts & pick a year!</span></div>
+    </div>
+
+    <p style="font-size:12px; color:#888; margin:2px 0 6px;">Click anywhere on the dartboard to throw! Your total score determines your birthday.</p>
+
+    <!-- Hidden inputs for form submission -->
+    <input type="hidden" name="birthday" id="birthdayHidden">
+    <input type="hidden" name="birth_year" id="birthYearHidden">
+    <input type="hidden" name="dart_score" id="dartScoreHidden">
 
     <label for="phoneBinary"><b>Home Phone</b></label>
     <p style="font-size:12px; color:#888; margin:2px 0 6px;">Enter your number in binary by checking bit positions. Phone: <span id="binaryPhonePreview" style="color:#4CAF50; font-weight:bold;">0</span></p>
