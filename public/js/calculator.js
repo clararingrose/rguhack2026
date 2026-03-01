@@ -11,25 +11,27 @@
 // unlimitedSpeedKmh: theoretical top/flat-out speed used for the "no limits" time.
 //   Only meaningful for osrmProfile modes where OSRM gives us real road distance.
 //   null = concept doesn't apply (trains, flights etc. — only one time shown).
+// calPerHour   : kcal burned per hour of travel (70 kg adult average)
+//                negative = calories GAINED (cruise ship buffet effect)
 const transportModes = [
-    { name: 'Walking',             icon: '🚶', factor: 0,   speedKmh: 5,    unlimitedSpeedKmh: null, osrmProfile: 'foot',    minKm: 0,    maxKm: 50,       requiresLand: true  },
-    { name: 'Cycling',             icon: '🚴', factor: 0,   speedKmh: 15,   unlimitedSpeedKmh: 60,   osrmProfile: 'cycling', minKm: 0,    maxKm: 200,      requiresLand: true  },
-    { name: 'High-speed Train',    icon: '🚄', factor: 6,   speedKmh: 250,  unlimitedSpeedKmh: null, osrmProfile: null,      minKm: 100,  maxKm: 3000,     requiresLand: true  },
-    { name: 'Electric Bus',        icon: '🚌', factor: 17,  speedKmh: 40,   unlimitedSpeedKmh: null, osrmProfile: null,      minKm: 0,    maxKm: 500,      requiresLand: true  },
-    { name: 'Tram',                icon: '🚋', factor: 20,  speedKmh: 25,   unlimitedSpeedKmh: null, osrmProfile: null,      minKm: 0,    maxKm: 50,       requiresLand: true  },
-    { name: 'Bus',                 icon: '🚍', factor: 18,  speedKmh: 40,   unlimitedSpeedKmh: null, osrmProfile: null,      minKm: 0,    maxKm: 500,      requiresLand: true  },
-    { name: 'Electric Train',      icon: '🚂', factor: 29,  speedKmh: 130,  unlimitedSpeedKmh: null, osrmProfile: null,      minKm: 10,   maxKm: 3000,     requiresLand: true  },
-    { name: 'Train',               icon: '🚆', factor: 41,  speedKmh: 120,  unlimitedSpeedKmh: null, osrmProfile: null,      minKm: 10,   maxKm: 5000,     requiresLand: true  },
-    { name: 'Motorcycle',          icon: '🏍️', factor: 120, speedKmh: 90,   unlimitedSpeedKmh: 299,  osrmProfile: 'driving', minKm: 0,    maxKm: 3000,     requiresLand: true  },
-    { name: 'Horse & Carriage',    icon: '🐴', factor: 120, speedKmh: 12,   unlimitedSpeedKmh: null, osrmProfile: null,      minKm: 0,    maxKm: 100,      requiresLand: true  },
-    { name: 'Long-distance Coach', icon: '🚎', factor: 105, speedKmh: 80,   unlimitedSpeedKmh: null, osrmProfile: null,      minKm: 50,   maxKm: 4000,     requiresLand: true  },
-    { name: 'Diesel Car',          icon: '🚗', factor: 171, speedKmh: 90,   unlimitedSpeedKmh: 250,  osrmProfile: 'driving', minKm: 0,    maxKm: Infinity, requiresLand: true  },
-    { name: 'Petrol Car',          icon: '🚙', factor: 243, speedKmh: 90,   unlimitedSpeedKmh: 250,  osrmProfile: 'driving', minKm: 0,    maxKm: Infinity, requiresLand: true  },
-    { name: 'Short-haul Flight',   icon: '✈️', factor: 255, speedKmh: 750,  unlimitedSpeedKmh: null, osrmProfile: null,      minKm: 200,  maxKm: 3500,     requiresLand: false },
-    { name: 'Long-haul Flight',    icon: '🛫', factor: 150, speedKmh: 900,  unlimitedSpeedKmh: null, osrmProfile: null,      minKm: 3500, maxKm: Infinity, requiresLand: false },
-    { name: 'Cruise Ship',         icon: '🚢', factor: 250, speedKmh: 45,   unlimitedSpeedKmh: null, osrmProfile: null,      minKm: 200,  maxKm: Infinity, requiresLand: false },
-    { name: 'Hot Air Balloon',     icon: '🎈', factor: 450, speedKmh: 20,   unlimitedSpeedKmh: null, osrmProfile: null,      minKm: 0,    maxKm: 500,      requiresLand: false },
-    { name: 'Killdozer',           icon: '🚜', factor: 800, speedKmh: 8,    unlimitedSpeedKmh: 8,    osrmProfile: 'driving', minKm: 0,    maxKm: Infinity, requiresLand: true  },
+    { name: 'Walking',             icon: '🚶', factor: 0,   speedKmh: 5,    unlimitedSpeedKmh: null, osrmProfile: 'foot',    minKm: 0,    maxKm: 50,       requiresLand: true,  calPerHour:  280  },
+    { name: 'Cycling',             icon: '🚴', factor: 0,   speedKmh: 15,   unlimitedSpeedKmh: 60,   osrmProfile: 'cycling', minKm: 0,    maxKm: 200,      requiresLand: true,  calPerHour:  500  },
+    { name: 'High-speed Train',    icon: '🚄', factor: 6,   speedKmh: 250,  unlimitedSpeedKmh: null, osrmProfile: null,      minKm: 100,  maxKm: 3000,     requiresLand: true,  calPerHour:   0  },
+    { name: 'Electric Bus',        icon: '🚌', factor: 17,  speedKmh: 40,   unlimitedSpeedKmh: null, osrmProfile: null,      minKm: 0,    maxKm: 500,      requiresLand: true,  calPerHour:   0  },
+    { name: 'Tram',                icon: '🚋', factor: 20,  speedKmh: 25,   unlimitedSpeedKmh: null, osrmProfile: null,      minKm: 0,    maxKm: 50,       requiresLand: true,  calPerHour:   0  },
+    { name: 'Bus',                 icon: '🚍', factor: 18,  speedKmh: 40,   unlimitedSpeedKmh: null, osrmProfile: null,      minKm: 0,    maxKm: 500,      requiresLand: true,  calPerHour:   0  },
+    { name: 'Electric Train',      icon: '🚂', factor: 29,  speedKmh: 130,  unlimitedSpeedKmh: null, osrmProfile: null,      minKm: 10,   maxKm: 3000,     requiresLand: true,  calPerHour:   0  },
+    { name: 'Train',               icon: '🚆', factor: 41,  speedKmh: 120,  unlimitedSpeedKmh: null, osrmProfile: null,      minKm: 10,   maxKm: 5000,     requiresLand: true,  calPerHour:   0  },
+    { name: 'Motorcycle',          icon: '🏍️', factor: 120, speedKmh: 90,   unlimitedSpeedKmh: 299,  osrmProfile: 'driving', minKm: 0,    maxKm: 3000,     requiresLand: true,  calPerHour:  0  },
+    { name: 'Horse & Carriage',    icon: '🐴', factor: 120, speedKmh: 12,   unlimitedSpeedKmh: null, osrmProfile: null,      minKm: 0,    maxKm: 100,      requiresLand: true,  calPerHour:   0  },
+    { name: 'Long-distance Coach', icon: '🚎', factor: 105, speedKmh: 80,   unlimitedSpeedKmh: null, osrmProfile: null,      minKm: 50,   maxKm: 4000,     requiresLand: true,  calPerHour:   0  },
+    { name: 'Diesel Car',          icon: '🚗', factor: 171, speedKmh: 90,   unlimitedSpeedKmh: 250,  osrmProfile: 'driving', minKm: 0,    maxKm: Infinity, requiresLand: true,  calPerHour:   0  },
+    { name: 'Petrol Car',          icon: '🚙', factor: 243, speedKmh: 90,   unlimitedSpeedKmh: 250,  osrmProfile: 'driving', minKm: 0,    maxKm: Infinity, requiresLand: true,  calPerHour:   0  },
+    { name: 'Short-haul Flight',   icon: '✈️', factor: 255, speedKmh: 750,  unlimitedSpeedKmh: null, osrmProfile: null,      minKm: 200,  maxKm: 3500,     requiresLand: false, calPerHour:   0  },
+    { name: 'Long-haul Flight',    icon: '🛫', factor: 150, speedKmh: 900,  unlimitedSpeedKmh: null, osrmProfile: null,      minKm: 3500, maxKm: Infinity, requiresLand: false, calPerHour:   60  },
+    { name: 'Cruise Ship',         icon: '🚢', factor: 250, speedKmh: 45,   unlimitedSpeedKmh: null, osrmProfile: null,      minKm: 200,  maxKm: Infinity, requiresLand: false, calPerHour: -450  },
+    { name: 'Hot Air Balloon',     icon: '🎈', factor: 450, speedKmh: 20,   unlimitedSpeedKmh: null, osrmProfile: null,      minKm: 0,    maxKm: 500,      requiresLand: false, calPerHour:   0  },
+    { name: 'Killdozer',           icon: '🚜', factor: 800, speedKmh: 8,    unlimitedSpeedKmh: 8,    osrmProfile: 'driving', minKm: 0,    maxKm: Infinity, requiresLand: true,  calPerHour:  0  },
 ];
 
 // ── DOM elements ───────────────────────────────────────────────────────────
@@ -202,7 +204,9 @@ function buildResults(straightLineKm, osrmRoutes) {
                 isRealRoute = false;
             }
 
-            const emissions = Math.round(routeDistanceKm * mode.factor);
+            const emissions     = Math.round(routeDistanceKm * mode.factor);
+            const journeyHours  = durationSeconds / 3600;
+            const totalCalories = Math.round(mode.calPerHour * journeyHours);
 
             return {
                 ...mode,
@@ -211,6 +215,7 @@ function buildResults(straightLineKm, osrmRoutes) {
                 unlimitedDurationSeconds,
                 routeDistanceKm,
                 isRealRoute,
+                totalCalories,
             };
         })
         .filter(Boolean)
@@ -220,14 +225,26 @@ function buildResults(straightLineKm, osrmRoutes) {
 
 // ── Sort state ─────────────────────────────────────────────────────────────
 let _lastResults = [];
-let _currentSort = 'emissions'; // 'emissions' | 'duration'
+let _currentSort = 'emissions'; // 'emissions' | 'duration' | 'calories'
+let _speedMode   = 'legal';     // 'legal' | 'unlimited'
+
+function toggleSpeedMode() {
+    _speedMode = _speedMode === 'legal' ? 'unlimited' : 'legal';
+    const btn = document.getElementById('speed-toggle');
+    if (btn) {
+        btn.textContent = _speedMode === 'legal' ? '🐢 Showing: speed limits' : '🔥 Showing: flat out';
+        btn.classList.toggle('speed-toggle--unlimited', _speedMode === 'unlimited');
+    }
+    // Re-render cards in place — times update, sort order stays
+    renderCards(getSorted(_lastResults, _currentSort));
+}
 
 function getSorted(results, sortKey) {
-    return [...results].sort((a, b) =>
-        sortKey === 'duration'
-            ? b.durationSeconds - a.durationSeconds
-            : b.emissions - a.emissions
-    );
+    return [...results].sort((a, b) => {
+        if (sortKey === 'duration')  return b.durationSeconds - a.durationSeconds;
+        if (sortKey === 'calories')  return a.totalCalories   - b.totalCalories;
+        return b.emissions - a.emissions;
+    });
 }
 
 function setSort(key) {
@@ -251,6 +268,12 @@ function ensureSortBar() {
         <button class="sort-btn" data-sort="duration" onclick="setSort('duration')">
             🐌 Longest journey
         </button>
+        <button class="sort-btn" data-sort="calories" onclick="setSort('calories')">
+            🍔 Fewest calories burned
+        </button>
+        <button id="speed-toggle" class="speed-toggle" onclick="toggleSpeedMode()">
+            🐢 Showing: speed limits
+        </button>
     `;
     transportList.parentNode.insertBefore(bar, transportList);
 }
@@ -260,43 +283,67 @@ function renderCards(results) {
     transportList.innerHTML = '';
 
     results.forEach((mode, index) => {
-        const isWorst   = _currentSort === 'emissions' && index === 0 && mode.emissions > 0;
-        const isSlowest = _currentSort === 'duration'  && index === 0;
-        const formatted = formatEmissions(mode.emissions);
+        const isWorst      = _currentSort === 'emissions' && index === 0 && mode.emissions > 0;
+        const isSlowest    = _currentSort === 'duration'  && index === 0;
+        const isFittest    = _currentSort === 'calories'  && index === 0;
+        const formatted    = formatEmissions(mode.emissions);
 
         const transportName = typeof getTransportModeName === 'function'
             ? getTransportModeName(mode.name)
             : mode.name;
 
-        const legalTimeStr = formatDuration(mode.durationSeconds);
-        const legalBadge = mode.isRealRoute
-            ? `<span class="time-badge time-badge--legal" title="Obeying speed limits (real road route)">🐢 ${legalTimeStr}</span>`
-            : `<span class="time-badge time-badge--est"   title="Estimated journey time">⏱ ~${legalTimeStr}</span>`;
+        // Pick the displayed time based on speed mode toggle
+        const hasUnlimited  = mode.unlimitedDurationSeconds !== null
+                              && mode.durationSeconds - mode.unlimitedDurationSeconds > 60;
+        const showUnlimited = _speedMode === 'unlimited' && hasUnlimited;
+        const displayedSecs = showUnlimited ? mode.unlimitedDurationSeconds : mode.durationSeconds;
+        const displayedTime = formatDuration(displayedSecs);
+        const timeSubLabel  = showUnlimited
+            ? `<span class="unlimited-sub">🐢 legal: ${formatDuration(mode.durationSeconds)}</span>`
+            : (hasUnlimited
+                ? `<span class="unlimited-sub">🔥 flat out: ${formatDuration(mode.unlimitedDurationSeconds)}</span>`
+                : '');
+        const timeUnit = showUnlimited ? 'flat out' : (mode.isRealRoute ? 'real route' : '~ estimated');
+        const timeMetricClass = showUnlimited ? 'metric--time-unlimited' : 'metric--time';
 
-        let unlimitedBadge = '';
-        if (mode.unlimitedDurationSeconds !== null) {
-            const unlimitedTimeStr = formatDuration(mode.unlimitedDurationSeconds);
-            if (mode.durationSeconds - mode.unlimitedDurationSeconds > 60) {
-                unlimitedBadge = `<span class="time-badge time-badge--unlimited" title="Ignoring speed limits — flat out">🔥 ${unlimitedTimeStr}</span>`;
-            }
-        }
+        // Calorie badge — negative = gained (cruise ship)
+        const calAbs   = Math.abs(mode.totalCalories);
+        const calGain  = mode.totalCalories < 0;
+        const calLabel = calAbs >= 1000
+            ? (calAbs / 1000).toFixed(1) + 'k'
+            : calAbs.toLocaleString();
+        const calBadge = calGain
+            ? `<span class="time-badge cal-badge cal-badge--gain" title="Calories gained (buffet effect)">🍔 +${calLabel} kcal</span>`
+            : `<span class="time-badge cal-badge cal-badge--burn" title="Estimated calories burned">🔥 ${calLabel} kcal</span>`;
 
         const card = document.createElement('div');
-        card.className = `transport-card${isWorst ? ' worst' : ''}${isSlowest ? ' slowest' : ''}`;
+        card.className = `transport-card${isWorst ? ' worst' : ''}${isSlowest ? ' slowest' : ''}${isFittest ? ' fittest' : ''}`;
         card.innerHTML = `
-            <div class="transport-left">
+            <div class="card-header">
                 <span class="transport-icon">${mode.icon}</span>
                 <span class="transport-name" data-original-name="${mode.name}">${transportName}</span>
+                ${isWorst   ? '<span class="top-badge top-badge--emissions">🔥 MOST EVIL</span>' : ''}
+                ${isSlowest ? '<span class="top-badge top-badge--slowest">🐌 MOST SCENIC</span>'     : ''}
+                ${isFittest ? '<span class="top-badge top-badge--fittest">🍔 LEAST SWEATY</span>'     : ''}
             </div>
-            <div class="transport-right">
-                <div class="emissions">${formatted.value}</div>
-                <span class="emissions-unit">${formatted.unit}</span>
-                <div class="time-badges">
-                    ${legalBadge}
-                    ${unlimitedBadge}
+            <div class="card-metrics">
+                <div class="metric metric--co2">
+                    <span class="metric-value">${formatted.value}</span>
+                    <span class="metric-unit">${formatted.unit}</span>
+                    <span class="metric-label">CO₂</span>
                 </div>
-                ${isWorst   ? '<div class="recommendation-badge"><span class="fire-emoji">🔥</span> MOST EXCITING!</div>' : ''}
-                ${isSlowest ? '<div class="recommendation-badge slowest-badge">🐌 MOST SCENIC!</div>'                     : ''}
+                <div class="metric-divider"></div>
+                <div class="metric ${timeMetricClass}">
+                    <span class="metric-value">${displayedTime}</span>
+                    <span class="metric-unit">${timeUnit}</span>
+                    <span class="metric-label">journey time</span>
+                </div>
+                <div class="metric-divider"></div>
+                <div class="metric ${calGain ? 'metric--gain' : 'metric--cal'}">
+                    <span class="metric-value">${calGain ? '+' : ''}${calLabel}</span>
+                    <span class="metric-unit">kcal</span>
+                    <span class="metric-label">${calGain ? '🍔 gained' : '🔥 burned'}</span>
+                </div>
             </div>
         `;
         transportList.appendChild(card);
@@ -408,7 +455,7 @@ async function handleCalculate() {
     const style = document.createElement('style');
     style.id = 'time-badge-styles';
     style.textContent = `
-        /* Sort bar */
+        /* ── Sort bar ── */
         #sort-bar {
             display: flex;
             align-items: center;
@@ -442,58 +489,156 @@ async function handleCalculate() {
             font-weight: 600;
         }
 
-        /* Slowest card highlight */
-        .transport-card.slowest {
-            border-color: rgba(100, 180, 255, 0.35) !important;
+        /* ── Speed toggle button ── */
+        .speed-toggle {
+            margin-left: auto;
+            padding: 6px 14px;
+            border-radius: 20px;
+            border: 1px solid rgba(42, 157, 143, 0.5);
+            background: rgba(42, 157, 143, 0.1);
+            color: #2a9d8f;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.18s ease;
+            white-space: nowrap;
         }
-        .slowest-badge {
-            background: rgba(100, 180, 255, 0.15);
-            color: #64b4ff;
-            border: 1px solid rgba(100, 180, 255, 0.3);
-            border-radius: 4px;
-            padding: 2px 8px;
-            font-size: 11px;
-            font-weight: 700;
+        .speed-toggle:hover {
+            background: rgba(42, 157, 143, 0.2);
+        }
+        .speed-toggle--unlimited {
+            border-color: rgba(230, 57, 70, 0.5);
+            background: rgba(230, 57, 70, 0.1);
+            color: #e63946;
+        }
+        .speed-toggle--unlimited:hover {
+            background: rgba(230, 57, 70, 0.2);
         }
 
-        /* Time badges */
-        .transport-right {
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            gap: 4px;
+        /* colour for unlimited time metric */
+        .metric--time-unlimited .metric-value { color: #e63946; }
+
+        /* ── Card shell ── */
+        .transport-card {
+            border-radius: 10px;
+            border: 1px solid rgba(255,255,255,0.08);
+            margin-bottom: 10px;
+            overflow: hidden;
+            transition: border-color 0.2s, transform 0.2s;
         }
-        .time-badges {
-            display: flex;
-            gap: 6px;
-            flex-wrap: wrap;
-            justify-content: flex-end;
+        .transport-card:hover {
+            border-color: rgba(255,255,255,0.2);
+            transform: translateY(-1px);
         }
-        .time-badge {
-            display: inline-flex;
+        .transport-card.worst   { border-color: rgba(230, 57,  70,  0.4); }
+        .transport-card.slowest { border-color: rgba(100, 180, 255, 0.4); }
+        .transport-card.fittest { border-color: rgba(255, 180, 0,   0.4); }
+
+        /* ── Card header row ── */
+        .card-header {
+            display: flex;
             align-items: center;
-            gap: 4px;
-            font-size: 12px;
-            font-family: 'Courier New', monospace;
-            font-weight: 700;
-            padding: 2px 9px;
+            gap: 10px;
+            padding: 12px 16px 10px;
+        }
+        .transport-icon { font-size: 22px; flex-shrink: 0; }
+        .transport-name { font-weight: 600; font-size: 15px; flex: 1; }
+
+        /* ── Top badge (MOST EXCITING etc.) ── */
+        .top-badge {
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: 0.04em;
+            padding: 3px 9px;
             border-radius: 20px;
             white-space: nowrap;
         }
-        .time-badge--legal {
-            background: rgba(42, 157, 143, 0.15);
-            color: #2a9d8f;
-            border: 1px solid rgba(42, 157, 143, 0.3);
+        .top-badge--emissions { background: rgba(230,57,70,0.2);  color: #e63946; border: 1px solid rgba(230,57,70,0.4);  }
+        .top-badge--slowest   { background: rgba(100,180,255,0.2); color: #64b4ff; border: 1px solid rgba(100,180,255,0.4); }
+        .top-badge--fittest   { background: rgba(255,180,0,0.2);  color: #ffb400; border: 1px solid rgba(255,180,0,0.4);  }
+
+        /* ── Three equal metric columns ── */
+        .card-metrics {
+            display: grid;
+            grid-template-columns: 1fr 1px 1fr 1px 1fr;
+            border-top: 1px solid rgba(255,255,255,0.07);
+            align-items: stretch;
         }
-        .time-badge--unlimited {
-            background: rgba(230, 57, 70, 0.12);
+        .metric-divider {
+            background: rgba(255,255,255,0.07);
+            align-self: stretch;
+        }
+        .metric {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 12px 6px;
+            gap: 2px;
+            text-align: center;
+            min-height: 80px;
+            box-sizing: border-box;
+            overflow: hidden;
+        }
+        .metric-value {
+            font-size: clamp(13px, 2.2vw, 20px);
+            font-weight: 700;
+            font-family: 'Courier New', monospace;
+            line-height: 1.1;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            max-width: 100%;
+        }
+        .metric-unit {
+            font-size: 10px;
+            opacity: 0.5;
+            letter-spacing: 0.03em;
+            text-transform: uppercase;
+            min-height: 14px;
+            white-space: nowrap;
+        }
+        .metric-label {
+            font-size: 11px;
+            opacity: 0.55;
+            margin-top: 1px;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            flex-wrap: wrap;
+            justify-content: center;
+            max-height: 32px;
+            overflow: hidden;
+        }
+
+        /* metric colour tints */
+        .metric--co2   .metric-value { color: #e63946; }
+        .metric--time  .metric-value { color: #2a9d8f; }
+        .metric--cal   .metric-value { color: #ff8c00; }
+        .metric--gain  .metric-value { color: #dc3232; }
+
+        /* unlimited speed sub-label inside journey time */
+        .unlimited-sub {
+            font-size: 10px;
+            opacity: 0.6;
+            white-space: nowrap;
+            background: rgba(230,57,70,0.12);
             color: #e63946;
-            border: 1px solid rgba(230, 57, 70, 0.28);
+            border-radius: 10px;
+            padding: 1px 6px;
         }
-        .time-badge--est {
-            background: rgba(244, 162, 97, 0.12);
-            color: #f4a261;
-            border: 1px solid rgba(244, 162, 97, 0.25);
+
+        /* ── Responsive: stack metrics on narrow screens ── */
+        @media (max-width: 420px) {
+            .card-metrics {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto;
+            }
+            .metric-divider {
+                height: 1px;
+                width: 100%;
+            }
+            .metric-value { font-size: 17px; }
         }
     `;
     document.head.appendChild(style);
