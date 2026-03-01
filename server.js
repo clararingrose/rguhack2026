@@ -33,6 +33,12 @@ app.get('/blog', (req, res) => {
     });
 });
 
+app.get('/calorieTime', (req, res) => {
+    res.render('pages/calorieTime', {
+        title: 'Evil Average Calorie Calculator'
+    });
+});
+
 app.get('/signin', (req, res) => {
     const picsDir = path.join(__dirname, 'public', 'assets', 'profilepics');
 
