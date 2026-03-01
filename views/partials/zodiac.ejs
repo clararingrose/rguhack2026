@@ -1,0 +1,18 @@
+<div>
+    <label>What is your zodiac sign?</label>
+    <img id="zodiacImage">
+    <button onclick="rollMe()">Roll Me</button>
+</div>
+
+<script>
+    function straightRollinIt() {
+        let result = Math.floor(Math.random() * 12) + 1;
+        let path = "/assets/zodiac/z" + result + ".png"; 
+        console.log(path);
+        return path;
+    }
+
+    function rollMe() {
+        document.getElementById("zodiacImage").src = straightRollinIt();
+    }
+</script>
