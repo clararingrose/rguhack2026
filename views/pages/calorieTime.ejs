@@ -23,11 +23,12 @@
         <source src="assets/fire.mp4" type="video/mp4">
     </video>
 
-    <%- include('../partials/nav') %>
-
-    
+    <%- include('../partials/nav') %>    
     <h1 style="font-family: deathZombie">Evil Daily Calorie Calculator</h1>
-    <form style="border:1px solid #ccc">
+    <div style="display:flex;align-items:flexstart">
+    <!-- <%- include('../partials/advertContainer') %> -->
+    <form style="border:1px solid #ccc; flex:1">
+        <div style="display:block">
         <div class="container">
             <label></label>
             <label class="switch">
@@ -58,9 +59,11 @@
 
         <label for="favcolor">What color is your stool?</label>
         <input type="color" id="favcolor" name="favcolor" value="#ff0000" style="width:40%;height:200px">
+        </div>
     </form>
-
     <%- include('../partials/advertContainer') %>
+    </div>
+    
 </body>
 
 

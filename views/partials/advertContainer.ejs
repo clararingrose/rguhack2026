@@ -1,4 +1,60 @@
-<div class="container" style="flex-direction: column;">
-    <div><%- include('../partials/adverts', { ad: '/assets/sun.png' }) %></div>
-    <div><%- include('../partials/adverts', { ad: '/assets/sun.png' }) %></div>
+<div class="container" style="flex-direction: column; display:flex; align-items:flex-start; flex-direction: column; margin-right:20px" id="sheFracks">
+    <div><%- include('../partials/adverts', { ad: '/assets/ads/deepwater-horizon.jpg' }) %></div>
+    <div><%- include('../partials/adverts', { ad: '/assets/ads/taylor-swifts-private-jet.jpg' }) %></div>
 </div>
+
+<style>
+
+#sheFracks div {
+    width: 300px;
+    height: 300px;
+    position: relative;
+    margin:20px;
+}
+
+#sheFracks img {
+    
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 0;
+}
+
+#sheFracks button {
+    position: absolute;   
+    z-index: 2;        
+    bottom: 10px;            
+    right: 10px;
+    -webkit-animation: glowing 1500ms infinite;
+    -moz-animation: glowing 1500ms infinite;
+    -o-animation: glowing 1500ms infinite;
+    animation: glowing 1500ms infinite;
+    padding:10px;
+}
+
+@-webkit-keyframes glowing {
+  0% { background-color: #B20000; -webkit-box-shadow: 0 0 3px #B20000; }
+  50% { background-color: #FF0000; -webkit-box-shadow: 0 0 40px #FF0000; }
+  100% { background-color: #B20000; -webkit-box-shadow: 0 0 3px #B20000; }
+}
+
+@-moz-keyframes glowing {
+  0% { background-color: #B20000; -moz-box-shadow: 0 0 3px #B20000; }
+  50% { background-color: #FF0000; -moz-box-shadow: 0 0 40px #FF0000; }
+  100% { background-color: #B20000; -moz-box-shadow: 0 0 3px #B20000; }
+}
+
+@-o-keyframes glowing {
+  0% { background-color: #B20000; box-shadow: 0 0 3px #B20000; }
+  50% { background-color: #FF0000; box-shadow: 0 0 40px #FF0000; }
+  100% { background-color: #B20000; box-shadow: 0 0 3px #B20000; }
+}
+
+@keyframes glowing {
+  0% { background-color: #B20000; box-shadow: 0 0 3px #B20000; }
+  50% { background-color: #FF0000; box-shadow: 0 0 40px #FF0000; }
+  100% { background-color: #B20000; box-shadow: 0 0 3px #B20000; }
+}
+
+
+</style>
