@@ -41,8 +41,48 @@
         <input type="password" placeholder="Sleep per night?" name="sleep" required>
 
         <div class="slidecontainer">
-        <label>How many claories are you?</label>
-        <input type="range" min="1" max="1000000" value="50" class="slider" id="myRange">
+            <label>How many claories are you?</label>
+            <div id='scrubberContainer'>
+            <p id='tooltip'>0</p>
+            <form oninput="x.value=parseInt(scrubber.value)">
+            <input type="range" id="scrubber" value="78" max="100000000" onmousemove="showTooltip(event)" >
+            <output id="x" name="x" for="a"></output>
+            </form>
         </div>
+        </div>
+
+
+        <label>energy potatos</label>
+        <div class="iframely-embed"><div class="iframely-responsive" style="padding-bottom: 66.4%; padding-top: 120px; width:400px; height:400px"><a href="https://www.buzzfeed.com/purplesilkymoth/what-potato-dish-are-you" data-iframely-url="https://iframely.net/SbRZxfDY?theme=dark"></a></div></div><script async src="https://iframely.net/embed.js"></script>
+
+
+        <label for="favcolor">What color is your stool?</label>
+        <input type="color" id="favcolor" name="favcolor" value="#ff0000" style="width:40%;height:200px">
     </form>
+
+    <%- include('../partials/advertContainer') %>
 </body>
+
+
+
+
+<script>
+    //just a cheeky bit of script im sure it won't linger none
+ let x = document.getElementById('x')
+    let scrubber = document.getElementById('scrubber')
+    let tooltip = document.getElementById('tooltip')
+
+    function showTooltip(e) {
+        let w = scrubber.clientWidth;
+        let x = e.offsetX;
+        let percents = x / w;
+        let max = parseInt(scrubber.max)
+        tooltip.innerHTML = Math.floor(percents * max + 0.5) 
+    }
+
+    window.onmousemove = function (e) {
+        let x = (e.clientX + 20) + 'px';
+        tooltip.style.left = x;
+    }
+    
+</script>

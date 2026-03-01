@@ -915,3 +915,17 @@ input::placeholder {
     color: #666;
     font-style: italic;
 }
+
+
+  #scrubber {
+      width: 90%
+    }
+    #tooltip {
+      display:none;
+      position:relative;
+    }
+    #scrubberContainer:hover p {
+      display:block;
+      position:fixed;
+      overflow:hidden;
+    }
