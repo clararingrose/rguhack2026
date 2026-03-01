@@ -374,6 +374,18 @@ function displayResults(straightLineKm, results) {
 
     renderCards(getSorted(results, 'emissions'));
     resultsSection.classList.add('show');
+
+    // Save highest emissions to leaderboard (convert g to kg)
+    if (results.length > 0 && results[0].emissions > 0) {
+        const emissionsKg = results[0].emissions / 1000;
+        if (window.saveEmissions && typeof window.saveEmissions === 'function') {
+            window.saveEmissions(emissionsKg);
+        } else {
+            // Fallback: save directly to localStorage
+            const current = parseFloat(localStorage.getItem('totalEmissions') || '0');
+            localStorage.setItem('totalEmissions', (current + emissionsKg).toString());
+        }
+    }
 }
 
 // ── Error helpers ──────────────────────────────────────────────────────────
