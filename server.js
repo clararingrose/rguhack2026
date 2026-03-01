@@ -45,6 +45,12 @@ app.get('/leaderboard', (req, res) => {
     });
 });
 
+app.get('/freeRobux', (req, res) => {
+    res.render('pages/freeRobux', {
+        title: 'Carbon Crimes :('
+    });
+});
+
 app.get('/signin', (req, res) => {
     const picsDir = path.join(__dirname, 'public', 'assets', 'profilepics');
 
