@@ -604,6 +604,43 @@
         </div>
     </div>
 
+    <!-- Double or Nothing Modal -->
+    <div class="don-modal" id="donModal">
+        <div class="don-game">
+            <button class="don-close-btn" id="donCloseBtn">×</button>
+
+            <h2 class="don-title">Double or Nothing?</h2>
+            <p class="don-subtitle">Pick your transport and flip the coin to double your impact!</p>
+
+            <!-- Transport Selection -->
+            <div class="don-transport-selection" id="donTransportSelection">
+                <div class="don-transport-grid" id="donTransportGrid"></div>
+            </div>
+
+            <!-- Coin Section -->
+            <div class="don-coin-section" id="donCoinSection">
+                <div class="don-coin-container">
+                    <div class="don-coin" id="donCoin">
+                        <div class="don-coin-face don-coin-face--heads">
+                            <div class="don-coin-icon">🌳</div>
+                            <div class="don-coin-label">PLANT TREES</div>
+                        </div>
+                        <div class="don-coin-face don-coin-face--tails">
+                            <div class="don-coin-icon">☁️</div>
+                            <div class="don-coin-label">SMOG</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Flip Button -->
+            <button class="don-flip-btn" id="donFlipBtn" disabled>FLIP THE COIN</button>
+
+            <!-- Result Section -->
+            <div class="don-result hidden" id="donResult"></div>
+        </div>
+    </div>
+
     <!-- Load JavaScript modules -->
     <script src="/js/colorblind-mode.js"></script>
     <script src="/js/shared-state.js"></script>
@@ -615,5 +652,6 @@
     <script src="/js/cookie-banner.js"></script>
     <script src="/js/malicious-nav.js"></script>
     <script src="/js/achievements.js"></script>
+    <script src="/js/double-or-nothing.js"></script>
 </body>
 </html>
