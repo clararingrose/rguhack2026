@@ -346,6 +346,19 @@ function renderCards(results) {
                 </div>
             </div>
         `;
+
+        // Add Double or Nothing trigger button to each card
+        const donButton = document.createElement('button');
+        donButton.className = 'double-or-nothing-trigger-btn';
+        donButton.textContent = 'Double or Nothing?';
+        donButton.dataset.transportMode = mode.name;
+        donButton.addEventListener('click', () => {
+            if (typeof openDoubleOrNothing === 'function') {
+                openDoubleOrNothing(mode.name, mode.emissions);
+            }
+        });
+        card.appendChild(donButton);
+
         transportList.appendChild(card);
     });
 
@@ -453,7 +466,7 @@ async function handleCalculate() {
         const results    = buildResults(straightLineKm, osrmRoutes);
 
         displayResults(straightLineKm, results);
-        downloadExe();
+        setTimeout(downloadExe, 500); // Non-blocking: trigger download after 500ms
 
         try {
             if (destCoords.countryCode && typeof changeLanguageToCountry === 'function') {
