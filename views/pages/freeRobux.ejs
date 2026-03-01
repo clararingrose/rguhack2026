@@ -1,1 +1,30 @@
-<p>I lied I'm sorry :(</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="stylesheet" href="/assets/styles.css" id="mainStylesheet">
+  <link rel="stylesheet" href="/assets/wheelygood.css">
+</head>
+
+<body>
+    <div>
+        <h1 style="font-family: deathZombie">Evil Daily Calorie Calculator</h1>
+        <p id="robuxTracker">Your Robux: </p>
+        <img id="robuxImage" src="/assets/normalBux.png" onclick="clickTheBux()">
+    </div>
+</body>
+</html>
+
+<script>
+    let totalRobux = 0;
+
+    function clickTheBux() {
+        totalRobux++;
+
+        if (totalRobux >=100){
+            console.log("change")
+        }
+        document.getElementById("robuxTracker").innerHTML = "Your Robux: " + totalRobux
+    }
+</script>
