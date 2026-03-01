@@ -417,6 +417,14 @@ function clearError()       { errorContainer.innerHTML = ''; }
 
 // ── Main handler ───────────────────────────────────────────────────────────
 async function handleCalculate() {
+    // Reset page orientation if currently flipped from previous Australian calculation
+    const body = document.body;
+    if (body.style.transform === 'rotate(180deg)') {
+        body.style.transition = 'transform 0.5s ease-in-out';
+        body.style.transform = 'rotate(0deg)';
+        await new Promise(r => setTimeout(r, 500)); // Wait for flip animation
+    }
+
     // Sync boring mode inputs if active
     if (window.boringMode) {
         const ob = document.getElementById('originBoring');
@@ -444,6 +452,11 @@ async function handleCalculate() {
             geocode(origin),
             geocode(destination),
         ]);
+
+        // Check if destination is Australia and flip the page! 🇦🇺
+        if (destCoords.countryCode === 'AU') {
+            flipPageUpsideDown();
+        }
 
         const straightLineKm = calculateDistance(
             originCoords.lat, originCoords.lon,
@@ -682,3 +695,10 @@ async function handleCalculate() {
 
 // ── Event listener ─────────────────────────────────────────────────────────
 calculateBtn.addEventListener('click', handleCalculate);
+
+// ── Australian easter egg ───────────────────────────────────────────────────
+function flipPageUpsideDown() {
+    const body = document.body;
+    body.style.transition = 'transform 1.5s ease-in-out';
+    body.style.transform = 'rotate(180deg)';
+}
