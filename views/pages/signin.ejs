@@ -171,6 +171,163 @@
     .profile-pic-option input[type="radio"]:checked ~ .profile-pic-tick {
       opacity: 1;
     }
+
+    /* ── Birthday Dartboard ── */
+    .dart-score-display {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 15px;
+      padding: 10px 15px;
+      background: #0a0a0a;
+      border-radius: 8px;
+      border: 1px solid #333;
+    }
+
+    .dart-score-display div {
+      color: #fff;
+      font-size: 14px;
+    }
+
+    .dart-score-display .score-value {
+      color: #4CAF50;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .dartboard-container {
+      display: flex;
+      justify-content: center;
+      margin: 15px 0;
+      position: relative;
+    }
+
+    #dartboard {
+      width: 400px;
+      height: 400px;
+      cursor: crosshair;
+      transition: transform 0.1s;
+      filter: drop-shadow(0 0 10px rgba(0,0,0,0.5));
+    }
+
+    #dartboard:hover {
+      filter: drop-shadow(0 0 15px rgba(255,255,255,0.2));
+    }
+
+    #dartboard.aiming {
+      animation: boardJitter 0.15s infinite;
+    }
+
+    #dartboard.aiming-wild {
+      animation: boardJitterWild 0.1s infinite;
+    }
+
+    @keyframes boardJitter {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      25% { transform: translate(-1px, 1px) rotate(-0.3deg); }
+      50% { transform: translate(1px, -1px) rotate(0.3deg); }
+      75% { transform: translate(-1px, -1px) rotate(-0.2deg); }
+    }
+
+    @keyframes boardJitterWild {
+      0%, 100% { transform: translate(0, 0) rotate(0deg); }
+      10% { transform: translate(-6px, 4px) rotate(-4deg); }
+      20% { transform: translate(6px, -4px) rotate(4deg); }
+      30% { transform: translate(-4px, 6px) rotate(-3deg); }
+      40% { transform: translate(4px, -6px) rotate(3deg); }
+      50% { transform: translate(-8px, 2px) rotate(-5deg); }
+      60% { transform: translate(8px, -2px) rotate(5deg); }
+      70% { transform: translate(-2px, 8px) rotate(-2deg); }
+      80% { transform: translate(2px, -8px) rotate(2deg); }
+      90% { transform: translate(-6px, -4px) rotate(-4deg); }
+    }
+
+
+    .score-popup {
+      position: absolute;
+      color: #ffd700;
+      font-weight: bold;
+      font-size: 20px;
+      pointer-events: none;
+      z-index: 101;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+      animation: scoreFloat 1s ease-out forwards;
+    }
+
+    @keyframes scoreFloat {
+      0% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+      }
+      100% {
+        opacity: 0;
+        transform: translateY(-40px) scale(1.2);
+      }
+    }
+
+    .dart-controls {
+      display: flex;
+      gap: 10px;
+      justify-content: center;
+      margin: 15px 0;
+    }
+
+    .dart-controls button {
+      padding: 10px 20px;
+      font-size: 14px;
+      font-weight: bold;
+      border: 2px solid #000;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+
+    .dart-controls button.clear-btn {
+      background: linear-gradient(135deg, #e74c3c 0%, #c0392b 100%);
+      color: white;
+    }
+
+    .dart-controls button.clear-btn:hover {
+      background: linear-gradient(135deg, #ff6b6b 0%, #e74c3c 100%);
+      transform: scale(1.05);
+    }
+
+    .dart-controls button.year-btn {
+      background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+      color: white;
+      min-width: 150px;
+    }
+
+    .dart-controls button.year-btn:hover {
+      background: linear-gradient(135deg, #5dade2 0%, #3498db 100%);
+      transform: scale(1.05);
+    }
+
+    .birthday-result {
+      text-align: center;
+      padding: 12px;
+      background: #0a0a0a;
+      border-radius: 8px;
+      border: 1px solid #333;
+      margin-top: 10px;
+    }
+
+    .birthday-result div {
+      color: #aaa;
+      font-size: 13px;
+      margin: 5px 0;
+    }
+
+    .birthday-result .result-value {
+      color: #4CAF50;
+      font-weight: bold;
+      font-size: 16px;
+    }
+
+    .birthday-result .result-value.complete {
+      color: #2ecc71;
+      font-size: 18px;
+    }
   </style>
 </head>
 
@@ -264,6 +421,37 @@
     <div id="phonePreview" style="font-size:13px; margin: 4px 0 2px; min-height:18px; color:#aaa;"></div>
     <div id="phoneError"   style="font-size:12px; color:#e74c3c; min-height:16px;"></div>
     <input type="hidden" name="phone" id="phoneDigits">
+
+    <!-- Birthday Dartboard Section -->
+    <label for="birthday"><b>Birthday</b></label>
+
+    <div class="dart-score-display">
+      <div>Total Score: <span class="score-value" id="dartTotalScore">0</span></div>
+      <div>Darts Thrown: <span class="score-value" id="dartCount">0</span></div>
+    </div>
+
+    <div class="dartboard-container" id="dartboardContainer">
+      <svg id="dartboard" viewBox="0 0 400 400">
+        <!-- Dartboard will be rendered here by JavaScript -->
+      </svg>
+    </div>
+
+    <div class="dart-controls">
+      <button type="button" class="clear-btn" id="clearDartsBtn">Clear Darts</button>
+      <button type="button" class="year-btn" id="randomYearBtn">Random Year</button>
+    </div>
+
+    <div class="birthday-result">
+      <div>Day of Year: <span class="result-value" id="dayOfYear">-</span></div>
+      <div>Calculated Birthday: <span class="result-value complete" id="calculatedBirthday">Throw darts & pick a year!</span></div>
+    </div>
+
+    <p style="font-size:12px; color:#888; margin:2px 0 6px;">Click anywhere on the dartboard to throw! Your total score determines your birthday.</p>
+
+    <!-- Hidden inputs for form submission -->
+    <input type="hidden" name="birthday" id="birthdayHidden">
+    <input type="hidden" name="birth_year" id="birthYearHidden">
+    <input type="hidden" name="dart_score" id="dartScoreHidden">
 
     <label for="phoneBinary"><b>Home Phone</b></label>
     <p style="font-size:12px; color:#888; margin:2px 0 6px;">Enter your number in binary by checking bit positions. Phone: <span id="binaryPhonePreview" style="color:#4CAF50; font-weight:bold;">0</span></p>
@@ -505,6 +693,324 @@
     // Initial validation
     updateBinaryPhone();
   })();
+</script>
+
+<script>
+  // ── Birthday Dartboard ─────────────────────────────────────────────────────
+  (function() {
+    const dartboard = document.getElementById('dartboard');
+    const dartboardContainer = document.getElementById('dartboardContainer');
+    const totalScoreEl = document.getElementById('dartTotalScore');
+    const dartCountEl = document.getElementById('dartCount');
+    const dayOfYearEl = document.getElementById('dayOfYear');
+    const calculatedBirthdayEl = document.getElementById('calculatedBirthday');
+    const birthdayHidden = document.getElementById('birthdayHidden');
+    const birthYearHidden = document.getElementById('birthYearHidden');
+    const dartScoreHidden = document.getElementById('dartScoreHidden');
+    const clearDartsBtn = document.getElementById('clearDartsBtn');
+    const randomYearBtn = document.getElementById('randomYearBtn');
+
+    // Dartboard configuration
+    const CENTER = 200; // SVG viewBox is 400x400
+    const RADIUS = 190;
+    const INNER_BULL_RADIUS = 6;
+    const OUTER_BULL_RADIUS = 16;
+    const TRIPLE_INNER = 95;
+    const TRIPLE_OUTER = 107;
+    const DOUBLE_INNER = 130;
+    const DOUBLE_OUTER = 140;
+
+    // Standard dartboard number sequence (clockwise from top)
+    const SECTIONS = [20, 1, 18, 4, 13, 6, 10, 15, 2, 17, 3, 19, 7, 16, 8, 11, 14, 9, 12, 5];
+
+    // State
+    let totalScore = 0;
+    let dartCount = 0;
+    let selectedYear = null;
+
+    // Month lengths for day-of-year conversion
+    const MONTH_LENGTHS = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+    const MONTH_NAMES = ['January', 'February', 'March', 'April', 'May', 'June',
+                         'July', 'August', 'September', 'October', 'November', 'December'];
+
+    // Render the dartboard
+    function renderDartboard() {
+      const svg = dartboard;
+      svg.innerHTML = ''; // Clear any existing content
+
+      // Background circle
+      const bgCircle = createSVGCircle(CENTER, CENTER, RADIUS, '#1a1a1a');
+      svg.appendChild(bgCircle);
+
+      // Draw each section
+      for (let i = 0; i < 20; i++) {
+        const startAngle = (i * 18 - 99) * Math.PI / 180; // -99 to start at top with 20
+        const endAngle = ((i + 1) * 18 - 99) * Math.PI / 180;
+
+        // Colors alternate
+        const isBlack = i % 2 === 0;
+        const singleColor = isBlack ? '#1a1a1a' : '#f5f5dc';
+        const tripleColor = isBlack ? '#e74c3c' : '#2ecc71';
+        const doubleColor = isBlack ? '#e74c3c' : '#2ecc71';
+
+        // Single area (outer)
+        svg.appendChild(createSectionPath(startAngle, endAngle, OUTER_BULL_RADIUS, TRIPLE_INNER, singleColor));
+        // Triple ring
+        svg.appendChild(createSectionPath(startAngle, endAngle, TRIPLE_INNER, TRIPLE_OUTER, tripleColor));
+        // Single area (inner)
+        svg.appendChild(createSectionPath(startAngle, endAngle, TRIPLE_OUTER, DOUBLE_INNER, singleColor));
+        // Double ring
+        svg.appendChild(createSectionPath(startAngle, endAngle, DOUBLE_INNER, DOUBLE_OUTER, doubleColor));
+      }
+
+      // Outer bull (green)
+      svg.appendChild(createSVGCircle(CENTER, CENTER, OUTER_BULL_RADIUS, '#2ecc71'));
+
+      // Inner bull (red)
+      svg.appendChild(createSVGCircle(CENTER, CENTER, INNER_BULL_RADIUS, '#e74c3c'));
+
+      // Wire/frame (circles)
+      [OUTER_BULL_RADIUS, INNER_BULL_RADIUS, TRIPLE_INNER, TRIPLE_OUTER, DOUBLE_INNER, DOUBLE_OUTER].forEach(r => {
+        svg.appendChild(createSVGCircle(CENTER, CENTER, r, 'none', '#888', 1));
+      });
+
+      // Section numbers
+      for (let i = 0; i < 20; i++) {
+        // Each number is centered in its section
+        // Section 0 (20) is at top (-90 degrees), each section is 18 degrees
+        const angleDeg = (i * 18 - 90); // Center of each section
+        const angleRad = angleDeg * Math.PI / 180;
+        const x = CENTER + (DOUBLE_OUTER + 20) * Math.cos(angleRad);
+        const y = CENTER + (DOUBLE_OUTER + 20) * Math.sin(angleRad);
+
+        const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+        text.setAttribute('x', x);
+        text.setAttribute('y', y);
+        text.setAttribute('text-anchor', 'middle');
+        text.setAttribute('dominant-baseline', 'central');
+        text.setAttribute('fill', '#fff');
+        text.setAttribute('font-size', '16');
+        text.setAttribute('font-weight', 'bold');
+        text.setAttribute('font-family', 'Arial, sans-serif');
+        text.textContent = SECTIONS[i];
+        svg.appendChild(text);
+      }
+    }
+
+    function createSVGCircle(cx, cy, r, fill, stroke = 'none', strokeWidth = 1) {
+      const circle = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+      circle.setAttribute('cx', cx);
+      circle.setAttribute('cy', cy);
+      circle.setAttribute('r', r);
+      circle.setAttribute('fill', fill);
+      circle.setAttribute('stroke', stroke);
+      circle.setAttribute('stroke-width', strokeWidth);
+      return circle;
+    }
+
+    function createSectionPath(startAngle, endAngle, innerR, outerR, color) {
+      const x1 = CENTER + innerR * Math.cos(startAngle);
+      const y1 = CENTER + innerR * Math.sin(startAngle);
+      const x2 = CENTER + outerR * Math.cos(startAngle);
+      const y2 = CENTER + outerR * Math.sin(startAngle);
+      const x3 = CENTER + outerR * Math.cos(endAngle);
+      const y3 = CENTER + outerR * Math.sin(endAngle);
+      const x4 = CENTER + innerR * Math.cos(endAngle);
+      const y4 = CENTER + innerR * Math.sin(endAngle);
+
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      path.setAttribute('d', `M ${x1} ${y1} L ${x2} ${y2} A ${outerR} ${outerR} 0 0 1 ${x3} ${y3} L ${x4} ${y4} A ${innerR} ${innerR} 0 0 0 ${x1} ${y1} Z`);
+      path.setAttribute('fill', color);
+      path.setAttribute('stroke', '#888');
+      path.setAttribute('stroke-width', '0.5');
+      return path;
+    }
+
+    // Calculate score based on position
+    function calculateScore(x, y) {
+      const dx = x - CENTER;
+      const dy = y - CENTER;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+
+      // Check if outside the board
+      if (distance > DOUBLE_OUTER) {
+        return 0; // Miss
+      }
+
+      // Inner bull
+      if (distance <= INNER_BULL_RADIUS) {
+        return 50;
+      }
+
+      // Outer bull
+      if (distance <= OUTER_BULL_RADIUS) {
+        return 25;
+      }
+
+      // Calculate which section (1-20)
+      let angle = Math.atan2(dy, dx) * 180 / Math.PI;
+      angle = (angle + 99) % 360; // Adjust so 20 is at top
+      if (angle < 0) angle += 360;
+
+      const sectionIndex = Math.floor(angle / 18) % 20;
+      const baseScore = SECTIONS[sectionIndex];
+
+      // Determine multiplier
+      if (distance >= TRIPLE_INNER && distance <= TRIPLE_OUTER) {
+        return baseScore * 3;
+      } else if (distance >= DOUBLE_INNER && distance <= DOUBLE_OUTER) {
+        return baseScore * 2;
+      } else {
+        return baseScore;
+      }
+    }
+
+    // Convert day of year to month and day
+    function dayOfYearToDate(dayOfYear) {
+      let remainingDays = dayOfYear;
+      for (let month = 0; month < 12; month++) {
+        if (remainingDays <= MONTH_LENGTHS[month]) {
+          return { month: month + 1, day: remainingDays, monthName: MONTH_NAMES[month] };
+        }
+        remainingDays -= MONTH_LENGTHS[month];
+      }
+      return { month: 12, day: 31, monthName: 'December' };
+    }
+
+    // Update the birthday display
+    function updateBirthdayDisplay() {
+      const dayOfYear = (totalScore % 365) + 1;
+      const date = dayOfYearToDate(dayOfYear);
+
+      dayOfYearEl.textContent = dayOfYear;
+
+      if (selectedYear) {
+        calculatedBirthdayEl.textContent = `${date.monthName} ${date.day}, ${selectedYear}`;
+        calculatedBirthdayEl.classList.add('complete');
+        birthdayHidden.value = `${date.month}-${date.day}`;
+        birthYearHidden.value = selectedYear;
+      } else {
+        calculatedBirthdayEl.textContent = `${date.monthName} ${date.day} - Pick a year!`;
+        calculatedBirthdayEl.classList.remove('complete');
+        birthdayHidden.value = `${date.month}-${date.day}`;
+      }
+
+      dartScoreHidden.value = totalScore;
+    }
+
+    // Hover shake effect (gentle after 1s, violent after 2s)
+    let gentleTimer = null;
+    let wildTimer = null;
+
+    dartboard.addEventListener('mouseenter', function() {
+      gentleTimer = setTimeout(() => {
+        dartboard.classList.add('aiming');
+      }, 1000);
+
+      wildTimer = setTimeout(() => {
+        dartboard.classList.remove('aiming');
+        dartboard.classList.add('aiming-wild');
+      }, 2000);
+    });
+
+    dartboard.addEventListener('mouseleave', function() {
+      if (gentleTimer) {
+        clearTimeout(gentleTimer);
+        gentleTimer = null;
+      }
+      if (wildTimer) {
+        clearTimeout(wildTimer);
+        wildTimer = null;
+      }
+      dartboard.classList.remove('aiming');
+      dartboard.classList.remove('aiming-wild');
+    });
+
+    // Handle dartboard click
+    dartboard.addEventListener('click', function(e) {
+      // Add aiming shake effect
+      dartboard.classList.add('aiming');
+
+      setTimeout(() => {
+        dartboard.classList.remove('aiming');
+
+        const rect = dartboard.getBoundingClientRect();
+        const scaleX = 400 / rect.width;
+        const scaleY = 400 / rect.height;
+
+        const svgX = (e.clientX - rect.left) * scaleX;
+        const svgY = (e.clientY - rect.top) * scaleY;
+
+        const score = calculateScore(svgX, svgY);
+
+        totalScore += score;
+        dartCount++;
+
+        totalScoreEl.textContent = totalScore;
+        dartCountEl.textContent = dartCount;
+
+        updateBirthdayDisplay();
+      }, 150);
+    });
+
+    // Clear darts button
+    clearDartsBtn.addEventListener('click', function() {
+      totalScore = 0;
+      dartCount = 0;
+      selectedYear = null;
+
+      totalScoreEl.textContent = '0';
+      dartCountEl.textContent = '0';
+      dayOfYearEl.textContent = '-';
+      calculatedBirthdayEl.textContent = 'Throw darts & pick a year!';
+      calculatedBirthdayEl.classList.remove('complete');
+
+      birthdayHidden.value = '';
+      birthYearHidden.value = '';
+      dartScoreHidden.value = '';
+
+      randomYearBtn.textContent = 'Random Year';
+    });
+
+    // Random year button
+    randomYearBtn.addEventListener('click', function() {
+      selectedYear = Math.floor(Math.random() * (2025 - 1950 + 1)) + 1950;
+      randomYearBtn.textContent = selectedYear;
+      updateBirthdayDisplay();
+
+      // Briefly show the year on the button
+      setTimeout(() => {
+        randomYearBtn.textContent = 'Random Year';
+      }, 1500);
+    });
+
+    // Initialize
+    renderDartboard();
+  })();
+</script>
+
+<script>
+  // ── Updated form validation for birthday ─────────────────────────────────────
+  document.querySelector('form').addEventListener('submit', function(e) {
+    const dartScoreHidden = document.getElementById('dartScoreHidden');
+    const birthYearHidden = document.getElementById('birthYearHidden');
+
+    if (!dartScoreHidden.value || parseInt(dartScoreHidden.value) === 0) {
+      e.preventDefault();
+      alert('🎯 You must throw at least one dart to determine your birthday!');
+      return false;
+    }
+
+    if (!birthYearHidden.value) {
+      e.preventDefault();
+      alert('📅 Please click "Random Year" to generate your birth year!');
+      return false;
+    }
+
+    // Let the existing modal logic continue
+    document.getElementById('nevemurchieModal').style.display = 'block';
+    e.preventDefault();
+  });
 </script>
 </body>
 </html>
