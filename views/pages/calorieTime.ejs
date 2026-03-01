@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evil Daily Calorie Calculator</title>
+    <link rel="stylesheet" href="assets/styles.css">
+
+    <style id="inlineStyles">
+    #myVideo {
+            position: fixed;
+            right: 0;
+            bottom: 0;
+            min-width: 100%;
+            min-height: 100%;
+            z-index: -1;
+        }
+    </style>
+</head>
+<body>
+
+    <video autoplay muted loop id="myVideo">
+        <source src="assets/fire.mp4" type="video/mp4">
+    </video>
+
+    <%- include('../partials/nav') %>
+
+    
+    <h1 style="font-family: deathZombie">Evil Daily Calorie Calculator</h1>
+    <form style="border:1px solid #ccc">
+        <div class="container">
+            <label></label>
+            <label class="switch">
+            <input type="checkbox">
+            <span class="slider round"></span>
+            Describe your diet?
+            </label>
+        </div>
+
+        <label for="sleep"><b>ZZzz ZZZZ Zzz zzzz</b></label>
+        <input type="password" placeholder="Sleep per night?" name="sleep" required>
+
+        <div class="slidecontainer">
+        <label>How many claories are you?</label>
+        <input type="range" min="1" max="1000000" value="50" class="slider" id="myRange">
+        </div>
+    </form>
+</body>
