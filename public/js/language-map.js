@@ -243,8 +243,8 @@ const languageMap = {
  */
 const translations = {
     en: {
-        title: '🌍 Evil Carbon Calculator',
-        subtitle: 'Find the most exciting way to travel! 🔥',
+        title: 'Evil Carbon Calculator',
+        subtitle: 'Find the most evil way to travel! 🔥',
         origin: 'Origin',
         destination: 'Destination',
         calculate: 'Calculate Emissions',
